@@ -1,0 +1,14 @@
+{
+  "modules": [
+    "web-fundamentals.json",
+    "apis.json",
+    "backend.json",
+    "databases.json",
+    "sqlalchemy.json",
+    "testing.json",
+    "performance.json",
+    "devops.json",
+    "ai-integration.json",
+    "system-design.json"
+  ]
+}

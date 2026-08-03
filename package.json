@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "dev": "python3 scripts/dev.py",
+    "test": "cd backend && pytest && cd ../frontend && npm test",
+    "build": "cd frontend && npm run build"
+  }
+}

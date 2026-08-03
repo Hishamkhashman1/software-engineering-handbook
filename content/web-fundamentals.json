@@ -1,0 +1,684 @@
+{
+  "id": "web-fundamentals",
+  "title": "Web Fundamentals",
+  "description": "HTTP, HTTPS, DNS, clients, servers, status codes, headers, cookies, sessions, and CORS.",
+  "order": 1,
+  "tags": [
+    "http",
+    "https",
+    "dns",
+    "cors"
+  ],
+  "lessons": [
+    {
+      "id": "web-fundamentals-http-lifecycle",
+      "title": "HTTP Request Lifecycle",
+      "summary": "HTTP carries requests from clients to servers and responses back.",
+      "explanation": "HTTP carries requests from clients to servers and responses back. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "request",
+        "response",
+        "headers",
+        "body"
+      ],
+      "examples": [
+        "GET /users?page=2 returns a status code, headers, and JSON body."
+      ],
+      "interview_questions": [
+        "When would you apply http request lifecycle?",
+        "What failure mode appears when http request lifecycle is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "request",
+        "response",
+        "headers"
+      ]
+    },
+    {
+      "id": "web-fundamentals-secure-web",
+      "title": "HTTPS and DNS",
+      "summary": "DNS resolves names to IP addresses; HTTPS adds TLS encryption, authentication, and integrity.",
+      "explanation": "DNS resolves names to IP addresses; HTTPS adds TLS encryption, authentication, and integrity. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "dns",
+        "tls",
+        "encryption"
+      ],
+      "examples": [
+        "A browser resolves api.example.com, opens TLS, then sends HTTP over the encrypted channel."
+      ],
+      "interview_questions": [
+        "When would you apply https and dns?",
+        "What failure mode appears when https and dns is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "dns",
+        "tls",
+        "encryption"
+      ]
+    },
+    {
+      "id": "web-fundamentals-methods-status",
+      "title": "Methods and Status Codes",
+      "summary": "Methods express intent; status codes explain the outcome.",
+      "explanation": "Methods express intent; status codes explain the outcome. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "GET is safe",
+        "POST creates",
+        "PUT replaces",
+        "PATCH partially updates",
+        "401 differs from 403"
+      ],
+      "examples": [
+        "PATCH /users/5 with an email field updates only that field."
+      ],
+      "interview_questions": [
+        "When would you apply methods and status codes?",
+        "What failure mode appears when methods and status codes is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "GET is safe",
+        "POST creates",
+        "PUT replaces"
+      ]
+    },
+    {
+      "id": "web-fundamentals-browser-state",
+      "title": "Browser State and CORS",
+      "summary": "Cookies store browser data; server sessions store user data linked by a cookie. CORS controls cross-origin browser access.",
+      "explanation": "Cookies store browser data; server sessions store user data linked by a cookie. CORS controls cross-origin browser access. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "cookies",
+        "sessions",
+        "origins",
+        "preflight"
+      ],
+      "examples": [
+        "A React app on localhost:5173 needs the API on localhost:8000 to allow that origin."
+      ],
+      "interview_questions": [
+        "When would you apply browser state and cors?",
+        "What failure mode appears when browser state and cors is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "cookies",
+        "sessions",
+        "origins"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "web-fundamentals-q01",
+      "type": "scenario_choice",
+      "prompt": "A profile endpoint receives only a new email field. What should the API prefer?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 1,
+      "tags": [
+        "http",
+        "https",
+        "partial update",
+        "api"
+      ],
+      "options": [
+        "PATCH the selected field",
+        "PUT an empty profile",
+        "GET with a body",
+        "DELETE and recreate"
+      ],
+      "answer": "PATCH the selected field"
+    },
+    {
+      "id": "web-fundamentals-q02",
+      "type": "multi_select",
+      "prompt": "Pick the operations that are usually safe to retry.",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 1,
+      "tags": [
+        "http",
+        "https",
+        "idempotency",
+        "retry"
+      ],
+      "options": [
+        "GET /users",
+        "DELETE /users/5",
+        "PUT /users/5",
+        "POST /users"
+      ],
+      "answer": [
+        "GET /users",
+        "DELETE /users/5",
+        "PUT /users/5"
+      ]
+    },
+    {
+      "id": "web-fundamentals-q03",
+      "type": "ordering",
+      "prompt": "Arrange the request path.",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 1,
+      "tags": [
+        "http",
+        "https",
+        "request",
+        "validation"
+      ],
+      "options": [
+        "Client sends request",
+        "Server validates input",
+        "Business logic runs",
+        "Response is returned"
+      ],
+      "answer": [
+        "Client sends request",
+        "Server validates input",
+        "Business logic runs",
+        "Response is returned"
+      ]
+    },
+    {
+      "id": "web-fundamentals-q04",
+      "type": "matching",
+      "prompt": "Match each signal to its meaning.",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 1,
+      "tags": [
+        "http",
+        "https",
+        "status code"
+      ],
+      "pairs": [
+        {
+          "left": "401",
+          "right": "Authentication required"
+        },
+        {
+          "left": "403",
+          "right": "Authenticated but forbidden"
+        },
+        {
+          "left": "503",
+          "right": "Service unavailable"
+        }
+      ],
+      "answer": {
+        "401": "Authentication required",
+        "403": "Authenticated but forbidden",
+        "503": "Service unavailable"
+      }
+    },
+    {
+      "id": "web-fundamentals-q05",
+      "type": "code_fill",
+      "prompt": "Fill the branch that classifies server errors.",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "http",
+        "https",
+        "code",
+        "status code"
+      ],
+      "options": [
+        "\"server_error\"",
+        "\"client_error\"",
+        "\"success\"",
+        "\"redirect\""
+      ],
+      "code": "def classify(code):\n    if 500 <= code < 600:\n        return ____",
+      "answer": "\"server_error\""
+    },
+    {
+      "id": "web-fundamentals-q06",
+      "type": "bug_hunt",
+      "prompt": "Production duplicated records after a timeout. What is the bug?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "http",
+        "https",
+        "duplicate",
+        "retry"
+      ],
+      "options": [
+        "Retrying POST without an idempotency key",
+        "Using HTTPS",
+        "Returning 201 after create",
+        "Sorting by created_at"
+      ],
+      "answer": "Retrying POST without an idempotency key"
+    },
+    {
+      "id": "web-fundamentals-q07",
+      "type": "code_output",
+      "prompt": "What does classify_status_code(404) return?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "http",
+        "https",
+        "code output",
+        "status code"
+      ],
+      "options": [
+        "client_error",
+        "server_error",
+        "success",
+        "unknown"
+      ],
+      "answer": "client_error"
+    },
+    {
+      "id": "web-fundamentals-q08",
+      "type": "scenario_choice",
+      "prompt": "A changing feed skips items with page numbers. What pagination style fits better?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "http",
+        "https",
+        "pagination",
+        "cursor"
+      ],
+      "options": [
+        "Cursor pagination",
+        "Offset pagination",
+        "Return everything",
+        "Sort in the browser"
+      ],
+      "answer": "Cursor pagination"
+    },
+    {
+      "id": "web-fundamentals-q09",
+      "type": "multiple_choice",
+      "prompt": "Which change best preserves existing clients when a response shape breaks compatibility?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "http",
+        "https",
+        "versioning",
+        "contract"
+      ],
+      "options": [
+        "Add /v2",
+        "Silently change /v1",
+        "Remove old fields",
+        "Document it after deploy"
+      ],
+      "answer": "Add /v2"
+    },
+    {
+      "id": "web-fundamentals-q10",
+      "type": "multi_select",
+      "prompt": "Select the reasons to validate input before business logic.",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "http",
+        "https",
+        "validation",
+        "security"
+      ],
+      "options": [
+        "Reject invalid data early",
+        "Improve predictable errors",
+        "Reduce security risk",
+        "Make CPU work parallel"
+      ],
+      "answer": [
+        "Reject invalid data early",
+        "Improve predictable errors",
+        "Reduce security risk"
+      ]
+    },
+    {
+      "id": "web-fundamentals-q11",
+      "type": "matching",
+      "prompt": "Match the scaling tool to the bottleneck.",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "performance",
+        "scaling"
+      ],
+      "pairs": [
+        {
+          "left": "Cache",
+          "right": "Repeated reads"
+        },
+        {
+          "left": "Queue",
+          "right": "Bursty writes"
+        },
+        {
+          "left": "Read replica",
+          "right": "Read-heavy database load"
+        }
+      ],
+      "answer": {
+        "Cache": "Repeated reads",
+        "Queue": "Bursty writes",
+        "Read replica": "Read-heavy database load"
+      }
+    },
+    {
+      "id": "web-fundamentals-q12",
+      "type": "bug_hunt",
+      "prompt": "An endpoint loads 100 users, then reads user.orders in a loop. What is happening?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "n+1",
+        "sqlalchemy"
+      ],
+      "options": [
+        "N+1 queries",
+        "A CORS preflight",
+        "A DNS failure",
+        "A cache hit"
+      ],
+      "answer": "N+1 queries"
+    },
+    {
+      "id": "web-fundamentals-q13",
+      "type": "multi_select",
+      "prompt": "Pick two fixes for the N+1 query pattern.",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "selectinload",
+        "joinedload"
+      ],
+      "options": [
+        "selectinload",
+        "joinedload",
+        "Unlimited retries",
+        "Client-side filtering"
+      ],
+      "answer": [
+        "selectinload",
+        "joinedload"
+      ]
+    },
+    {
+      "id": "web-fundamentals-q14",
+      "type": "scenario_choice",
+      "prompt": "A downstream service is failing and your app keeps retrying instantly. What should you add first?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "timeout",
+        "backoff"
+      ],
+      "options": [
+        "Timeouts and exponential backoff",
+        "More unlimited retries",
+        "A larger JSON payload",
+        "A second frontend"
+      ],
+      "answer": "Timeouts and exponential backoff"
+    },
+    {
+      "id": "web-fundamentals-q15",
+      "type": "ordering",
+      "prompt": "Order the transaction flow.",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "transaction",
+        "acid"
+      ],
+      "options": [
+        "Begin transaction",
+        "Apply all writes",
+        "Commit if all succeed",
+        "Roll back on failure"
+      ],
+      "answer": [
+        "Begin transaction",
+        "Apply all writes",
+        "Commit if all succeed",
+        "Roll back on failure"
+      ]
+    },
+    {
+      "id": "web-fundamentals-q16",
+      "type": "matching",
+      "prompt": "Match data shape to storage fit.",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "sql",
+        "nosql"
+      ],
+      "pairs": [
+        {
+          "left": "Strong relationships",
+          "right": "SQL"
+        },
+        {
+          "left": "Flexible documents",
+          "right": "NoSQL"
+        },
+        {
+          "left": "Hot session cache",
+          "right": "Redis"
+        }
+      ],
+      "answer": {
+        "Strong relationships": "SQL",
+        "Flexible documents": "NoSQL",
+        "Hot session cache": "Redis"
+      }
+    },
+    {
+      "id": "web-fundamentals-q17",
+      "type": "code_fill",
+      "prompt": "Fill the safer SQLAlchemy loading option for a collection.",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "sqlalchemy",
+        "loading"
+      ],
+      "options": [
+        "selectinload",
+        "time.sleep",
+        "requests.get",
+        "os.system"
+      ],
+      "code": "stmt = select(User).options(____(User.orders))",
+      "answer": "selectinload"
+    },
+    {
+      "id": "web-fundamentals-q18",
+      "type": "multiple_choice",
+      "prompt": "CPU-heavy image processing is slowing requests. Which model helps most?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "parallelism",
+        "cpu"
+      ],
+      "options": [
+        "Parallelism",
+        "Async await only",
+        "More CORS headers",
+        "Offset pagination"
+      ],
+      "answer": "Parallelism"
+    },
+    {
+      "id": "web-fundamentals-q19",
+      "type": "scenario_choice",
+      "prompt": "A product page needs recommendations, but the recommender is down. What behavior is best?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "degradation",
+        "reliability"
+      ],
+      "options": [
+        "Serve the page without recommendations",
+        "Fail the entire page",
+        "Retry forever",
+        "Delete the cache"
+      ],
+      "answer": "Serve the page without recommendations"
+    },
+    {
+      "id": "web-fundamentals-q20",
+      "type": "multi_select",
+      "prompt": "Which signals make an API easier for clients to use?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "contract",
+        "openapi"
+      ],
+      "options": [
+        "Stable contract",
+        "Clear status codes",
+        "Documented schema",
+        "Random response fields"
+      ],
+      "answer": [
+        "Stable contract",
+        "Clear status codes",
+        "Documented schema"
+      ]
+    },
+    {
+      "id": "web-fundamentals-q21",
+      "type": "bug_hunt",
+      "prompt": "A response model includes password_hash. What is the bug?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "response model",
+        "security"
+      ],
+      "options": [
+        "Leaking sensitive data",
+        "Using a router",
+        "Returning JSON",
+        "Using a status code"
+      ],
+      "answer": "Leaking sensitive data"
+    },
+    {
+      "id": "web-fundamentals-q22",
+      "type": "scenario_choice",
+      "prompt": "A social like count appears five seconds late. When is that acceptable?",
+      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "http",
+        "https",
+        "eventual consistency",
+        "trade-off"
+      ],
+      "options": [
+        "When eventual consistency is acceptable",
+        "When money is transferred",
+        "When validating passwords",
+        "When committing inventory"
+      ],
+      "answer": "When eventual consistency is acceptable"
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "web-fundamentals-classify-status",
+      "title": "Web Fundamentals status classifier",
+      "instructions": "Implement classify_status_code(code: int) -> str. Return success for 200-299, redirect for 300-399, client_error for 400-499, server_error for 500-599, and unknown otherwise.",
+      "starter_code": "def classify_status_code(code: int) -> str:\n    pass\n",
+      "function_signature": "def classify_status_code(code: int) -> str",
+      "visible_tests": [
+        {
+          "name": "created",
+          "call": "classify_status_code(201)",
+          "expected": "success"
+        },
+        {
+          "name": "not found",
+          "call": "classify_status_code(404)",
+          "expected": "client_error"
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "service unavailable",
+          "call": "classify_status_code(503)",
+          "expected": "server_error"
+        },
+        {
+          "name": "redirect",
+          "call": "classify_status_code(302)",
+          "expected": "redirect"
+        },
+        {
+          "name": "unknown",
+          "call": "classify_status_code(99)",
+          "expected": "unknown"
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The challenge reinforces deterministic branching, status-code categories, and local test execution.",
+      "difficulty": 1,
+      "tags": [
+        "http",
+        "https",
+        "dns"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "web-fundamentals-boss",
+    "title": "Web Fundamentals boss battle",
+    "question_ids": [
+      "web-fundamentals-q01",
+      "web-fundamentals-q02",
+      "web-fundamentals-q03",
+      "web-fundamentals-q04",
+      "web-fundamentals-q05",
+      "web-fundamentals-q06",
+      "web-fundamentals-q07",
+      "web-fundamentals-q08",
+      "web-fundamentals-q09",
+      "web-fundamentals-q10",
+      "web-fundamentals-q11",
+      "web-fundamentals-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

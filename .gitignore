@@ -1,0 +1,10 @@
+.pytest_cache/
+__pycache__/
+*.pyc
+
+backend/.venv/
+frontend/node_modules/
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+
+data/interview_game.db

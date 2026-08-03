@@ -1,0 +1,679 @@
+{
+  "id": "databases",
+  "title": "Databases",
+  "description": "SQL vs NoSQL, SQL, ORMs, keys, relationships, joins, indexes, transactions, ACID, normalization, replicas, sharding, and consistency.",
+  "order": 4,
+  "tags": [
+    "sql",
+    "nosql",
+    "indexes",
+    "transactions"
+  ],
+  "lessons": [
+    {
+      "id": "databases-sql-nosql",
+      "title": "Relational and NoSQL Databases",
+      "summary": "SQL fits structured relational data; NoSQL fits flexible schemas, caching, and document workloads.",
+      "explanation": "SQL fits structured relational data; NoSQL fits flexible schemas, caching, and document workloads. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "sql",
+        "nosql",
+        "relationships"
+      ],
+      "examples": [
+        "Orders referencing users are naturally relational."
+      ],
+      "interview_questions": [
+        "When would you apply relational and nosql databases?",
+        "What failure mode appears when relational and nosql databases is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "sql",
+        "nosql",
+        "relationships"
+      ]
+    },
+    {
+      "id": "databases-keys-joins",
+      "title": "Keys, Relationships, and JOINs",
+      "summary": "Primary keys identify rows; foreign keys connect tables; JOINs combine related data.",
+      "explanation": "Primary keys identify rows; foreign keys connect tables; JOINs combine related data. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "primary key",
+        "foreign key",
+        "join"
+      ],
+      "examples": [
+        "orders.user_id references users.id."
+      ],
+      "interview_questions": [
+        "When would you apply keys, relationships, and joins?",
+        "What failure mode appears when keys, relationships, and joins is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "primary key",
+        "foreign key",
+        "join"
+      ]
+    },
+    {
+      "id": "databases-indexes-transactions",
+      "title": "Indexes and Transactions",
+      "summary": "Indexes speed reads at write cost; transactions keep multi-step changes consistent.",
+      "explanation": "Indexes speed reads at write cost; transactions keep multi-step changes consistent. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "index",
+        "transaction",
+        "acid"
+      ],
+      "examples": [
+        "A money transfer should commit debit and credit together."
+      ],
+      "interview_questions": [
+        "When would you apply indexes and transactions?",
+        "What failure mode appears when indexes and transactions is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "index",
+        "transaction",
+        "acid"
+      ]
+    },
+    {
+      "id": "databases-scale-consistency",
+      "title": "Replication, Sharding, and Consistency",
+      "summary": "Read replicas copy data for reads; sharding splits data; eventual consistency accepts temporary staleness.",
+      "explanation": "Read replicas copy data for reads; sharding splits data; eventual consistency accepts temporary staleness. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "replica",
+        "sharding",
+        "consistency"
+      ],
+      "examples": [
+        "A social feed can tolerate a short delay before a new like appears."
+      ],
+      "interview_questions": [
+        "When would you apply replication, sharding, and consistency?",
+        "What failure mode appears when replication, sharding, and consistency is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "replica",
+        "sharding",
+        "consistency"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "databases-q01",
+      "type": "scenario_choice",
+      "prompt": "A profile endpoint receives only a new email field. What should the API prefer?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 1,
+      "tags": [
+        "sql",
+        "nosql",
+        "partial update",
+        "api"
+      ],
+      "options": [
+        "PATCH the selected field",
+        "PUT an empty profile",
+        "GET with a body",
+        "DELETE and recreate"
+      ],
+      "answer": "PATCH the selected field"
+    },
+    {
+      "id": "databases-q02",
+      "type": "multi_select",
+      "prompt": "Pick the operations that are usually safe to retry.",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 1,
+      "tags": [
+        "sql",
+        "nosql",
+        "idempotency",
+        "retry"
+      ],
+      "options": [
+        "GET /users",
+        "DELETE /users/5",
+        "PUT /users/5",
+        "POST /users"
+      ],
+      "answer": [
+        "GET /users",
+        "DELETE /users/5",
+        "PUT /users/5"
+      ]
+    },
+    {
+      "id": "databases-q03",
+      "type": "ordering",
+      "prompt": "Arrange the request path.",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 1,
+      "tags": [
+        "sql",
+        "nosql",
+        "request",
+        "validation"
+      ],
+      "options": [
+        "Client sends request",
+        "Server validates input",
+        "Business logic runs",
+        "Response is returned"
+      ],
+      "answer": [
+        "Client sends request",
+        "Server validates input",
+        "Business logic runs",
+        "Response is returned"
+      ]
+    },
+    {
+      "id": "databases-q04",
+      "type": "matching",
+      "prompt": "Match each signal to its meaning.",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 1,
+      "tags": [
+        "sql",
+        "nosql",
+        "status code",
+        "http"
+      ],
+      "pairs": [
+        {
+          "left": "401",
+          "right": "Authentication required"
+        },
+        {
+          "left": "403",
+          "right": "Authenticated but forbidden"
+        },
+        {
+          "left": "503",
+          "right": "Service unavailable"
+        }
+      ],
+      "answer": {
+        "401": "Authentication required",
+        "403": "Authenticated but forbidden",
+        "503": "Service unavailable"
+      }
+    },
+    {
+      "id": "databases-q05",
+      "type": "code_fill",
+      "prompt": "Fill the branch that classifies server errors.",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "sql",
+        "nosql",
+        "code",
+        "status code"
+      ],
+      "options": [
+        "\"server_error\"",
+        "\"client_error\"",
+        "\"success\"",
+        "\"redirect\""
+      ],
+      "code": "def classify(code):\n    if 500 <= code < 600:\n        return ____",
+      "answer": "\"server_error\""
+    },
+    {
+      "id": "databases-q06",
+      "type": "bug_hunt",
+      "prompt": "Production duplicated records after a timeout. What is the bug?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "sql",
+        "nosql",
+        "duplicate",
+        "retry"
+      ],
+      "options": [
+        "Retrying POST without an idempotency key",
+        "Using HTTPS",
+        "Returning 201 after create",
+        "Sorting by created_at"
+      ],
+      "answer": "Retrying POST without an idempotency key"
+    },
+    {
+      "id": "databases-q07",
+      "type": "code_output",
+      "prompt": "What does classify_status_code(404) return?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "sql",
+        "nosql",
+        "code output",
+        "status code"
+      ],
+      "options": [
+        "client_error",
+        "server_error",
+        "success",
+        "unknown"
+      ],
+      "answer": "client_error"
+    },
+    {
+      "id": "databases-q08",
+      "type": "scenario_choice",
+      "prompt": "A changing feed skips items with page numbers. What pagination style fits better?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "sql",
+        "nosql",
+        "pagination",
+        "cursor"
+      ],
+      "options": [
+        "Cursor pagination",
+        "Offset pagination",
+        "Return everything",
+        "Sort in the browser"
+      ],
+      "answer": "Cursor pagination"
+    },
+    {
+      "id": "databases-q09",
+      "type": "multiple_choice",
+      "prompt": "Which change best preserves existing clients when a response shape breaks compatibility?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "sql",
+        "nosql",
+        "versioning",
+        "contract"
+      ],
+      "options": [
+        "Add /v2",
+        "Silently change /v1",
+        "Remove old fields",
+        "Document it after deploy"
+      ],
+      "answer": "Add /v2"
+    },
+    {
+      "id": "databases-q10",
+      "type": "multi_select",
+      "prompt": "Select the reasons to validate input before business logic.",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 2,
+      "tags": [
+        "sql",
+        "nosql",
+        "validation",
+        "security"
+      ],
+      "options": [
+        "Reject invalid data early",
+        "Improve predictable errors",
+        "Reduce security risk",
+        "Make CPU work parallel"
+      ],
+      "answer": [
+        "Reject invalid data early",
+        "Improve predictable errors",
+        "Reduce security risk"
+      ]
+    },
+    {
+      "id": "databases-q11",
+      "type": "matching",
+      "prompt": "Match the scaling tool to the bottleneck.",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "performance",
+        "scaling"
+      ],
+      "pairs": [
+        {
+          "left": "Cache",
+          "right": "Repeated reads"
+        },
+        {
+          "left": "Queue",
+          "right": "Bursty writes"
+        },
+        {
+          "left": "Read replica",
+          "right": "Read-heavy database load"
+        }
+      ],
+      "answer": {
+        "Cache": "Repeated reads",
+        "Queue": "Bursty writes",
+        "Read replica": "Read-heavy database load"
+      }
+    },
+    {
+      "id": "databases-q12",
+      "type": "bug_hunt",
+      "prompt": "An endpoint loads 100 users, then reads user.orders in a loop. What is happening?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "n+1",
+        "sqlalchemy"
+      ],
+      "options": [
+        "N+1 queries",
+        "A CORS preflight",
+        "A DNS failure",
+        "A cache hit"
+      ],
+      "answer": "N+1 queries"
+    },
+    {
+      "id": "databases-q13",
+      "type": "multi_select",
+      "prompt": "Pick two fixes for the N+1 query pattern.",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "selectinload",
+        "joinedload"
+      ],
+      "options": [
+        "selectinload",
+        "joinedload",
+        "Unlimited retries",
+        "Client-side filtering"
+      ],
+      "answer": [
+        "selectinload",
+        "joinedload"
+      ]
+    },
+    {
+      "id": "databases-q14",
+      "type": "scenario_choice",
+      "prompt": "A downstream service is failing and your app keeps retrying instantly. What should you add first?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "timeout",
+        "backoff"
+      ],
+      "options": [
+        "Timeouts and exponential backoff",
+        "More unlimited retries",
+        "A larger JSON payload",
+        "A second frontend"
+      ],
+      "answer": "Timeouts and exponential backoff"
+    },
+    {
+      "id": "databases-q15",
+      "type": "ordering",
+      "prompt": "Order the transaction flow.",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "transaction",
+        "acid"
+      ],
+      "options": [
+        "Begin transaction",
+        "Apply all writes",
+        "Commit if all succeed",
+        "Roll back on failure"
+      ],
+      "answer": [
+        "Begin transaction",
+        "Apply all writes",
+        "Commit if all succeed",
+        "Roll back on failure"
+      ]
+    },
+    {
+      "id": "databases-q16",
+      "type": "matching",
+      "prompt": "Match data shape to storage fit.",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql"
+      ],
+      "pairs": [
+        {
+          "left": "Strong relationships",
+          "right": "SQL"
+        },
+        {
+          "left": "Flexible documents",
+          "right": "NoSQL"
+        },
+        {
+          "left": "Hot session cache",
+          "right": "Redis"
+        }
+      ],
+      "answer": {
+        "Strong relationships": "SQL",
+        "Flexible documents": "NoSQL",
+        "Hot session cache": "Redis"
+      }
+    },
+    {
+      "id": "databases-q17",
+      "type": "code_fill",
+      "prompt": "Fill the safer SQLAlchemy loading option for a collection.",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "sqlalchemy",
+        "loading"
+      ],
+      "options": [
+        "selectinload",
+        "time.sleep",
+        "requests.get",
+        "os.system"
+      ],
+      "code": "stmt = select(User).options(____(User.orders))",
+      "answer": "selectinload"
+    },
+    {
+      "id": "databases-q18",
+      "type": "multiple_choice",
+      "prompt": "CPU-heavy image processing is slowing requests. Which model helps most?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "parallelism",
+        "cpu"
+      ],
+      "options": [
+        "Parallelism",
+        "Async await only",
+        "More CORS headers",
+        "Offset pagination"
+      ],
+      "answer": "Parallelism"
+    },
+    {
+      "id": "databases-q19",
+      "type": "scenario_choice",
+      "prompt": "A product page needs recommendations, but the recommender is down. What behavior is best?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "degradation",
+        "reliability"
+      ],
+      "options": [
+        "Serve the page without recommendations",
+        "Fail the entire page",
+        "Retry forever",
+        "Delete the cache"
+      ],
+      "answer": "Serve the page without recommendations"
+    },
+    {
+      "id": "databases-q20",
+      "type": "multi_select",
+      "prompt": "Which signals make an API easier for clients to use?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "contract",
+        "openapi"
+      ],
+      "options": [
+        "Stable contract",
+        "Clear status codes",
+        "Documented schema",
+        "Random response fields"
+      ],
+      "answer": [
+        "Stable contract",
+        "Clear status codes",
+        "Documented schema"
+      ]
+    },
+    {
+      "id": "databases-q21",
+      "type": "bug_hunt",
+      "prompt": "A response model includes password_hash. What is the bug?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "response model",
+        "security"
+      ],
+      "options": [
+        "Leaking sensitive data",
+        "Using a router",
+        "Returning JSON",
+        "Using a status code"
+      ],
+      "answer": "Leaking sensitive data"
+    },
+    {
+      "id": "databases-q22",
+      "type": "scenario_choice",
+      "prompt": "A social like count appears five seconds late. When is that acceptable?",
+      "explanation": "Key idea: apply Databases by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "difficulty": 3,
+      "tags": [
+        "sql",
+        "nosql",
+        "eventual consistency",
+        "trade-off"
+      ],
+      "options": [
+        "When eventual consistency is acceptable",
+        "When money is transferred",
+        "When validating passwords",
+        "When committing inventory"
+      ],
+      "answer": "When eventual consistency is acceptable"
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "databases-classify-status",
+      "title": "Databases status classifier",
+      "instructions": "Implement classify_status_code(code: int) -> str. Return success for 200-299, redirect for 300-399, client_error for 400-499, server_error for 500-599, and unknown otherwise.",
+      "starter_code": "def classify_status_code(code: int) -> str:\n    pass\n",
+      "function_signature": "def classify_status_code(code: int) -> str",
+      "visible_tests": [
+        {
+          "name": "created",
+          "call": "classify_status_code(201)",
+          "expected": "success"
+        },
+        {
+          "name": "not found",
+          "call": "classify_status_code(404)",
+          "expected": "client_error"
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "service unavailable",
+          "call": "classify_status_code(503)",
+          "expected": "server_error"
+        },
+        {
+          "name": "redirect",
+          "call": "classify_status_code(302)",
+          "expected": "redirect"
+        },
+        {
+          "name": "unknown",
+          "call": "classify_status_code(99)",
+          "expected": "unknown"
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The challenge reinforces deterministic branching, status-code categories, and local test execution.",
+      "difficulty": 1,
+      "tags": [
+        "sql",
+        "nosql",
+        "indexes"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "databases-boss",
+    "title": "Databases boss battle",
+    "question_ids": [
+      "databases-q01",
+      "databases-q02",
+      "databases-q03",
+      "databases-q04",
+      "databases-q05",
+      "databases-q06",
+      "databases-q07",
+      "databases-q08",
+      "databases-q09",
+      "databases-q10",
+      "databases-q11",
+      "databases-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}
