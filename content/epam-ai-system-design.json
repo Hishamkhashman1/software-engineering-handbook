@@ -1,0 +1,724 @@
+{
+  "id": "epam-ai-system-design",
+  "title": "EPAM AI and System Design",
+  "description": "LLM APIs, embeddings, vector databases, RAG, prompt engineering, token limits, streaming, cost optimization, and system design drills.",
+  "order": 32,
+  "tags": [
+    "ai",
+    "llm",
+    "system design",
+    "rag"
+  ],
+  "lessons": [
+    {
+      "id": "epam-ai-system-design-lesson-1",
+      "title": "AI Building Blocks",
+      "summary": "EPAM interview drill for ai building blocks.",
+      "explanation": "Explain ai building blocks through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "llm apis",
+        "embeddings",
+        "vector databases",
+        "rag"
+      ],
+      "examples": [
+        "Use ai building blocks to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain ai building blocks in an interview?",
+        "What common bug appears when ai building blocks is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "llm apis",
+        "embeddings",
+        "vector databases",
+        "rag"
+      ]
+    },
+    {
+      "id": "epam-ai-system-design-lesson-2",
+      "title": "Prompting and Runtime Constraints",
+      "summary": "EPAM interview drill for prompting and runtime constraints.",
+      "explanation": "Explain prompting and runtime constraints through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "prompt engineering",
+        "token limits",
+        "streaming",
+        "cost optimization"
+      ],
+      "examples": [
+        "Use prompting and runtime constraints to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain prompting and runtime constraints in an interview?",
+        "What common bug appears when prompting and runtime constraints is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "prompt engineering",
+        "token limits",
+        "streaming",
+        "cost optimization"
+      ]
+    },
+    {
+      "id": "epam-ai-system-design-lesson-3",
+      "title": "Classic System Designs",
+      "summary": "EPAM interview drill for classic system designs.",
+      "explanation": "Explain classic system designs through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "url shortener",
+        "chat api",
+        "notification service"
+      ],
+      "examples": [
+        "Use classic system designs to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain classic system designs in an interview?",
+        "What common bug appears when classic system designs is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "url shortener",
+        "chat api",
+        "notification service"
+      ]
+    },
+    {
+      "id": "epam-ai-system-design-lesson-4",
+      "title": "AI API Design",
+      "summary": "EPAM interview drill for ai api design.",
+      "explanation": "Explain ai api design through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "ai api",
+        "auth",
+        "rate limits",
+        "observability"
+      ],
+      "examples": [
+        "Use ai api design to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain ai api design in an interview?",
+        "What common bug appears when ai api design is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "ai api",
+        "auth",
+        "rate limits",
+        "observability"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "epam-ai-system-design-q01",
+      "type": "scenario_choice",
+      "prompt": "What should production code assume about LLM output?",
+      "options": [
+        "It may be wrong and needs validation/evaluation",
+        "It is always deterministic truth",
+        "It removes tests",
+        "It cannot leak data"
+      ],
+      "answer": "It may be wrong and needs validation/evaluation",
+      "explanation": "LLM APIs are probabilistic and can hallucinate. Production systems need validation, evals, fallback, and monitoring.",
+      "difficulty": 1,
+      "tags": [
+        "llm apis",
+        "evaluation",
+        "hallucination"
+      ],
+      "concept_panel": {
+        "title": "LLM APIs",
+        "explanation": "LLM APIs are probabilistic and can hallucinate. Production systems need validation, evals, fallback, and monitoring.",
+        "key_takeaways": [
+          "llm apis",
+          "evaluation",
+          "hallucination"
+        ],
+        "practical_example": "Validate an AI-generated KPI recommendation before showing it as final.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand AI reliability.",
+        "diagram": {
+          "type": "flow",
+          "title": "LLM APIs",
+          "nodes": [
+            {
+              "label": "LLM APIs"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q02",
+      "type": "scenario_choice",
+      "prompt": "What are embeddings used for?",
+      "options": [
+        "Representing text meaning as vectors for similarity search",
+        "Encrypting JWTs",
+        "Creating SQL joins",
+        "Starting Docker"
+      ],
+      "answer": "Representing text meaning as vectors for similarity search",
+      "explanation": "Embeddings map content into vector space so related meanings can be found by similarity.",
+      "difficulty": 1,
+      "tags": [
+        "embeddings",
+        "vector search"
+      ],
+      "concept_panel": {
+        "title": "Embeddings",
+        "explanation": "Embeddings map content into vector space so related meanings can be found by similarity.",
+        "key_takeaways": [
+          "embeddings",
+          "vector search",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "Embed support docs and search for chunks relevant to a user question.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you know AI retrieval basics.",
+        "diagram": {
+          "type": "flow",
+          "title": "Embeddings",
+          "nodes": [
+            {
+              "label": "Embeddings"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q03",
+      "type": "scenario_choice",
+      "prompt": "Why use a vector database?",
+      "options": [
+        "Efficient similarity search over embeddings",
+        "Relational foreign-key enforcement",
+        "Static type checking",
+        "Git branching"
+      ],
+      "answer": "Efficient similarity search over embeddings",
+      "explanation": "Vector databases index embeddings for nearest-neighbor retrieval.",
+      "difficulty": 1,
+      "tags": [
+        "vector databases",
+        "embeddings",
+        "similarity search"
+      ],
+      "concept_panel": {
+        "title": "Vector Databases",
+        "explanation": "Vector databases index embeddings for nearest-neighbor retrieval.",
+        "key_takeaways": [
+          "vector databases",
+          "embeddings",
+          "similarity search"
+        ],
+        "practical_example": "Find portfolio Q&A examples closest to a chat query.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand retrieval infrastructure.",
+        "diagram": {
+          "type": "flow",
+          "title": "Vector Databases",
+          "nodes": [
+            {
+              "label": "Vector Databases"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q04",
+      "type": "scenario_choice",
+      "prompt": "What does RAG add to an LLM flow?",
+      "options": [
+        "Retrieves relevant context before generation",
+        "Ignores source data",
+        "Always fine-tunes the model",
+        "Deletes token limits"
+      ],
+      "answer": "Retrieves relevant context before generation",
+      "explanation": "RAG grounds answers in retrieved documents or examples, useful for changing/private knowledge.",
+      "difficulty": 1,
+      "tags": [
+        "rag",
+        "retrieval",
+        "grounding"
+      ],
+      "concept_panel": {
+        "title": "RAG",
+        "explanation": "RAG grounds answers in retrieved documents or examples, useful for changing/private knowledge.",
+        "key_takeaways": [
+          "rag",
+          "retrieval",
+          "grounding"
+        ],
+        "practical_example": "Retrieve schema notes before answering a dashboard intelligence question.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can reduce hallucination through architecture.",
+        "diagram": {
+          "type": "flow",
+          "title": "RAG",
+          "nodes": [
+            {
+              "label": "RAG"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q05",
+      "type": "scenario_choice",
+      "prompt": "What is a good prompt engineering goal?",
+      "options": [
+        "Constrain task, context, format, and refusal behavior",
+        "Make prompts longer forever",
+        "Hide errors",
+        "Skip retrieval"
+      ],
+      "answer": "Constrain task, context, format, and refusal behavior",
+      "explanation": "Prompts should specify role, task, constraints, source use, output format, and fallback behavior.",
+      "difficulty": 2,
+      "tags": [
+        "prompt engineering",
+        "guardrails"
+      ],
+      "concept_panel": {
+        "title": "Prompt Engineering",
+        "explanation": "Prompts should specify role, task, constraints, source use, output format, and fallback behavior.",
+        "key_takeaways": [
+          "prompt engineering",
+          "guardrails",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "Ask the model to answer only from retrieved KPI metadata.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can shape AI behavior deliberately.",
+        "diagram": {
+          "type": "flow",
+          "title": "Prompt Engineering",
+          "nodes": [
+            {
+              "label": "Prompt Engineering"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q06",
+      "type": "scenario_choice",
+      "prompt": "Why do token limits matter?",
+      "options": [
+        "They constrain context size, cost, and latency",
+        "They replace authentication",
+        "They ensure truth",
+        "They create SQL indexes"
+      ],
+      "answer": "They constrain context size, cost, and latency",
+      "explanation": "Token limits force context selection and summarization. More tokens usually cost more and add latency.",
+      "difficulty": 2,
+      "tags": [
+        "token limits",
+        "cost optimization",
+        "latency"
+      ],
+      "concept_panel": {
+        "title": "Token Limits",
+        "explanation": "Token limits force context selection and summarization. More tokens usually cost more and add latency.",
+        "key_takeaways": [
+          "token limits",
+          "cost optimization",
+          "latency"
+        ],
+        "practical_example": "Chunk and retrieve only relevant documents instead of sending everything.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand model runtime constraints.",
+        "diagram": {
+          "type": "flow",
+          "title": "Token Limits",
+          "nodes": [
+            {
+              "label": "Token Limits"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q07",
+      "type": "scenario_choice",
+      "prompt": "Why stream chat responses?",
+      "options": [
+        "Improve perceived latency for users",
+        "Guarantee correctness",
+        "Avoid auth",
+        "Replace retrieval"
+      ],
+      "answer": "Improve perceived latency for users",
+      "explanation": "Streaming sends partial output as it is generated. It helps UX but does not solve factuality.",
+      "difficulty": 2,
+      "tags": [
+        "streaming",
+        "chat api",
+        "latency"
+      ],
+      "concept_panel": {
+        "title": "Streaming",
+        "explanation": "Streaming sends partial output as it is generated. It helps UX but does not solve factuality.",
+        "key_takeaways": [
+          "streaming",
+          "chat api",
+          "latency"
+        ],
+        "practical_example": "A chat UI can show tokens as they arrive.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you separate UX latency from answer quality.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming",
+          "nodes": [
+            {
+              "label": "Streaming"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q08",
+      "type": "scenario_choice",
+      "prompt": "What is a practical AI cost control?",
+      "options": [
+        "Limit context, cache safe results, and choose model size by evals",
+        "Send all data always",
+        "Disable logging",
+        "Retry infinitely"
+      ],
+      "answer": "Limit context, cache safe results, and choose model size by evals",
+      "explanation": "AI cost depends on model, tokens, traffic, retries, and caching. Optimize with measurement and quality gates.",
+      "difficulty": 2,
+      "tags": [
+        "cost optimization",
+        "tokens",
+        "evals"
+      ],
+      "concept_panel": {
+        "title": "Cost Optimization",
+        "explanation": "AI cost depends on model, tokens, traffic, retries, and caching. Optimize with measurement and quality gates.",
+        "key_takeaways": [
+          "cost optimization",
+          "tokens",
+          "evals"
+        ],
+        "practical_example": "Use a smaller model for classification and a stronger one for complex generation.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can run AI features economically.",
+        "diagram": {
+          "type": "flow",
+          "title": "Cost Optimization",
+          "nodes": [
+            {
+              "label": "Cost Optimization"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q09",
+      "type": "scenario_choice",
+      "prompt": "What is the core storage design for a URL shortener?",
+      "options": [
+        "Map short codes to long URLs with collision handling",
+        "Store only CSS",
+        "Use no database",
+        "Require vector search"
+      ],
+      "answer": "Map short codes to long URLs with collision handling",
+      "explanation": "URL shorteners test key generation, redirects, storage, TTLs, analytics, and collision handling.",
+      "difficulty": 2,
+      "tags": [
+        "url shortener",
+        "system design"
+      ],
+      "concept_panel": {
+        "title": "URL Shortener",
+        "explanation": "URL shorteners test key generation, redirects, storage, TTLs, analytics, and collision handling.",
+        "key_takeaways": [
+          "url shortener",
+          "system design",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "short_code -> destination_url with unique constraint.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can design a simple scalable service.",
+        "diagram": {
+          "type": "flow",
+          "title": "URL Shortener",
+          "nodes": [
+            {
+              "label": "URL Shortener"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q10",
+      "type": "scenario_choice",
+      "prompt": "What must a chat API usually manage?",
+      "options": [
+        "Conversation state, auth, rate limits, streaming, and persistence",
+        "Only static HTML",
+        "Only Docker layers",
+        "Only GROUP BY"
+      ],
+      "answer": "Conversation state, auth, rate limits, streaming, and persistence",
+      "explanation": "Chat APIs combine HTTP/WebSocket/SSE behavior with state, moderation, cost, and latency concerns.",
+      "difficulty": 3,
+      "tags": [
+        "chat api",
+        "streaming",
+        "auth"
+      ],
+      "concept_panel": {
+        "title": "Chat API",
+        "explanation": "Chat APIs combine HTTP/WebSocket/SSE behavior with state, moderation, cost, and latency concerns.",
+        "key_takeaways": [
+          "chat api",
+          "streaming",
+          "auth"
+        ],
+        "practical_example": "Store conversation IDs and stream assistant output.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can design interactive APIs.",
+        "diagram": {
+          "type": "flow",
+          "title": "Chat API",
+          "nodes": [
+            {
+              "label": "Chat API"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q11",
+      "type": "scenario_choice",
+      "prompt": "Why use a queue in a notification service?",
+      "options": [
+        "To decouple send requests from provider delivery",
+        "To remove retries",
+        "To skip templates",
+        "To force synchronous latency"
+      ],
+      "answer": "To decouple send requests from provider delivery",
+      "explanation": "Notifications involve templates, channels, provider failures, retries, idempotency, and user preferences.",
+      "difficulty": 3,
+      "tags": [
+        "notification service",
+        "queue",
+        "retries"
+      ],
+      "concept_panel": {
+        "title": "Notification Service",
+        "explanation": "Notifications involve templates, channels, provider failures, retries, idempotency, and user preferences.",
+        "key_takeaways": [
+          "notification service",
+          "queue",
+          "retries"
+        ],
+        "practical_example": "Queue email/SMS jobs and process with workers.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand async delivery systems.",
+        "diagram": {
+          "type": "flow",
+          "title": "Notification Service",
+          "nodes": [
+            {
+              "label": "Notification Service"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-ai-system-design-q12",
+      "type": "scenario_choice",
+      "prompt": "What should an AI API expose besides the answer?",
+      "options": [
+        "Status, errors, usage/cost metadata, and traceable behavior",
+        "Only raw model text",
+        "No auth",
+        "No limits"
+      ],
+      "answer": "Status, errors, usage/cost metadata, and traceable behavior",
+      "explanation": "AI APIs need normal API discipline plus model-specific observability, rate limits, and safety behavior.",
+      "difficulty": 3,
+      "tags": [
+        "ai api",
+        "usage",
+        "observability"
+      ],
+      "concept_panel": {
+        "title": "AI API",
+        "explanation": "AI APIs need normal API discipline plus model-specific observability, rate limits, and safety behavior.",
+        "key_takeaways": [
+          "ai api",
+          "usage",
+          "observability"
+        ],
+        "practical_example": "Return answer plus retrieved source IDs and token usage.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can productionize AI endpoints.",
+        "diagram": {
+          "type": "flow",
+          "title": "AI API",
+          "nodes": [
+            {
+              "label": "AI API"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "epam-ai-system-design-classify-status",
+      "title": "EPAM AI and System Design status classifier",
+      "instructions": "Implement classify_status_code(code: int) -> str. Return success for 200-299, redirect for 300-399, client_error for 400-499, server_error for 500-599, and unknown otherwise.",
+      "starter_code": "def classify_status_code(code: int) -> str:\n    pass\n",
+      "function_signature": "def classify_status_code(code: int) -> str",
+      "visible_tests": [
+        {
+          "name": "created",
+          "call": "classify_status_code(201)",
+          "expected": "success"
+        },
+        {
+          "name": "not found",
+          "call": "classify_status_code(404)",
+          "expected": "client_error"
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "service unavailable",
+          "call": "classify_status_code(503)",
+          "expected": "server_error"
+        },
+        {
+          "name": "redirect",
+          "call": "classify_status_code(302)",
+          "expected": "redirect"
+        },
+        {
+          "name": "unknown",
+          "call": "classify_status_code(99)",
+          "expected": "unknown"
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The challenge reinforces deterministic branching, status-code categories, and local test execution.",
+      "difficulty": 1,
+      "tags": [
+        "ai",
+        "llm",
+        "system design"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "epam-ai-system-design-boss",
+    "title": "EPAM AI and System Design boss battle",
+    "question_ids": [
+      "epam-ai-system-design-q01",
+      "epam-ai-system-design-q02",
+      "epam-ai-system-design-q03",
+      "epam-ai-system-design-q04",
+      "epam-ai-system-design-q05",
+      "epam-ai-system-design-q06",
+      "epam-ai-system-design-q07",
+      "epam-ai-system-design-q08",
+      "epam-ai-system-design-q09",
+      "epam-ai-system-design-q10",
+      "epam-ai-system-design-q11",
+      "epam-ai-system-design-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

@@ -1,0 +1,728 @@
+{
+  "id": "epam-fastapi-architecture",
+  "title": "EPAM FastAPI Architecture",
+  "description": "FastAPI routing, dependency injection, Pydantic validation, middleware, JWT auth, background tasks, async endpoints, API design, and layered architecture.",
+  "order": 28,
+  "tags": [
+    "fastapi",
+    "api design",
+    "jwt",
+    "architecture"
+  ],
+  "lessons": [
+    {
+      "id": "epam-fastapi-architecture-lesson-1",
+      "title": "FastAPI Request Flow",
+      "summary": "EPAM interview drill for fastapi request flow.",
+      "explanation": "Explain fastapi request flow through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "routing",
+        "dependency injection",
+        "pydantic",
+        "validation"
+      ],
+      "examples": [
+        "Use fastapi request flow to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain fastapi request flow in an interview?",
+        "What common bug appears when fastapi request flow is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "routing",
+        "dependency injection",
+        "pydantic",
+        "validation"
+      ]
+    },
+    {
+      "id": "epam-fastapi-architecture-lesson-2",
+      "title": "Auth, Middleware, and Errors",
+      "summary": "EPAM interview drill for auth, middleware, and errors.",
+      "explanation": "Explain auth, middleware, and errors through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "middleware",
+        "authentication",
+        "jwt",
+        "error handling"
+      ],
+      "examples": [
+        "Use auth, middleware, and errors to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain auth, middleware, and errors in an interview?",
+        "What common bug appears when auth, middleware, and errors is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "middleware",
+        "authentication",
+        "jwt",
+        "error handling"
+      ]
+    },
+    {
+      "id": "epam-fastapi-architecture-lesson-3",
+      "title": "API Design",
+      "summary": "EPAM interview drill for api design.",
+      "explanation": "Explain api design through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "rest",
+        "status codes",
+        "pagination",
+        "filtering",
+        "versioning"
+      ],
+      "examples": [
+        "Use api design to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain api design in an interview?",
+        "What common bug appears when api design is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "rest",
+        "status codes",
+        "pagination",
+        "filtering",
+        "versioning"
+      ]
+    },
+    {
+      "id": "epam-fastapi-architecture-lesson-4",
+      "title": "Service Architecture",
+      "summary": "EPAM interview drill for service architecture.",
+      "explanation": "Explain service architecture through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "service layer",
+        "repository pattern",
+        "dtos",
+        "project structure"
+      ],
+      "examples": [
+        "Use service architecture to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain service architecture in an interview?",
+        "What common bug appears when service architecture is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "service layer",
+        "repository pattern",
+        "dtos",
+        "project structure"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "epam-fastapi-architecture-q01",
+      "type": "scenario_choice",
+      "prompt": "Where should HTTP path and method mapping live?",
+      "options": [
+        "Router layer",
+        "Repository layer",
+        "Database index",
+        "Model weights"
+      ],
+      "answer": "Router layer",
+      "explanation": "Routers map HTTP requests to endpoint functions. They should stay thin and delegate business work.",
+      "difficulty": 1,
+      "tags": [
+        "fastapi",
+        "routing",
+        "router"
+      ],
+      "concept_panel": {
+        "title": "FastAPI Routing",
+        "explanation": "Routers map HTTP requests to endpoint functions. They should stay thin and delegate business work.",
+        "key_takeaways": [
+          "fastapi",
+          "routing",
+          "router"
+        ],
+        "practical_example": "APIRouter(prefix='/api/users') groups user endpoints.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand FastAPI request organization.",
+        "diagram": {
+          "type": "flow",
+          "title": "FastAPI Routing",
+          "nodes": [
+            {
+              "label": "FastAPI Routing"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q02",
+      "type": "scenario_choice",
+      "prompt": "A DB session must be replaceable in tests. What FastAPI feature helps?",
+      "options": [
+        "Depends dependency injection",
+        "Global variable only",
+        "Hardcoded psycopg2 connection",
+        "Client-side cookie"
+      ],
+      "answer": "Depends dependency injection",
+      "explanation": "FastAPI dependencies provide request-scoped collaborators and can be overridden in tests.",
+      "difficulty": 1,
+      "tags": [
+        "dependency injection",
+        "Depends",
+        "testing"
+      ],
+      "concept_panel": {
+        "title": "Dependency Injection",
+        "explanation": "FastAPI dependencies provide request-scoped collaborators and can be overridden in tests.",
+        "key_takeaways": [
+          "dependency injection",
+          "Depends",
+          "testing"
+        ],
+        "practical_example": "Use Depends(get_db) for a request-scoped session.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can build testable FastAPI APIs.",
+        "diagram": {
+          "type": "flow",
+          "title": "Dependency Injection",
+          "nodes": [
+            {
+              "label": "Dependency Injection"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q03",
+      "type": "scenario_choice",
+      "prompt": "Where should invalid request shapes fail?",
+      "options": [
+        "Pydantic request validation",
+        "Inside dashboard CSS",
+        "After database commit",
+        "In Docker build only"
+      ],
+      "answer": "Pydantic request validation",
+      "explanation": "Pydantic validates types and constraints before business logic runs.",
+      "difficulty": 1,
+      "tags": [
+        "pydantic",
+        "validation",
+        "schemas"
+      ],
+      "concept_panel": {
+        "title": "Pydantic Validation",
+        "explanation": "Pydantic validates types and constraints before business logic runs.",
+        "key_takeaways": [
+          "pydantic",
+          "validation",
+          "schemas"
+        ],
+        "practical_example": "Reject a missing `email` field before user creation logic.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you use schemas as API boundaries.",
+        "diagram": {
+          "type": "flow",
+          "title": "Pydantic Validation",
+          "nodes": [
+            {
+              "label": "Pydantic Validation"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q04",
+      "type": "scenario_choice",
+      "prompt": "What belongs in middleware?",
+      "options": [
+        "Cross-cutting request/response behavior",
+        "SQL aggregation only",
+        "ML training loops",
+        "React state"
+      ],
+      "answer": "Cross-cutting request/response behavior",
+      "explanation": "Middleware wraps requests for concerns like CORS, logging, timing, auth context, and error envelopes.",
+      "difficulty": 1,
+      "tags": [
+        "middleware",
+        "cors",
+        "logging"
+      ],
+      "concept_panel": {
+        "title": "Middleware",
+        "explanation": "Middleware wraps requests for concerns like CORS, logging, timing, auth context, and error envelopes.",
+        "key_takeaways": [
+          "middleware",
+          "cors",
+          "logging"
+        ],
+        "practical_example": "Add request ID logging in middleware.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand request pipeline hooks.",
+        "diagram": {
+          "type": "flow",
+          "title": "Middleware",
+          "nodes": [
+            {
+              "label": "Middleware"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q05",
+      "type": "scenario_choice",
+      "prompt": "What should a JWT-protected endpoint verify?",
+      "options": [
+        "Token signature, expiry, and claims",
+        "Only UI route name",
+        "Only JSON formatting",
+        "Only database index"
+      ],
+      "answer": "Token signature, expiry, and claims",
+      "explanation": "JWT authentication must verify the token and map trusted claims to an identity/authorization decision.",
+      "difficulty": 2,
+      "tags": [
+        "authentication",
+        "jwt",
+        "authorization"
+      ],
+      "concept_panel": {
+        "title": "JWT Authentication",
+        "explanation": "JWT authentication must verify the token and map trusted claims to an identity/authorization decision.",
+        "key_takeaways": [
+          "authentication",
+          "jwt",
+          "authorization"
+        ],
+        "practical_example": "Reject expired bearer tokens before accessing organization data.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand stateless API auth risks.",
+        "diagram": {
+          "type": "flow",
+          "title": "JWT Authentication",
+          "nodes": [
+            {
+              "label": "JWT Authentication"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q06",
+      "type": "scenario_choice",
+      "prompt": "When is a FastAPI background task appropriate?",
+      "options": [
+        "Non-critical work after response",
+        "Required transaction commit",
+        "Immediate password validation",
+        "Blocking CPU-heavy forecasting"
+      ],
+      "answer": "Non-critical work after response",
+      "explanation": "Background tasks fit follow-up work that does not need to block the response. Heavy jobs usually deserve workers/queues.",
+      "difficulty": 2,
+      "tags": [
+        "background tasks",
+        "async",
+        "fastapi"
+      ],
+      "concept_panel": {
+        "title": "Background Tasks",
+        "explanation": "Background tasks fit follow-up work that does not need to block the response. Heavy jobs usually deserve workers/queues.",
+        "key_takeaways": [
+          "background tasks",
+          "async",
+          "fastapi"
+        ],
+        "practical_example": "Send a notification after returning a successful response.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can separate request latency from follow-up work.",
+        "diagram": {
+          "type": "flow",
+          "title": "Background Tasks",
+          "nodes": [
+            {
+              "label": "Background Tasks"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q07",
+      "type": "scenario_choice",
+      "prompt": "When does `async def` help in FastAPI?",
+      "options": [
+        "While awaiting I/O-bound operations",
+        "For pure CPU loops",
+        "For SQL syntax",
+        "For CSS rendering"
+      ],
+      "answer": "While awaiting I/O-bound operations",
+      "explanation": "Async endpoints help when work spends time waiting on I/O. CPU-heavy work needs workers or processes.",
+      "difficulty": 2,
+      "tags": [
+        "async endpoints",
+        "async",
+        "io"
+      ],
+      "concept_panel": {
+        "title": "Async Endpoints",
+        "explanation": "Async endpoints help when work spends time waiting on I/O. CPU-heavy work needs workers or processes.",
+        "key_takeaways": [
+          "async endpoints",
+          "async",
+          "io"
+        ],
+        "practical_example": "Await an HTTP integration call without blocking the event loop.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand async FastAPI correctly.",
+        "diagram": {
+          "type": "flow",
+          "title": "Async Endpoints",
+          "nodes": [
+            {
+              "label": "Async Endpoints"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q08",
+      "type": "scenario_choice",
+      "prompt": "What should API error handling produce?",
+      "options": [
+        "Consistent status codes and response shape",
+        "Raw stack traces to clients",
+        "Silent failures",
+        "HTML-only pages"
+      ],
+      "answer": "Consistent status codes and response shape",
+      "explanation": "Clients need predictable errors. Internal details should be logged, not leaked.",
+      "difficulty": 2,
+      "tags": [
+        "error handling",
+        "status codes",
+        "api design"
+      ],
+      "concept_panel": {
+        "title": "Error Handling",
+        "explanation": "Clients need predictable errors. Internal details should be logged, not leaked.",
+        "key_takeaways": [
+          "error handling",
+          "status codes",
+          "api design"
+        ],
+        "practical_example": "Return 404 for missing resource and 422 for validation failure.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you design reliable API contracts.",
+        "diagram": {
+          "type": "flow",
+          "title": "Error Handling",
+          "nodes": [
+            {
+              "label": "Error Handling"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q09",
+      "type": "scenario_choice",
+      "prompt": "Why paginate dashboard data APIs?",
+      "options": [
+        "To bound response size and latency",
+        "To remove authentication",
+        "To avoid indexes forever",
+        "To replace validation"
+      ],
+      "answer": "To bound response size and latency",
+      "explanation": "Pagination and filtering keep APIs efficient and usable as data grows.",
+      "difficulty": 2,
+      "tags": [
+        "pagination",
+        "filtering",
+        "api design"
+      ],
+      "concept_panel": {
+        "title": "Pagination and Filtering",
+        "explanation": "Pagination and filtering keep APIs efficient and usable as data grows.",
+        "key_takeaways": [
+          "pagination",
+          "filtering",
+          "api design"
+        ],
+        "practical_example": "GET /events?limit=50&cursor=abc&source=hubspot",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand scalable API access patterns.",
+        "diagram": {
+          "type": "flow",
+          "title": "Pagination and Filtering",
+          "nodes": [
+            {
+              "label": "Pagination and Filtering"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q10",
+      "type": "scenario_choice",
+      "prompt": "What protects clients from breaking API changes?",
+      "options": [
+        "Versioned or backward-compatible contracts",
+        "Silent response shape changes",
+        "Deleting old fields immediately",
+        "Skipping docs"
+      ],
+      "answer": "Versioned or backward-compatible contracts",
+      "explanation": "API versioning and compatibility policies let clients migrate safely.",
+      "difficulty": 3,
+      "tags": [
+        "versioning",
+        "api design",
+        "contract"
+      ],
+      "concept_panel": {
+        "title": "Versioning",
+        "explanation": "API versioning and compatibility policies let clients migrate safely.",
+        "key_takeaways": [
+          "versioning",
+          "api design",
+          "contract"
+        ],
+        "practical_example": "Add /v2 or optional fields instead of breaking /v1.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you manage API evolution.",
+        "diagram": {
+          "type": "flow",
+          "title": "Versioning",
+          "nodes": [
+            {
+              "label": "Versioning"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q11",
+      "type": "scenario_choice",
+      "prompt": "Why use a service layer?",
+      "options": [
+        "To keep business logic out of route handlers",
+        "To hide all tests",
+        "To store CSS",
+        "To replace HTTP"
+      ],
+      "answer": "To keep business logic out of route handlers",
+      "explanation": "Services make business logic reusable and testable outside HTTP concerns.",
+      "difficulty": 3,
+      "tags": [
+        "service layer",
+        "architecture"
+      ],
+      "concept_panel": {
+        "title": "Service Layer",
+        "explanation": "Services make business logic reusable and testable outside HTTP concerns.",
+        "key_takeaways": [
+          "service layer",
+          "architecture",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "DashboardService builds KPI widgets after route validation.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can structure backend code beyond endpoints.",
+        "diagram": {
+          "type": "flow",
+          "title": "Service Layer",
+          "nodes": [
+            {
+              "label": "Service Layer"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-fastapi-architecture-q12",
+      "type": "scenario_choice",
+      "prompt": "What is the repository pattern for?",
+      "options": [
+        "Isolating persistence behind a focused interface",
+        "Rendering React pages",
+        "Storing secrets in code",
+        "Sorting CSS"
+      ],
+      "answer": "Isolating persistence behind a focused interface",
+      "explanation": "Repositories isolate database access; DTOs/schemas define transfer boundaries.",
+      "difficulty": 3,
+      "tags": [
+        "repository pattern",
+        "dtos",
+        "project structure"
+      ],
+      "concept_panel": {
+        "title": "Repository Pattern and DTOs",
+        "explanation": "Repositories isolate database access; DTOs/schemas define transfer boundaries.",
+        "key_takeaways": [
+          "repository pattern",
+          "dtos",
+          "project structure"
+        ],
+        "practical_example": "ForecastRepository can hide SQL while service code asks for forecast history.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand layered backend architecture.",
+        "diagram": {
+          "type": "flow",
+          "title": "Repository Pattern and DTOs",
+          "nodes": [
+            {
+              "label": "Repository Pattern and DTOs"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "epam-fastapi-architecture-classify-status",
+      "title": "EPAM FastAPI Architecture status classifier",
+      "instructions": "Implement classify_status_code(code: int) -> str. Return success for 200-299, redirect for 300-399, client_error for 400-499, server_error for 500-599, and unknown otherwise.",
+      "starter_code": "def classify_status_code(code: int) -> str:\n    pass\n",
+      "function_signature": "def classify_status_code(code: int) -> str",
+      "visible_tests": [
+        {
+          "name": "created",
+          "call": "classify_status_code(201)",
+          "expected": "success"
+        },
+        {
+          "name": "not found",
+          "call": "classify_status_code(404)",
+          "expected": "client_error"
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "service unavailable",
+          "call": "classify_status_code(503)",
+          "expected": "server_error"
+        },
+        {
+          "name": "redirect",
+          "call": "classify_status_code(302)",
+          "expected": "redirect"
+        },
+        {
+          "name": "unknown",
+          "call": "classify_status_code(99)",
+          "expected": "unknown"
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The challenge reinforces deterministic branching, status-code categories, and local test execution.",
+      "difficulty": 1,
+      "tags": [
+        "fastapi",
+        "api design",
+        "jwt"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "epam-fastapi-architecture-boss",
+    "title": "EPAM FastAPI Architecture boss battle",
+    "question_ids": [
+      "epam-fastapi-architecture-q01",
+      "epam-fastapi-architecture-q02",
+      "epam-fastapi-architecture-q03",
+      "epam-fastapi-architecture-q04",
+      "epam-fastapi-architecture-q05",
+      "epam-fastapi-architecture-q06",
+      "epam-fastapi-architecture-q07",
+      "epam-fastapi-architecture-q08",
+      "epam-fastapi-architecture-q09",
+      "epam-fastapi-architecture-q10",
+      "epam-fastapi-architecture-q11",
+      "epam-fastapi-architecture-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

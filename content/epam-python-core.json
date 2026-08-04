@@ -1,0 +1,736 @@
+{
+  "id": "epam-python-core",
+  "title": "EPAM Python Core",
+  "description": "Python object model, references, mutability, core collections, complexity, truthiness, equality, and language trade-offs.",
+  "order": 25,
+  "tags": [
+    "python",
+    "references",
+    "collections",
+    "complexity"
+  ],
+  "lessons": [
+    {
+      "id": "epam-python-core-lesson-1",
+      "title": "Variables, References, and Mutability",
+      "summary": "EPAM interview drill for variables, references, and mutability.",
+      "explanation": "Explain variables, references, and mutability through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "variables",
+        "references",
+        "mutable",
+        "immutable"
+      ],
+      "examples": [
+        "Use variables, references, and mutability to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain variables, references, and mutability in an interview?",
+        "What common bug appears when variables, references, and mutability is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "variables",
+        "references",
+        "mutable",
+        "immutable"
+      ]
+    },
+    {
+      "id": "epam-python-core-lesson-2",
+      "title": "Collections and Complexity",
+      "summary": "EPAM interview drill for collections and complexity.",
+      "explanation": "Explain collections and complexity through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "list",
+        "tuple",
+        "set",
+        "dict",
+        "time complexity"
+      ],
+      "examples": [
+        "Use collections and complexity to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain collections and complexity in an interview?",
+        "What common bug appears when collections and complexity is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "list",
+        "tuple",
+        "set",
+        "dict",
+        "time complexity"
+      ]
+    },
+    {
+      "id": "epam-python-core-lesson-3",
+      "title": "Truthiness and Equality",
+      "summary": "EPAM interview drill for truthiness and equality.",
+      "explanation": "Explain truthiness and equality through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "truthiness",
+        "is",
+        "==",
+        "identity"
+      ],
+      "examples": [
+        "Use truthiness and equality to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain truthiness and equality in an interview?",
+        "What common bug appears when truthiness and equality is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "truthiness",
+        "is",
+        "==",
+        "identity"
+      ]
+    },
+    {
+      "id": "epam-python-core-lesson-4",
+      "title": "Why Python",
+      "summary": "EPAM interview drill for why python.",
+      "explanation": "Explain why python through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "python",
+        "java",
+        "dynamic typing",
+        "productivity"
+      ],
+      "examples": [
+        "Use why python to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain why python in an interview?",
+        "What common bug appears when why python is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "python",
+        "java",
+        "dynamic typing",
+        "productivity"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "epam-python-core-q01",
+      "type": "scenario_choice",
+      "prompt": "Two variables point to the same list and one appends an item. What should you expect?",
+      "options": [
+        "Both names can observe the mutation",
+        "Only the first name changes",
+        "Python copies lists automatically",
+        "The append raises TypeError"
+      ],
+      "answer": "Both names can observe the mutation",
+      "explanation": "Python variables are names bound to objects. Lists are mutable, so mutating through one reference is visible through another reference to the same object.",
+      "difficulty": 1,
+      "tags": [
+        "variables",
+        "references",
+        "mutable"
+      ],
+      "concept_panel": {
+        "title": "Variables and References",
+        "explanation": "Python variables are names bound to objects. Lists are mutable, so mutating through one reference is visible through another reference to the same object.",
+        "key_takeaways": [
+          "variables",
+          "references",
+          "mutable"
+        ],
+        "practical_example": "a = []; b = a; b.append(1) leaves a as [1].",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand Python references rather than assuming assignment copies data.",
+        "diagram": {
+          "type": "flow",
+          "title": "Variables and References",
+          "nodes": [
+            {
+              "label": "Variables and References"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q02",
+      "type": "scenario_choice",
+      "prompt": "Which value is safest as a dictionary key?",
+      "options": [
+        "A tuple of strings",
+        "A list of strings",
+        "A dictionary",
+        "A set"
+      ],
+      "answer": "A tuple of strings",
+      "explanation": "Dictionary keys must be hashable. Immutable tuples containing hashable values can be keys; mutable lists, dictionaries, and sets cannot.",
+      "difficulty": 1,
+      "tags": [
+        "mutable",
+        "immutable",
+        "hashable",
+        "dictionary"
+      ],
+      "concept_panel": {
+        "title": "Mutable vs Immutable",
+        "explanation": "Dictionary keys must be hashable. Immutable tuples containing hashable values can be keys; mutable lists, dictionaries, and sets cannot.",
+        "key_takeaways": [
+          "mutable",
+          "immutable",
+          "hashable",
+          "dictionary"
+        ],
+        "practical_example": "Use ('region', 'month') as a composite key for cached KPI results.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand mutability and hashing constraints.",
+        "diagram": {
+          "type": "flow",
+          "title": "Mutable vs Immutable",
+          "nodes": [
+            {
+              "label": "Mutable vs Immutable"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q03",
+      "type": "scenario_choice",
+      "prompt": "You repeatedly test whether user IDs were already seen. Which collection fits best?",
+      "options": [
+        "set",
+        "list",
+        "tuple",
+        "string concatenation"
+      ],
+      "answer": "set",
+      "explanation": "Sets provide average O(1) membership checks and model uniqueness. Lists preserve order but membership is O(n).",
+      "difficulty": 1,
+      "tags": [
+        "sets",
+        "lists",
+        "time complexity"
+      ],
+      "concept_panel": {
+        "title": "Lists, Tuples, Sets, Dictionaries",
+        "explanation": "Sets provide average O(1) membership checks and model uniqueness. Lists preserve order but membership is O(n).",
+        "key_takeaways": [
+          "sets",
+          "lists",
+          "time complexity"
+        ],
+        "practical_example": "seen_ids = {1, 2, 3}; if user_id in seen_ids: ...",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you choose data structures by access pattern.",
+        "diagram": {
+          "type": "flow",
+          "title": "Lists, Tuples, Sets, Dictionaries",
+          "nodes": [
+            {
+              "label": "Lists, Tuples, Sets, Dictionaries"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q04",
+      "type": "scenario_choice",
+      "prompt": "A list contains one million IDs. What is the cost of `target in ids`?",
+      "options": [
+        "O(n)",
+        "O(1)",
+        "O(log n)",
+        "O(n log n)"
+      ],
+      "answer": "O(n)",
+      "explanation": "List membership scans until it finds the item or reaches the end, so it is linear. Dict and set membership are average O(1).",
+      "difficulty": 1,
+      "tags": [
+        "time complexity",
+        "list",
+        "dict",
+        "set"
+      ],
+      "concept_panel": {
+        "title": "Time Complexity of Common Operations",
+        "explanation": "List membership scans until it finds the item or reaches the end, so it is linear. Dict and set membership are average O(1).",
+        "key_takeaways": [
+          "time complexity",
+          "list",
+          "dict",
+          "set"
+        ],
+        "practical_example": "Convert a list to a set before many membership checks.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can reason about Python performance without guessing.",
+        "diagram": {
+          "type": "flow",
+          "title": "Time Complexity of Common Operations",
+          "nodes": [
+            {
+              "label": "Time Complexity of Common Operations"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q05",
+      "type": "scenario_choice",
+      "prompt": "Which check is most Pythonic for a list that may be empty?",
+      "options": [
+        "if items:",
+        "if len(items) == True:",
+        "if items is True:",
+        "if items == None:"
+      ],
+      "answer": "if items:",
+      "explanation": "Empty containers are falsy and non-empty containers are truthy. Use `if items:` when you only care whether a collection has content.",
+      "difficulty": 2,
+      "tags": [
+        "truthiness",
+        "list",
+        "best practices"
+      ],
+      "concept_panel": {
+        "title": "Truthiness",
+        "explanation": "Empty containers are falsy and non-empty containers are truthy. Use `if items:` when you only care whether a collection has content.",
+        "key_takeaways": [
+          "truthiness",
+          "list",
+          "best practices"
+        ],
+        "practical_example": "Return early with `if not rows:` when a query returns no records.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you know idiomatic Python boolean behavior.",
+        "diagram": {
+          "type": "flow",
+          "title": "Truthiness",
+          "nodes": [
+            {
+              "label": "Truthiness"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q06",
+      "type": "scenario_choice",
+      "prompt": "How should you usually check whether a variable is None?",
+      "options": [
+        "value is None",
+        "value == None",
+        "value = None",
+        "value.__eq__(None)"
+      ],
+      "answer": "value is None",
+      "explanation": "`is` checks identity and None is a singleton, so `is None` is the idiomatic check. `==` delegates to equality logic and may be overloaded.",
+      "difficulty": 2,
+      "tags": [
+        "is",
+        "==",
+        "None",
+        "identity"
+      ],
+      "concept_panel": {
+        "title": "is vs ==",
+        "explanation": "`is` checks identity and None is a singleton, so `is None` is the idiomatic check. `==` delegates to equality logic and may be overloaded.",
+        "key_takeaways": [
+          "is",
+          "==",
+          "None",
+          "identity"
+        ],
+        "practical_example": "Use `if user is None:` after a repository lookup.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you separate identity from equality.",
+        "diagram": {
+          "type": "flow",
+          "title": "is vs ==",
+          "nodes": [
+            {
+              "label": "is vs =="
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q07",
+      "type": "scenario_choice",
+      "prompt": "Which operation is average O(1) in a dictionary?",
+      "options": [
+        "Lookup by key",
+        "Search by value",
+        "Sorting all keys",
+        "Scanning nested lists"
+      ],
+      "answer": "Lookup by key",
+      "explanation": "Dictionaries are hash tables optimized for key lookup, insertion, and deletion on average. Searching values still requires scanning.",
+      "difficulty": 2,
+      "tags": [
+        "dict",
+        "hash table",
+        "time complexity"
+      ],
+      "concept_panel": {
+        "title": "Dictionary Operations",
+        "explanation": "Dictionaries are hash tables optimized for key lookup, insertion, and deletion on average. Searching values still requires scanning.",
+        "key_takeaways": [
+          "dict",
+          "hash table",
+          "time complexity"
+        ],
+        "practical_example": "settings['DATABASE_URL'] is a direct key lookup.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand common dictionary operation costs.",
+        "diagram": {
+          "type": "flow",
+          "title": "Dictionary Operations",
+          "nodes": [
+            {
+              "label": "Dictionary Operations"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q08",
+      "type": "scenario_choice",
+      "prompt": "Why might an interview answer choose a tuple over a list?",
+      "options": [
+        "The record should be immutable",
+        "It appends faster",
+        "It allows duplicate keys",
+        "It avoids iteration"
+      ],
+      "answer": "The record should be immutable",
+      "explanation": "Tuples communicate fixed-size immutable records. They can also be hashable if their elements are hashable.",
+      "difficulty": 2,
+      "tags": [
+        "tuple",
+        "immutable",
+        "hashable"
+      ],
+      "concept_panel": {
+        "title": "Tuple Use Cases",
+        "explanation": "Tuples communicate fixed-size immutable records. They can also be hashable if their elements are hashable.",
+        "key_takeaways": [
+          "tuple",
+          "immutable",
+          "hashable"
+        ],
+        "practical_example": "Represent a coordinate as (x, y) when it should not be mutated.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand semantic collection choice.",
+        "diagram": {
+          "type": "flow",
+          "title": "Tuple Use Cases",
+          "nodes": [
+            {
+              "label": "Tuple Use Cases"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q09",
+      "type": "scenario_choice",
+      "prompt": "A deduplication step should keep only unique customer IDs. What structure fits?",
+      "options": [
+        "set",
+        "list only",
+        "tuple only",
+        "plain string"
+      ],
+      "answer": "set",
+      "explanation": "Sets represent uniqueness and support fast membership checks. They do not preserve duplicates.",
+      "difficulty": 2,
+      "tags": [
+        "set",
+        "deduplication",
+        "membership"
+      ],
+      "concept_panel": {
+        "title": "Set Semantics",
+        "explanation": "Sets represent uniqueness and support fast membership checks. They do not preserve duplicates.",
+        "key_takeaways": [
+          "set",
+          "deduplication",
+          "membership"
+        ],
+        "practical_example": "Use `unique_ids = set(raw_ids)` before processing.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model uniqueness directly.",
+        "diagram": {
+          "type": "flow",
+          "title": "Set Semantics",
+          "nodes": [
+            {
+              "label": "Set Semantics"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q10",
+      "type": "scenario_choice",
+      "prompt": "Why is Python often chosen for backend and AI product work?",
+      "options": [
+        "Fast development with strong ecosystem support",
+        "It is always faster than Java",
+        "It has no runtime errors",
+        "It removes the need for tests"
+      ],
+      "answer": "Fast development with strong ecosystem support",
+      "explanation": "Python is productive, readable, and has excellent web, data, ML, and automation libraries. The trade-off is runtime performance and dynamic typing risks that require tests and discipline.",
+      "difficulty": 3,
+      "tags": [
+        "python",
+        "ecosystem",
+        "ml",
+        "backend"
+      ],
+      "concept_panel": {
+        "title": "Why Python",
+        "explanation": "Python is productive, readable, and has excellent web, data, ML, and automation libraries. The trade-off is runtime performance and dynamic typing risks that require tests and discipline.",
+        "key_takeaways": [
+          "python",
+          "ecosystem",
+          "ml",
+          "backend"
+        ],
+        "practical_example": "FastAPI plus pandas/scikit-learn can ship an analytics API quickly.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can explain pragmatic language trade-offs.",
+        "diagram": {
+          "type": "flow",
+          "title": "Why Python",
+          "nodes": [
+            {
+              "label": "Why Python"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q11",
+      "type": "scenario_choice",
+      "prompt": "What is a fair Python-vs-Java trade-off?",
+      "options": [
+        "Python is faster to iterate; Java often offers stronger static typing and JVM performance",
+        "Python always beats Java at scale",
+        "Java cannot build APIs",
+        "Python does not need architecture"
+      ],
+      "answer": "Python is faster to iterate; Java often offers stronger static typing and JVM performance",
+      "explanation": "Python and Java solve overlapping problems with different trade-offs. Java often offers stronger compile-time guarantees; Python often wins in iteration speed and AI/data ecosystems.",
+      "difficulty": 3,
+      "tags": [
+        "python",
+        "java",
+        "trade-off"
+      ],
+      "concept_panel": {
+        "title": "Why Not Java",
+        "explanation": "Python and Java solve overlapping problems with different trade-offs. Java often offers stronger compile-time guarantees; Python often wins in iteration speed and AI/data ecosystems.",
+        "key_takeaways": [
+          "python",
+          "java",
+          "trade-off"
+        ],
+        "practical_example": "Use Python for ML-heavy services; use Java when a team values JVM tooling and static contracts.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can compare languages without shallow absolutes.",
+        "diagram": {
+          "type": "flow",
+          "title": "Why Not Java",
+          "nodes": [
+            {
+              "label": "Why Not Java"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-core-q12",
+      "type": "scenario_choice",
+      "prompt": "What makes Python's object model different from many beginner mental models?",
+      "options": [
+        "Names bind to objects rather than variables storing raw values",
+        "Every assignment deep-copies",
+        "Only classes are objects",
+        "Immutable objects cannot be referenced"
+      ],
+      "answer": "Names bind to objects rather than variables storing raw values",
+      "explanation": "Everything is an object, and assignment binds a name to an object. Understanding that model explains mutability, identity, default argument bugs, and object sharing.",
+      "difficulty": 3,
+      "tags": [
+        "object model",
+        "references",
+        "identity"
+      ],
+      "concept_panel": {
+        "title": "What Makes Python Different",
+        "explanation": "Everything is an object, and assignment binds a name to an object. Understanding that model explains mutability, identity, default argument bugs, and object sharing.",
+        "key_takeaways": [
+          "object model",
+          "references",
+          "identity"
+        ],
+        "practical_example": "`a = b` binds a second name to the same object, not a deep copy.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand Python fundamentals deeply enough to avoid subtle bugs.",
+        "diagram": {
+          "type": "flow",
+          "title": "What Makes Python Different",
+          "nodes": [
+            {
+              "label": "What Makes Python Different"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "epam-python-core-classify-status",
+      "title": "EPAM Python Core status classifier",
+      "instructions": "Implement classify_status_code(code: int) -> str. Return success for 200-299, redirect for 300-399, client_error for 400-499, server_error for 500-599, and unknown otherwise.",
+      "starter_code": "def classify_status_code(code: int) -> str:\n    pass\n",
+      "function_signature": "def classify_status_code(code: int) -> str",
+      "visible_tests": [
+        {
+          "name": "created",
+          "call": "classify_status_code(201)",
+          "expected": "success"
+        },
+        {
+          "name": "not found",
+          "call": "classify_status_code(404)",
+          "expected": "client_error"
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "service unavailable",
+          "call": "classify_status_code(503)",
+          "expected": "server_error"
+        },
+        {
+          "name": "redirect",
+          "call": "classify_status_code(302)",
+          "expected": "redirect"
+        },
+        {
+          "name": "unknown",
+          "call": "classify_status_code(99)",
+          "expected": "unknown"
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The challenge reinforces deterministic branching, status-code categories, and local test execution.",
+      "difficulty": 1,
+      "tags": [
+        "python",
+        "references",
+        "collections"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "epam-python-core-boss",
+    "title": "EPAM Python Core boss battle",
+    "question_ids": [
+      "epam-python-core-q01",
+      "epam-python-core-q02",
+      "epam-python-core-q03",
+      "epam-python-core-q04",
+      "epam-python-core-q05",
+      "epam-python-core-q06",
+      "epam-python-core-q07",
+      "epam-python-core-q08",
+      "epam-python-core-q09",
+      "epam-python-core-q10",
+      "epam-python-core-q11",
+      "epam-python-core-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

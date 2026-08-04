@@ -1,0 +1,939 @@
+{
+  "id": "ddia-encoding",
+  "title": "DDIA: Encoding and Evolution",
+  "description": "Schema evolution, backward/forward compatibility, JSON, Avro-like schemas, and rolling upgrades.",
+  "order": 15,
+  "tags": [
+    "ddia",
+    "encoding",
+    "schema"
+  ],
+  "lessons": [
+    {
+      "id": "ddia-encoding-core-model",
+      "title": "Core Mental Model",
+      "summary": "Schema evolution, backward/forward compatibility, JSON, Avro-like schemas, and rolling upgrades.",
+      "explanation": "Schema evolution, backward/forward compatibility, JSON, Avro-like schemas, and rolling upgrades. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "ddia",
+        "encoding",
+        "schema"
+      ],
+      "examples": [
+        "Use DDIA: Encoding and Evolution concepts to name the workload, guarantee, and failure mode before choosing a tool."
+      ],
+      "interview_questions": [
+        "When would you apply core mental model?",
+        "What failure mode appears when core mental model is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "ddia",
+        "encoding",
+        "schema"
+      ]
+    },
+    {
+      "id": "ddia-encoding-failure-mode",
+      "title": "Failure Mode Drill",
+      "summary": "Most data-system mistakes come from hidden assumptions about time, ordering, durability, or coordination.",
+      "explanation": "Most data-system mistakes come from hidden assumptions about time, ordering, durability, or coordination. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "failure",
+        "assumption",
+        "trade-off"
+      ],
+      "examples": [
+        "Ask what can be stale, duplicated, delayed, reordered, or partially applied."
+      ],
+      "interview_questions": [
+        "When would you apply failure mode drill?",
+        "What failure mode appears when failure mode drill is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "failure",
+        "assumption",
+        "trade-off"
+      ]
+    },
+    {
+      "id": "ddia-encoding-design-choice",
+      "title": "Design Choice",
+      "summary": "Good architecture explains what it optimizes and what it makes harder.",
+      "explanation": "Good architecture explains what it optimizes and what it makes harder. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "design",
+        "trade-off",
+        "constraint"
+      ],
+      "examples": [
+        "A read replica improves read capacity but can show stale data."
+      ],
+      "interview_questions": [
+        "When would you apply design choice?",
+        "What failure mode appears when design choice is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "design",
+        "trade-off",
+        "constraint"
+      ]
+    },
+    {
+      "id": "ddia-encoding-interview-synthesis",
+      "title": "Interview Synthesis",
+      "summary": "Strong answers connect symptoms to guarantees, then propose a measured mitigation.",
+      "explanation": "Strong answers connect symptoms to guarantees, then propose a measured mitigation. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "interview",
+        "diagnosis",
+        "mitigation"
+      ],
+      "examples": [
+        "Name the invariant, pick the weakest guarantee that protects it, and explain the cost."
+      ],
+      "interview_questions": [
+        "When would you apply interview synthesis?",
+        "What failure mode appears when interview synthesis is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "interview",
+        "diagnosis",
+        "mitigation"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "ddia-encoding-q01",
+      "type": "scenario_choice",
+      "prompt": "A rolling deploy adds a required field that old services cannot parse.",
+      "explanation": "Make schema changes backward and forward compatible. In DDIA: Encoding and Evolution, the first move is to protect the system's real guarantee: evolve without breaking old readers.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "Make schema changes backward and forward compatible",
+        "Deploy all services instantly",
+        "Delete unknown fields",
+        "Skip versioning"
+      ],
+      "answer": "Make schema changes backward and forward compatible",
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q02",
+      "type": "multi_select",
+      "prompt": "Which concepts belong in a DDIA: Encoding and Evolution design discussion?",
+      "explanation": "These concepts are central to ddia: encoding and evolution. The unrelated option may matter in frontend work, but it does not diagnose this data-system problem.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "Backward compatibility",
+        "Forward compatibility",
+        "Rolling upgrade",
+        "CSS color choice"
+      ],
+      "answer": [
+        "Backward compatibility",
+        "Forward compatibility",
+        "Rolling upgrade"
+      ],
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q03",
+      "type": "matching",
+      "prompt": "Match the DDIA: Encoding and Evolution concepts.",
+      "explanation": "The mapping links each term to the operational behavior you should listen for in interviews and incidents.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "pairs": [
+        {
+          "left": "Backward compatibility",
+          "right": "New code can read old data"
+        },
+        {
+          "left": "Forward compatibility",
+          "right": "Old code can tolerate new data"
+        },
+        {
+          "left": "Rolling upgrade",
+          "right": "Deploys versions gradually without stopping service"
+        }
+      ],
+      "answer": {
+        "Backward compatibility": "New code can read old data",
+        "Forward compatibility": "Old code can tolerate new data",
+        "Rolling upgrade": "Deploys versions gradually without stopping service"
+      },
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q04",
+      "type": "ordering",
+      "prompt": "Order the DDIA: Encoding and Evolution design move.",
+      "explanation": "This order keeps the reasoning grounded: observe the requirement, choose the guarantee, then validate it with the system behavior.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "Add optional field",
+        "Deploy readers",
+        "Deploy writers",
+        "Remove old field later"
+      ],
+      "answer": [
+        "Add optional field",
+        "Deploy readers",
+        "Deploy writers",
+        "Remove old field later"
+      ],
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q05",
+      "type": "bug_hunt",
+      "prompt": "A consumer crashes when a producer sends an unknown field.",
+      "explanation": "The symptom is best explained by No forward-compatible reader. A strong answer names the anomaly and then proposes a mitigation.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "No forward-compatible reader",
+        "Good pagination",
+        "Strong isolation",
+        "Read replica"
+      ],
+      "answer": "No forward-compatible reader",
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q06",
+      "type": "multiple_choice",
+      "prompt": "What trade-off should you say out loud for DDIA: Encoding and Evolution?",
+      "explanation": "Evolvable systems allow old and new code to communicate during rolling deploys and long-lived data storage.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "Evolvable systems allow old and new code to communicate during rolling deploys and long-lived data storage.",
+        "Every tool gives the same guarantees",
+        "Latency and correctness are unrelated",
+        "Adding replicas always removes complexity"
+      ],
+      "answer": "Evolvable systems allow old and new code to communicate during rolling deploys and long-lived data storage.",
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q07",
+      "type": "scenario_choice",
+      "prompt": "During design review, what question best tests the DDIA: Encoding and Evolution choice?",
+      "explanation": "Data-system design should start from invariants and failure behavior. Tool choice follows from the guarantee you need.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "What guarantee must hold during failure?",
+        "Which logo color is final?",
+        "Can we skip metrics?",
+        "Can clients guess the schema?"
+      ],
+      "answer": "What guarantee must hold during failure?",
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q08",
+      "type": "multi_select",
+      "prompt": "Pick interview moves that make a DDIA: Encoding and Evolution answer sound senior.",
+      "explanation": "Strong answers are conditional: they describe load, data shape, failure mode, and cost instead of pretending one tool is always best.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "Name the workload",
+        "Name the failure mode",
+        "State the trade-off",
+        "Claim there is one perfect database"
+      ],
+      "answer": [
+        "Name the workload",
+        "Name the failure mode",
+        "State the trade-off"
+      ],
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q09",
+      "type": "matching",
+      "prompt": "Match outcome to design pressure in DDIA: Encoding and Evolution.",
+      "explanation": "Reversing the mapping trains recognition from symptoms back to the concept, which is how incidents and interviews usually present the problem.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "pairs": [
+        {
+          "left": "Shared source of truth for encoded message schemas",
+          "right": "Schema registry"
+        },
+        {
+          "left": "Schema change that old data can omit safely",
+          "right": "Optional field"
+        },
+        {
+          "left": "Binary or textual representation sent or stored",
+          "right": "Message encoding"
+        }
+      ],
+      "answer": {
+        "Shared source of truth for encoded message schemas": "Schema registry",
+        "Schema change that old data can omit safely": "Optional field",
+        "Binary or textual representation sent or stored": "Message encoding"
+      },
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q10",
+      "type": "code_fill",
+      "prompt": "Fill the guard that prevents an unsafe operation from continuing.",
+      "explanation": "When a guarantee is uncertain, the safe path is to retry with idempotency or reconcile state. Assuming success hides data loss or duplication.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "\"retry_or_reconcile\"",
+        "\"ignore\"",
+        "\"delete_history\"",
+        "\"assume_success\""
+      ],
+      "code": "if not guarantee_holds(event):\n    return ____",
+      "answer": "\"retry_or_reconcile\"",
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q11",
+      "type": "bug_hunt",
+      "prompt": "A team adds DDIA: Encoding and Evolution machinery but cannot explain the invariant it protects. What is the real issue?",
+      "explanation": "Advanced data tools are justified by guarantees. Without a stated invariant, the team cannot tell whether complexity is buying anything.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "Architecture without a stated guarantee",
+        "Too many unit tests",
+        "Correct schema evolution",
+        "Clear observability"
+      ],
+      "answer": "Architecture without a stated guarantee",
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q12",
+      "type": "scenario_choice",
+      "prompt": "What is the safest first response when DDIA: Encoding and Evolution behavior surprises production?",
+      "explanation": "Data-system failures are often timing or workload dependent. Evidence lets you distinguish stale reads, duplicate work, hot keys, lock waits, and real data loss.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "Capture evidence with logs, metrics, and traces",
+        "Delete the database",
+        "Retry all writes forever",
+        "Disable validation"
+      ],
+      "answer": "Capture evidence with logs, metrics, and traces",
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q13",
+      "type": "ordering",
+      "prompt": "Order the incident explanation for DDIA: Encoding and Evolution.",
+      "explanation": "This structure turns a vague answer into an engineering argument: symptom, cause, fix, and cost.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "Observed symptom",
+        "Likely invariant violation",
+        "Concrete mitigation",
+        "Trade-off introduced"
+      ],
+      "answer": [
+        "Observed symptom",
+        "Likely invariant violation",
+        "Concrete mitigation",
+        "Trade-off introduced"
+      ],
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q14",
+      "type": "multi_select",
+      "prompt": "Which answers are honest about DDIA: Encoding and Evolution trade-offs?",
+      "explanation": "DDIA-style reasoning is explicit about workload and guarantees. Average-only or absolute claims usually hide the real trade-off.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "encoding"
+      ],
+      "options": [
+        "It depends on workload",
+        "Measure tail behavior",
+        "State consistency needs",
+        "Always optimize averages only"
+      ],
+      "answer": [
+        "It depends on workload",
+        "Measure tail behavior",
+        "State consistency needs"
+      ],
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-encoding-q15",
+      "type": "matching",
+      "prompt": "Match encoding formats and schema controls.",
+      "explanation": "JSON is easy to inspect; Avro-style encodings are compact and schema-driven. Schema evolution needs compatibility checks.",
+      "difficulty": 3,
+      "tags": [
+        "JSON",
+        "Avro",
+        "schema registry",
+        "schema evolution",
+        "message encoding"
+      ],
+      "pairs": [
+        {
+          "left": "JSON",
+          "right": "Human-readable text encoding with loose schemas"
+        },
+        {
+          "left": "Avro",
+          "right": "Compact schema-based binary encoding"
+        },
+        {
+          "left": "Schema registry",
+          "right": "Shared compatibility gate for message schemas"
+        }
+      ],
+      "answer": {
+        "JSON": "Human-readable text encoding with loose schemas",
+        "Avro": "Compact schema-based binary encoding",
+        "Schema registry": "Shared compatibility gate for message schemas"
+      },
+      "concept_panel": {
+        "title": "Schema Evolution",
+        "explanation": "Schema evolution is the ability to change stored or transmitted data formats without breaking old readers or writers. Backward compatibility means new code can read old data; forward compatibility means old code can tolerate new data. Rolling upgrades require both versions to coexist. Formats such as JSON are easy to inspect; schema-based formats such as Avro can enforce compatibility through a registry.",
+        "key_takeaways": [
+          "Backward and forward compatibility protect rolling deploys.",
+          "Optional fields are safer than new required fields.",
+          "Schema registries can block incompatible messages."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand evolvability in long-lived data systems.",
+        "practical_example": "Add an optional field, deploy readers first, then deploy writers that populate it.",
+        "diagram": {
+          "type": "flow",
+          "title": "Compatible rollout",
+          "nodes": [
+            {
+              "label": "Add optional field"
+            },
+            {
+              "label": "Deploy readers"
+            },
+            {
+              "label": "Deploy writers"
+            },
+            {
+              "label": "Remove old field later"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "ddia-encoding-route-partition",
+      "title": "DDIA: Encoding and Evolution partition router",
+      "instructions": "Implement route_partition(key: str, partitions: int) -> int. Return a stable partition from 0 to partitions - 1. Raise ValueError when partitions is less than 1.",
+      "starter_code": "def route_partition(key: str, partitions: int) -> int:\n    pass\n",
+      "function_signature": "def route_partition(key: str, partitions: int) -> int",
+      "visible_tests": [
+        {
+          "name": "range",
+          "call": "0 <= route_partition('user-7', 8) < 8",
+          "expected": true
+        },
+        {
+          "name": "stable",
+          "call": "route_partition('tenant-a', 16) == route_partition('tenant-a', 16)",
+          "expected": true
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "single partition",
+          "call": "route_partition('anything', 1)",
+          "expected": 0
+        },
+        {
+          "name": "different size still range",
+          "call": "0 <= route_partition('order-9', 3) < 3",
+          "expected": true
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Stable routing is a core primitive behind partitioning. This exercise checks deterministic mapping and input validation.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "encoding",
+        "schema"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "ddia-encoding-boss",
+    "title": "DDIA: Encoding and Evolution boss battle",
+    "question_ids": [
+      "ddia-encoding-q01",
+      "ddia-encoding-q02",
+      "ddia-encoding-q03",
+      "ddia-encoding-q04",
+      "ddia-encoding-q05",
+      "ddia-encoding-q06",
+      "ddia-encoding-q07",
+      "ddia-encoding-q08",
+      "ddia-encoding-q09",
+      "ddia-encoding-q10",
+      "ddia-encoding-q11",
+      "ddia-encoding-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

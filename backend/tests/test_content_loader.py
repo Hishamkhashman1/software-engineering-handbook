@@ -54,3 +54,18 @@ def test_content_loader_detects_duplicate_ids(tmp_path):
     (tmp_path / "m1.json").write_text(json.dumps(data))
     with pytest.raises(ContentError, match="Duplicate content id"):
         ContentRepository(tmp_path).load()
+
+
+def test_generated_content_has_concept_panels():
+    repo = ContentRepository()
+    repo.load()
+    questions = [question for module in repo.modules for question in module.questions]
+
+    assert questions
+    assert all(question.concept_panel for question in questions)
+    assert all(len(question.concept_panel.key_takeaways) >= 3 for question in questions if question.concept_panel)
+    assert all(
+        question.concept_panel.interview_insight.startswith("Interviewers usually ask this concept to evaluate")
+        for question in questions
+        if question.concept_panel
+    )

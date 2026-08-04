@@ -1,0 +1,727 @@
+{
+  "id": "epam-sql-postgres",
+  "title": "EPAM SQL and PostgreSQL",
+  "description": "SQL querying, joins, aggregation, subqueries, CTEs, database design, PostgreSQL JSON columns, EXPLAIN, transactions, and ORM performance.",
+  "order": 33,
+  "tags": [
+    "sql",
+    "postgresql",
+    "database design",
+    "explain"
+  ],
+  "lessons": [
+    {
+      "id": "epam-sql-postgres-lesson-1",
+      "title": "SQL Query Core",
+      "summary": "EPAM interview drill for sql query core.",
+      "explanation": "Explain sql query core through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "select",
+        "joins",
+        "group by",
+        "having"
+      ],
+      "examples": [
+        "Use sql query core to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain sql query core in an interview?",
+        "What common bug appears when sql query core is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "select",
+        "joins",
+        "group by",
+        "having"
+      ]
+    },
+    {
+      "id": "epam-sql-postgres-lesson-2",
+      "title": "Advanced Query Structure",
+      "summary": "EPAM interview drill for advanced query structure.",
+      "explanation": "Explain advanced query structure through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "subqueries",
+        "ctes",
+        "json columns"
+      ],
+      "examples": [
+        "Use advanced query structure to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain advanced query structure in an interview?",
+        "What common bug appears when advanced query structure is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "subqueries",
+        "ctes",
+        "json columns"
+      ]
+    },
+    {
+      "id": "epam-sql-postgres-lesson-3",
+      "title": "Database Design",
+      "summary": "EPAM interview drill for database design.",
+      "explanation": "Explain database design through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "primary keys",
+        "foreign keys",
+        "normalization",
+        "indexes"
+      ],
+      "examples": [
+        "Use database design to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain database design in an interview?",
+        "What common bug appears when database design is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "primary keys",
+        "foreign keys",
+        "normalization",
+        "indexes"
+      ]
+    },
+    {
+      "id": "epam-sql-postgres-lesson-4",
+      "title": "Transactions and ORM Performance",
+      "summary": "EPAM interview drill for transactions and orm performance.",
+      "explanation": "Explain transactions and orm performance through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "transactions",
+        "acid",
+        "sqlalchemy",
+        "lazy vs eager loading"
+      ],
+      "examples": [
+        "Use transactions and orm performance to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain transactions and orm performance in an interview?",
+        "What common bug appears when transactions and orm performance is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "transactions",
+        "acid",
+        "sqlalchemy",
+        "lazy vs eager loading"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "epam-sql-postgres-q01",
+      "type": "scenario_choice",
+      "prompt": "What is the core purpose of SELECT?",
+      "options": [
+        "Retrieve columns/expressions from rows",
+        "Create a Docker image",
+        "Start an event loop",
+        "Define a JWT"
+      ],
+      "answer": "Retrieve columns/expressions from rows",
+      "explanation": "SELECT describes what data to return from a table or query expression.",
+      "difficulty": 1,
+      "tags": [
+        "select",
+        "sql",
+        "query"
+      ],
+      "concept_panel": {
+        "title": "SELECT",
+        "explanation": "SELECT describes what data to return from a table or query expression.",
+        "key_takeaways": [
+          "select",
+          "sql",
+          "query"
+        ],
+        "practical_example": "SELECT id, email FROM users;",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand basic SQL retrieval.",
+        "diagram": {
+          "type": "flow",
+          "title": "SELECT",
+          "nodes": [
+            {
+              "label": "SELECT"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q02",
+      "type": "scenario_choice",
+      "prompt": "Orders need customer emails. What SQL operation connects orders to users?",
+      "options": [
+        "JOIN on the foreign key",
+        "GROUP BY only",
+        "HAVING only",
+        "Docker compose",
+        "JWT decode"
+      ],
+      "answer": "JOIN on the foreign key",
+      "explanation": "JOINs combine related rows, usually through primary-key and foreign-key relationships.",
+      "difficulty": 1,
+      "tags": [
+        "joins",
+        "foreign keys",
+        "sql"
+      ],
+      "concept_panel": {
+        "title": "JOINs",
+        "explanation": "JOINs combine related rows, usually through primary-key and foreign-key relationships.",
+        "key_takeaways": [
+          "joins",
+          "foreign keys",
+          "sql"
+        ],
+        "practical_example": "JOIN users ON orders.user_id = users.id",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can query relational data.",
+        "diagram": {
+          "type": "flow",
+          "title": "JOINs",
+          "nodes": [
+            {
+              "label": "JOINs"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q03",
+      "type": "scenario_choice",
+      "prompt": "How do you calculate revenue per month?",
+      "options": [
+        "GROUP BY month and aggregate amount",
+        "Use WHERE after aggregation only",
+        "Use a Python list always",
+        "Create a new primary key"
+      ],
+      "answer": "GROUP BY month and aggregate amount",
+      "explanation": "GROUP BY forms groups for aggregate functions such as SUM, COUNT, and AVG.",
+      "difficulty": 1,
+      "tags": [
+        "group by",
+        "aggregation",
+        "sql"
+      ],
+      "concept_panel": {
+        "title": "GROUP BY",
+        "explanation": "GROUP BY forms groups for aggregate functions such as SUM, COUNT, and AVG.",
+        "key_takeaways": [
+          "group by",
+          "aggregation",
+          "sql"
+        ],
+        "practical_example": "SELECT month, SUM(amount) FROM sales GROUP BY month",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand aggregation.",
+        "diagram": {
+          "type": "flow",
+          "title": "GROUP BY",
+          "nodes": [
+            {
+              "label": "GROUP BY"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q04",
+      "type": "scenario_choice",
+      "prompt": "Where should you filter groups with SUM(amount) > 10000?",
+      "options": [
+        "HAVING",
+        "WHERE only",
+        "ORDER BY only",
+        "LIMIT only"
+      ],
+      "answer": "HAVING",
+      "explanation": "WHERE filters rows before grouping; HAVING filters groups after aggregation.",
+      "difficulty": 1,
+      "tags": [
+        "having",
+        "group by",
+        "aggregation"
+      ],
+      "concept_panel": {
+        "title": "HAVING",
+        "explanation": "WHERE filters rows before grouping; HAVING filters groups after aggregation.",
+        "key_takeaways": [
+          "having",
+          "group by",
+          "aggregation"
+        ],
+        "practical_example": "HAVING SUM(amount) > 10000",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand SQL execution semantics.",
+        "diagram": {
+          "type": "flow",
+          "title": "HAVING",
+          "nodes": [
+            {
+              "label": "HAVING"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q05",
+      "type": "scenario_choice",
+      "prompt": "When is a subquery useful?",
+      "options": [
+        "When a query needs the result of another query",
+        "Only for CSS",
+        "Only for JWTs",
+        "Never in SQL"
+      ],
+      "answer": "When a query needs the result of another query",
+      "explanation": "Subqueries can compute intermediate sets or scalar values inside a larger query.",
+      "difficulty": 2,
+      "tags": [
+        "subqueries",
+        "sql"
+      ],
+      "concept_panel": {
+        "title": "Subqueries",
+        "explanation": "Subqueries can compute intermediate sets or scalar values inside a larger query.",
+        "key_takeaways": [
+          "subqueries",
+          "sql",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "Find customers whose spend is above average.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can compose SQL logic.",
+        "diagram": {
+          "type": "flow",
+          "title": "Subqueries",
+          "nodes": [
+            {
+              "label": "Subqueries"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q06",
+      "type": "scenario_choice",
+      "prompt": "Why use a CTE?",
+      "options": [
+        "To name an intermediate result for readability/reuse",
+        "To create a Python package",
+        "To hash passwords",
+        "To replace indexes"
+      ],
+      "answer": "To name an intermediate result for readability/reuse",
+      "explanation": "CTEs make complex SQL easier to read and can structure multi-step analysis.",
+      "difficulty": 2,
+      "tags": [
+        "ctes",
+        "with",
+        "sql"
+      ],
+      "concept_panel": {
+        "title": "CTEs",
+        "explanation": "CTEs make complex SQL easier to read and can structure multi-step analysis.",
+        "key_takeaways": [
+          "ctes",
+          "with",
+          "sql"
+        ],
+        "practical_example": "WITH monthly AS (...) SELECT * FROM monthly WHERE revenue > 0",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can write maintainable analytical SQL.",
+        "diagram": {
+          "type": "flow",
+          "title": "CTEs",
+          "nodes": [
+            {
+              "label": "CTEs"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q07",
+      "type": "scenario_choice",
+      "prompt": "What does a foreign key protect?",
+      "options": [
+        "Referential integrity between tables",
+        "Frontend route protection",
+        "Python package imports",
+        "Model quantization"
+      ],
+      "answer": "Referential integrity between tables",
+      "explanation": "Foreign keys prevent references to missing parent rows and document relationships.",
+      "difficulty": 2,
+      "tags": [
+        "primary keys",
+        "foreign keys",
+        "database design"
+      ],
+      "concept_panel": {
+        "title": "Primary and Foreign Keys",
+        "explanation": "Foreign keys prevent references to missing parent rows and document relationships.",
+        "key_takeaways": [
+          "primary keys",
+          "foreign keys",
+          "database design"
+        ],
+        "practical_example": "orders.user_id references users.id.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you design relational schemas correctly.",
+        "diagram": {
+          "type": "flow",
+          "title": "Primary and Foreign Keys",
+          "nodes": [
+            {
+              "label": "Primary and Foreign Keys"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q08",
+      "type": "scenario_choice",
+      "prompt": "Why normalize a schema?",
+      "options": [
+        "Reduce duplication and update anomalies",
+        "Make every query faster",
+        "Avoid transactions",
+        "Remove all JOINs"
+      ],
+      "answer": "Reduce duplication and update anomalies",
+      "explanation": "Normalization separates facts so updates happen in one place. It can increase joins, so design balances correctness and query needs.",
+      "difficulty": 2,
+      "tags": [
+        "normalization",
+        "database design"
+      ],
+      "concept_panel": {
+        "title": "Normalization",
+        "explanation": "Normalization separates facts so updates happen in one place. It can increase joins, so design balances correctness and query needs.",
+        "key_takeaways": [
+          "normalization",
+          "database design",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "Store customer email once in users, not copied across every order.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand schema trade-offs.",
+        "diagram": {
+          "type": "flow",
+          "title": "Normalization",
+          "nodes": [
+            {
+              "label": "Normalization"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q09",
+      "type": "scenario_choice",
+      "prompt": "What does an index usually improve?",
+      "options": [
+        "Read access for matching query patterns",
+        "Every write speed",
+        "All memory use",
+        "CORS behavior"
+      ],
+      "answer": "Read access for matching query patterns",
+      "explanation": "Indexes speed lookups and ordering for supported access paths, but slow writes and use storage.",
+      "difficulty": 2,
+      "tags": [
+        "indexes",
+        "performance",
+        "sql"
+      ],
+      "concept_panel": {
+        "title": "Indexes",
+        "explanation": "Indexes speed lookups and ordering for supported access paths, but slow writes and use storage.",
+        "key_takeaways": [
+          "indexes",
+          "performance",
+          "sql"
+        ],
+        "practical_example": "Index orders(customer_id, created_at) for customer order history.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you reason about SQL performance.",
+        "diagram": {
+          "type": "flow",
+          "title": "Indexes",
+          "nodes": [
+            {
+              "label": "Indexes"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q10",
+      "type": "scenario_choice",
+      "prompt": "Why wrap a debit and credit in one transaction?",
+      "options": [
+        "To commit both changes or neither",
+        "To skip validation",
+        "To improve CSS",
+        "To avoid all locks"
+      ],
+      "answer": "To commit both changes or neither",
+      "explanation": "Transactions protect invariants across multiple writes. ACID describes the guarantees.",
+      "difficulty": 3,
+      "tags": [
+        "transactions",
+        "acid",
+        "database design"
+      ],
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "Transactions protect invariants across multiple writes. ACID describes the guarantees.",
+        "key_takeaways": [
+          "transactions",
+          "acid",
+          "database design"
+        ],
+        "practical_example": "Transfer money with debit and credit in one transaction.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you protect data correctness.",
+        "diagram": {
+          "type": "flow",
+          "title": "Transactions and ACID",
+          "nodes": [
+            {
+              "label": "Transactions and ACID"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q11",
+      "type": "scenario_choice",
+      "prompt": "When are PostgreSQL JSON columns useful?",
+      "options": [
+        "For flexible attributes with known query/index trade-offs",
+        "For every relational relationship",
+        "To avoid schemas completely",
+        "To replace backups"
+      ],
+      "answer": "For flexible attributes with known query/index trade-offs",
+      "explanation": "JSON columns add flexibility but can weaken constraints and complicate indexing if overused.",
+      "difficulty": 3,
+      "tags": [
+        "postgresql",
+        "json columns",
+        "trade-off"
+      ],
+      "concept_panel": {
+        "title": "PostgreSQL JSON Columns",
+        "explanation": "JSON columns add flexibility but can weaken constraints and complicate indexing if overused.",
+        "key_takeaways": [
+          "postgresql",
+          "json columns",
+          "trade-off"
+        ],
+        "practical_example": "Store integration metadata as JSON while core entities stay relational.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand PostgreSQL feature trade-offs.",
+        "diagram": {
+          "type": "flow",
+          "title": "PostgreSQL JSON Columns",
+          "nodes": [
+            {
+              "label": "PostgreSQL JSON Columns"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-sql-postgres-q12",
+      "type": "scenario_choice",
+      "prompt": "An endpoint suddenly gets slow. What should you inspect?",
+      "options": [
+        "EXPLAIN plan and ORM lazy/eager loading behavior",
+        "Only button labels",
+        "Only JWT claims",
+        "Only package __init__.py"
+      ],
+      "answer": "EXPLAIN plan and ORM lazy/eager loading behavior",
+      "explanation": "EXPLAIN reveals scans, joins, and index usage. ORM lazy loading can create N+1 queries unless eager loading is chosen deliberately.",
+      "difficulty": 3,
+      "tags": [
+        "explain",
+        "sqlalchemy",
+        "lazy vs eager loading",
+        "n+1"
+      ],
+      "concept_panel": {
+        "title": "EXPLAIN and ORM Loading",
+        "explanation": "EXPLAIN reveals scans, joins, and index usage. ORM lazy loading can create N+1 queries unless eager loading is chosen deliberately.",
+        "key_takeaways": [
+          "explain",
+          "sqlalchemy",
+          "lazy vs eager loading",
+          "n+1"
+        ],
+        "practical_example": "Use EXPLAIN ANALYZE plus selectinload for a slow relationship-heavy endpoint.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can debug database performance.",
+        "diagram": {
+          "type": "flow",
+          "title": "EXPLAIN and ORM Loading",
+          "nodes": [
+            {
+              "label": "EXPLAIN and ORM Loading"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "epam-sql-postgres-classify-status",
+      "title": "EPAM SQL and PostgreSQL status classifier",
+      "instructions": "Implement classify_status_code(code: int) -> str. Return success for 200-299, redirect for 300-399, client_error for 400-499, server_error for 500-599, and unknown otherwise.",
+      "starter_code": "def classify_status_code(code: int) -> str:\n    pass\n",
+      "function_signature": "def classify_status_code(code: int) -> str",
+      "visible_tests": [
+        {
+          "name": "created",
+          "call": "classify_status_code(201)",
+          "expected": "success"
+        },
+        {
+          "name": "not found",
+          "call": "classify_status_code(404)",
+          "expected": "client_error"
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "service unavailable",
+          "call": "classify_status_code(503)",
+          "expected": "server_error"
+        },
+        {
+          "name": "redirect",
+          "call": "classify_status_code(302)",
+          "expected": "redirect"
+        },
+        {
+          "name": "unknown",
+          "call": "classify_status_code(99)",
+          "expected": "unknown"
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The challenge reinforces deterministic branching, status-code categories, and local test execution.",
+      "difficulty": 1,
+      "tags": [
+        "sql",
+        "postgresql",
+        "database design"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "epam-sql-postgres-boss",
+    "title": "EPAM SQL and PostgreSQL boss battle",
+    "question_ids": [
+      "epam-sql-postgres-q01",
+      "epam-sql-postgres-q02",
+      "epam-sql-postgres-q03",
+      "epam-sql-postgres-q04",
+      "epam-sql-postgres-q05",
+      "epam-sql-postgres-q06",
+      "epam-sql-postgres-q07",
+      "epam-sql-postgres-q08",
+      "epam-sql-postgres-q09",
+      "epam-sql-postgres-q10",
+      "epam-sql-postgres-q11",
+      "epam-sql-postgres-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

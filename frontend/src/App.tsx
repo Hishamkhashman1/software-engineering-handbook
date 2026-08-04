@@ -1,6 +1,7 @@
 import { ChevronRight, Code2, Lock, Settings, Swords, Trophy } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { api } from './api/client';
+import { ConceptPanel } from './components/ConceptPanel';
 import type { CodingChallenge, GradeResult, ModuleDetail, ModuleSummary, Progress, Question } from './types/content';
 
 export function App() {
@@ -72,11 +73,9 @@ function xpIntoLevel(totalXp: number) {
 }
 
 function isUnlocked(module: ModuleSummary, progress: Progress | null) {
-  if (!progress) return module.order <= 2;
-  if (module.order <= 3) return true;
-  if (module.id === 'devops') return progress.level >= 10;
-  if (module.id === 'ai-integration') return progress.completed_modules.includes('backend');
-  return progress.level >= module.order;
+  void module;
+  void progress;
+  return true;
 }
 
 function TopBar({ progress, view, setView }: { progress: Progress | null; view: View; setView: (view: View) => void }) {
@@ -168,6 +167,8 @@ function ChallengeRun({ kind, moduleId, onDone, play }: { kind: RunKind; moduleI
   const [runXp, setRunXp] = useState(0);
   const [phase, setPhase] = useState<'loading' | 'answer' | 'feedback' | 'done'>('loading');
   const [flash, setFlash] = useState<'correct' | 'wrong' | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -181,18 +182,26 @@ function ChallengeRun({ kind, moduleId, onDone, play }: { kind: RunKind; moduleI
   const question = questions[index];
 
   async function answer(value: unknown) {
-    if (!question || phase !== 'answer') return;
-    const result = await api.attempt(question.id.split('-q')[0], question.id, value, 0);
-    const nextCombo = result.correct ? combo + 1 : 0;
-    const comboBonus = result.correct ? Math.floor(result.xp_awarded * Math.min(1.5, nextCombo * 0.12)) : 0;
-    setCombo(nextCombo);
-    setBestCombo((current) => Math.max(current, nextCombo));
-    setRunXp((xp) => xp + result.xp_awarded + comboBonus);
-    setFeedback({ ...result, xp_awarded: result.xp_awarded + comboBonus, answer: value });
-    setFlash(result.correct ? 'correct' : 'wrong');
-    play(result.correct ? 'correct' : 'wrong');
-    setPhase('feedback');
-    window.setTimeout(() => setFlash(null), 520);
+    if (!question || phase !== 'answer' || isSubmitting) return;
+    setIsSubmitting(true);
+    setSubmitError(null);
+    try {
+      const result = await api.attempt(question.id.split('-q')[0], question.id, value, 0);
+      const nextCombo = result.correct ? combo + 1 : 0;
+      const comboBonus = result.correct ? Math.floor(result.xp_awarded * Math.min(1.5, nextCombo * 0.12)) : 0;
+      setCombo(nextCombo);
+      setBestCombo((current) => Math.max(current, nextCombo));
+      setRunXp((xp) => xp + result.xp_awarded + comboBonus);
+      setFeedback({ ...result, xp_awarded: result.xp_awarded + comboBonus, answer: value });
+      setFlash(result.correct ? 'correct' : 'wrong');
+      play(result.correct ? 'correct' : 'wrong');
+      setPhase('feedback');
+      window.setTimeout(() => setFlash(null), 520);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'Could not submit answer. Check that the backend is running.');
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   function next() {
@@ -202,6 +211,7 @@ function ChallengeRun({ kind, moduleId, onDone, play }: { kind: RunKind; moduleI
     }
     setIndex(index + 1);
     setFeedback(null);
+    setSubmitError(null);
     setPhase('answer');
   }
 
@@ -211,38 +221,78 @@ function ChallengeRun({ kind, moduleId, onDone, play }: { kind: RunKind; moduleI
   return (
     <main className={`challenge-stage ${flash ?? ''}`}>
       <RunHud label={kind === 'weak' ? 'Weak skill drill' : kind === 'daily' ? "Today's run" : 'Module duel'} index={index + 1} total={questions.length} combo={combo} runXp={runXp} />
-      {question && <OneQuestion key={question.id} question={question} feedback={feedback} onAnswer={answer} onNext={next} />}
+      {question && <OneQuestion key={question.id} question={question} feedback={feedback} submitError={submitError} isSubmitting={isSubmitting} onAnswer={answer} onNext={next} />}
     </main>
   );
 }
 
-function OneQuestion({ question, feedback, onAnswer, onNext }: { question: Question; feedback: Feedback | null; onAnswer: (value: unknown) => void; onNext: () => void }) {
-  const locked = feedback !== null;
+function OneQuestion({ question, feedback, submitError, isSubmitting, onAnswer, onNext }: { question: Question; feedback: Feedback | null; submitError: string | null; isSubmitting: boolean; onAnswer: (value: unknown) => void; onNext: () => void }) {
+  const locked = feedback !== null || isSubmitting;
   return (
-    <section className={`challenge-card ${feedback ? (feedback.correct ? 'is-correct' : 'is-wrong') : ''}`}>
-      <div className="question-kind">{question.type.replace('_', ' ')} · Difficulty {question.difficulty}</div>
-      {question.code && <pre className="snippet">{question.code}</pre>}
-      <h1>{question.prompt}</h1>
-      {question.type === 'multi_select' ? (
-        <MultiSelectAnswer question={question} disabled={locked} submit={onAnswer} />
-      ) : question.type === 'matching' ? (
-        <MatchingAnswer question={question} disabled={locked} submit={onAnswer} />
-      ) : question.type === 'code_fill' ? (
-        <CodeFillAnswer question={question} disabled={locked} submit={onAnswer} />
-      ) : question.options && question.type !== 'ordering' ? (
-        <div className="answer-grid">
-          {question.options.map((option) => <button key={option} disabled={locked} onClick={() => onAnswer(option)}>{option}</button>)}
-        </div>
-      ) : question.type === 'true_false' ? (
-        <div className="answer-grid two"><button disabled={locked} onClick={() => onAnswer(true)}>True</button><button disabled={locked} onClick={() => onAnswer(false)}>False</button></div>
-      ) : question.type === 'ordering' ? (
-        <OrderingAnswer question={question} disabled={locked} submit={onAnswer} />
-      ) : (
-        <div className="answer-grid"><button disabled={locked} onClick={() => onAnswer('__ack__')}>Reveal the pattern</button></div>
-      )}
-      {feedback && <div className="result-panel"><div className="result-mark">{feedback.correct ? 'Locked in' : 'Pattern revealed'}</div><div className="xp-pop">+{Math.max(4, feedback.xp_awarded)} XP</div><p>{feedback.explanation}</p><button className="action-button" onClick={onNext}>Next challenge <ChevronRight size={22} /></button></div>}
+    <section className={`challenge-layout ${feedback ? (feedback.correct ? 'is-correct' : 'is-wrong') : ''}`}>
+      <div className="challenge-card">
+        <div className="question-kind">{question.type.replace('_', ' ')} · Difficulty {question.difficulty}</div>
+        {question.code && <pre className="snippet">{question.code}</pre>}
+        <h1>{question.prompt}</h1>
+        {question.type === 'multi_select' ? (
+          <MultiSelectAnswer question={question} disabled={locked} submit={onAnswer} />
+        ) : question.type === 'matching' ? (
+          <MatchingAnswer question={question} disabled={locked} submit={onAnswer} />
+        ) : question.type === 'code_fill' ? (
+          <CodeFillAnswer question={question} disabled={locked} submit={onAnswer} />
+        ) : question.options && question.type !== 'ordering' ? (
+          <div className="answer-grid">
+            {question.options.map((option) => <button key={option} disabled={locked} onClick={() => onAnswer(option)}>{option}</button>)}
+          </div>
+        ) : question.type === 'true_false' ? (
+          <div className="answer-grid two"><button disabled={locked} onClick={() => onAnswer(true)}>True</button><button disabled={locked} onClick={() => onAnswer(false)}>False</button></div>
+        ) : question.type === 'ordering' ? (
+          <OrderingAnswer question={question} disabled={locked} submit={onAnswer} />
+        ) : (
+          <div className="answer-grid"><button disabled={locked} onClick={() => onAnswer('__ack__')}>Reveal the pattern</button></div>
+        )}
+        {submitError && <div className="submit-error" role="alert">{submitError}</div>}
+        {feedback && (
+          <div className="result-panel">
+            <div className="result-mark">{feedback.correct ? 'Locked in' : 'Pattern revealed'}</div>
+            <div className="xp-pop">+{Math.max(4, feedback.xp_awarded)} XP</div>
+            {!feedback.correct && <AnswerReveal selected={feedback.answer} expected={feedback.expected} />}
+            <div className="reason-block">
+              <span>{feedback.correct ? 'Why this is right' : 'Why that answer wins'}</span>
+              <p>{feedback.explanation}</p>
+            </div>
+            <button className="action-button" onClick={onNext}>Next challenge <ChevronRight size={22} /></button>
+          </div>
+        )}
+      </div>
+      <ConceptPanel panel={question.concept_panel} />
     </section>
   );
+}
+
+function AnswerReveal({ selected, expected }: { selected: unknown; expected: unknown }) {
+  return (
+    <div className="answer-reveal">
+      <div>
+        <span>Your answer</span>
+        <strong>{formatAnswer(selected)}</strong>
+      </div>
+      <div>
+        <span>Correct answer</span>
+        <strong>{formatAnswer(expected)}</strong>
+      </div>
+    </div>
+  );
+}
+
+function formatAnswer(value: unknown): string {
+  if (Array.isArray(value)) return value.join(', ');
+  if (value && typeof value === 'object') {
+    return Object.entries(value as Record<string, unknown>).map(([key, item]) => `${key} -> ${String(item)}`).join(' · ');
+  }
+  if (typeof value === 'boolean') return value ? 'True' : 'False';
+  if (value === null || value === undefined || value === '') return 'No answer';
+  return String(value);
 }
 
 function MultiSelectAnswer({ question, disabled, submit }: { question: Question; disabled: boolean; submit: (value: unknown) => void }) {
@@ -329,22 +379,32 @@ function BossBattle({ moduleId, onDone, play }: { moduleId: string; onDone: () =
   const [answers, setAnswers] = useState<Record<string, unknown>>({});
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [done, setDone] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => { api.module(moduleId).then(setModule); }, [moduleId]);
   const questions = useMemo(() => module ? module.questions.filter((q) => module.boss_battle.question_ids.includes(q.id)) : [], [module]);
   const question = questions[index];
 
   async function answer(value: unknown) {
-    if (!question || feedback) return;
-    const result = await api.attempt(moduleId, question.id, value, 0);
-    setAnswers((prev) => ({ ...prev, [question.id]: value }));
-    setFeedback({ ...result, answer: value });
-    if (result.correct) {
-      setBossHp((hp) => Math.max(0, hp - 18));
-      play('boss');
-    } else {
-      setPlayerHp((hp) => Math.max(0, hp - 22));
-      play('wrong');
+    if (!question || feedback || isSubmitting) return;
+    setIsSubmitting(true);
+    setSubmitError(null);
+    try {
+      const result = await api.attempt(moduleId, question.id, value, 0);
+      setAnswers((prev) => ({ ...prev, [question.id]: value }));
+      setFeedback({ ...result, answer: value });
+      if (result.correct) {
+        setBossHp((hp) => Math.max(0, hp - 18));
+        play('boss');
+      } else {
+        setPlayerHp((hp) => Math.max(0, hp - 22));
+        play('wrong');
+      }
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'Could not submit answer. Check that the backend is running.');
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -357,6 +417,7 @@ function BossBattle({ moduleId, onDone, play }: { moduleId: string; onDone: () =
     }
     setIndex(index + 1);
     setFeedback(null);
+    setSubmitError(null);
   }
 
   if (!module || !question) return <main className="challenge-stage"><section className="challenge-card">Loading boss...</section></main>;
@@ -367,7 +428,7 @@ function BossBattle({ moduleId, onDone, play }: { moduleId: string; onDone: () =
         <Combatant title="Senior Backend Engineer" hp={bossHp} />
         <Combatant title="You" hp={playerHp} />
       </div>
-      <OneQuestion question={question} feedback={feedback} onAnswer={answer} onNext={next} />
+      <OneQuestion question={question} feedback={feedback} submitError={submitError} isSubmitting={isSubmitting} onAnswer={answer} onNext={next} />
     </main>
   );
 }

@@ -110,506 +110,647 @@
   "questions": [
     {
       "id": "backend-q01",
-      "type": "scenario_choice",
-      "prompt": "A profile endpoint receives only a new email field. What should the API prefer?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "matching",
+      "prompt": "Match backend frameworks to their common strengths.",
+      "explanation": "Framework choice depends on language, team style, and structure needs. FastAPI gives typed validation and docs; Flask is minimal; NestJS is opinionated.",
       "difficulty": 1,
       "tags": [
         "fastapi",
-        "middleware",
-        "partial update",
-        "api"
+        "flask",
+        "nestjs"
       ],
-      "options": [
-        "PATCH the selected field",
-        "PUT an empty profile",
-        "GET with a body",
-        "DELETE and recreate"
+      "pairs": [
+        {
+          "left": "FastAPI",
+          "right": "Typed Python APIs with validation and OpenAPI"
+        },
+        {
+          "left": "Flask",
+          "right": "Small flexible Python services"
+        },
+        {
+          "left": "NestJS",
+          "right": "Structured TypeScript backend architecture"
+        }
       ],
-      "answer": "PATCH the selected field"
+      "answer": {
+        "FastAPI": "Typed Python APIs with validation and OpenAPI",
+        "Flask": "Small flexible Python services",
+        "NestJS": "Structured TypeScript backend architecture"
+      },
+      "concept_panel": {
+        "title": "Backend Framework Trade-offs",
+        "explanation": "Backend frameworks provide routing, request parsing, response generation, and extension points. FastAPI emphasizes Python type hints, Pydantic validation, async support, and generated OpenAPI docs. Flask is smaller and more flexible, while Express is the lightweight Node.js equivalent and NestJS adds more structure for TypeScript teams. The best framework choice depends on team language, project size, validation needs, and operational conventions.",
+        "key_takeaways": [
+          "Frameworks shape routing and request handling.",
+          "FastAPI is strong for typed Python APIs.",
+          "Express is lightweight; NestJS is more structured."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can choose backend tools based on constraints rather than popularity.",
+        "practical_example": "Choose FastAPI when Python typing and automatic OpenAPI docs are useful; choose Express for a small Node API.",
+        "diagram": {
+          "type": "compare",
+          "title": "Framework fit",
+          "columns": [
+            {
+              "title": "FastAPI/Flask",
+              "items": [
+                "Python",
+                "Validation/docs",
+                "Flexible service size"
+              ]
+            },
+            {
+              "title": "Express/NestJS",
+              "items": [
+                "Node/TypeScript",
+                "Lightweight vs structured",
+                "Web API ecosystem"
+              ]
+            }
+          ]
+        }
+      }
     },
     {
       "id": "backend-q02",
-      "type": "multi_select",
-      "prompt": "Pick the operations that are usually safe to retry.",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "scenario_choice",
+      "prompt": "A JavaScript team needs a lightweight REST API. Which framework is the natural fit?",
+      "explanation": "Express is a lightweight Node.js web framework commonly used for REST APIs.",
       "difficulty": 1,
       "tags": [
-        "fastapi",
-        "middleware",
-        "idempotency",
-        "retry"
+        "express",
+        "node"
       ],
       "options": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5",
-        "POST /users"
+        "Express",
+        "FastAPI",
+        "Django ORM",
+        "pytest"
       ],
-      "answer": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5"
-      ]
+      "answer": "Express",
+      "concept_panel": {
+        "title": "Backend Framework Trade-offs",
+        "explanation": "Backend frameworks provide routing, request parsing, response generation, and extension points. FastAPI emphasizes Python type hints, Pydantic validation, async support, and generated OpenAPI docs. Flask is smaller and more flexible, while Express is the lightweight Node.js equivalent and NestJS adds more structure for TypeScript teams. The best framework choice depends on team language, project size, validation needs, and operational conventions.",
+        "key_takeaways": [
+          "Frameworks shape routing and request handling.",
+          "FastAPI is strong for typed Python APIs.",
+          "Express is lightweight; NestJS is more structured."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can choose backend tools based on constraints rather than popularity.",
+        "practical_example": "Choose FastAPI when Python typing and automatic OpenAPI docs are useful; choose Express for a small Node API.",
+        "diagram": {
+          "type": "compare",
+          "title": "Framework fit",
+          "columns": [
+            {
+              "title": "FastAPI/Flask",
+              "items": [
+                "Python",
+                "Validation/docs",
+                "Flexible service size"
+              ]
+            },
+            {
+              "title": "Express/NestJS",
+              "items": [
+                "Node/TypeScript",
+                "Lightweight vs structured",
+                "Web API ecosystem"
+              ]
+            }
+          ]
+        }
+      }
     },
     {
       "id": "backend-q03",
       "type": "ordering",
-      "prompt": "Arrange the request path.",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
+      "prompt": "Order a typical FastAPI request lifecycle.",
+      "explanation": "Middleware wraps the request, routing selects the endpoint, dependency injection supplies objects such as DB sessions, and response models shape output.",
+      "difficulty": 2,
       "tags": [
-        "fastapi",
+        "request lifecycle",
         "middleware",
-        "request",
-        "validation"
+        "router"
       ],
       "options": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
+        "Middleware runs",
+        "Router matches endpoint",
+        "Dependencies are injected",
+        "Endpoint returns response model"
       ],
       "answer": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
-      ]
+        "Middleware runs",
+        "Router matches endpoint",
+        "Dependencies are injected",
+        "Endpoint returns response model"
+      ],
+      "concept_panel": {
+        "title": "Input Validation Boundary",
+        "explanation": "Validation rejects malformed or unsafe input before business logic runs. That keeps core logic simpler and produces predictable errors for clients. In typed frameworks, schemas can validate shape, types, ranges, and required fields automatically. Validation is not just correctness; it is also a security and maintainability boundary.",
+        "key_takeaways": [
+          "Validate before business logic.",
+          "Schemas make errors predictable.",
+          "Validation reduces security and data-quality risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand backend boundaries and defensive API design.",
+        "practical_example": "A request with age=-10 should fail validation before creating a user.",
+        "diagram": {
+          "type": "flow",
+          "title": "Request boundary",
+          "nodes": [
+            {
+              "label": "Request"
+            },
+            {
+              "label": "Validation"
+            },
+            {
+              "label": "Service logic"
+            },
+            {
+              "label": "Database"
+            },
+            {
+              "label": "Response"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "backend-q04",
-      "type": "matching",
-      "prompt": "Match each signal to its meaning.",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
+      "type": "scenario_choice",
+      "prompt": "Many endpoints need a database session, but tests should swap it out. What pattern helps?",
+      "explanation": "Dependency injection supplies shared objects without hardcoding construction, making endpoints easier to test and decouple.",
+      "difficulty": 2,
       "tags": [
-        "fastapi",
-        "middleware",
-        "status code",
-        "http"
+        "dependency injection",
+        "testing"
       ],
-      "pairs": [
-        {
-          "left": "401",
-          "right": "Authentication required"
-        },
-        {
-          "left": "403",
-          "right": "Authenticated but forbidden"
-        },
-        {
-          "left": "503",
-          "right": "Service unavailable"
+      "options": [
+        "Dependency injection",
+        "Global mutable variable",
+        "Hardcoded singleton",
+        "Inline SQL string everywhere"
+      ],
+      "answer": "Dependency injection",
+      "concept_panel": {
+        "title": "Dependency Injection",
+        "explanation": "Dependency injection supplies collaborators such as database sessions, settings, or services instead of constructing them inside the endpoint. This makes code easier to test because dependencies can be replaced. In FastAPI, `Depends` declares dependencies in endpoint signatures. The practical value is clear boundaries, not magic.",
+        "key_takeaways": [
+          "Dependencies are supplied from the outside.",
+          "Tests can swap real dependencies for controlled ones.",
+          "Endpoints stay focused on request handling."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can design testable backend components.",
+        "practical_example": "A test can override `get_db` with a temporary SQLite session.",
+        "diagram": {
+          "type": "flow",
+          "title": "Injected request dependency",
+          "nodes": [
+            {
+              "label": "Request"
+            },
+            {
+              "label": "Depends(get_db)"
+            },
+            {
+              "label": "Endpoint"
+            },
+            {
+              "label": "Service"
+            }
+          ]
         }
-      ],
-      "answer": {
-        "401": "Authentication required",
-        "403": "Authenticated but forbidden",
-        "503": "Service unavailable"
       }
     },
     {
       "id": "backend-q05",
-      "type": "code_fill",
-      "prompt": "Fill the branch that classifies server errors.",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "multi_select",
+      "prompt": "Which tasks belong in application lifespan startup?",
+      "explanation": "Lifespan startup runs once for shared initialization. Per-request validation belongs in request handling.",
       "difficulty": 2,
       "tags": [
-        "fastapi",
-        "middleware",
-        "code",
-        "status code"
+        "lifespan",
+        "startup"
       ],
       "options": [
-        "\"server_error\"",
-        "\"client_error\"",
-        "\"success\"",
-        "\"redirect\""
+        "Initialize connection pools",
+        "Load shared models",
+        "Configure caches",
+        "Validate every request body"
       ],
-      "code": "def classify(code):\n    if 500 <= code < 600:\n        return ____",
-      "answer": "\"server_error\""
+      "answer": [
+        "Initialize connection pools",
+        "Load shared models",
+        "Configure caches"
+      ],
+      "concept_panel": {
+        "title": "Input Validation Boundary",
+        "explanation": "Validation rejects malformed or unsafe input before business logic runs. That keeps core logic simpler and produces predictable errors for clients. In typed frameworks, schemas can validate shape, types, ranges, and required fields automatically. Validation is not just correctness; it is also a security and maintainability boundary.",
+        "key_takeaways": [
+          "Validate before business logic.",
+          "Schemas make errors predictable.",
+          "Validation reduces security and data-quality risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand backend boundaries and defensive API design.",
+        "practical_example": "A request with age=-10 should fail validation before creating a user.",
+        "diagram": {
+          "type": "flow",
+          "title": "Request boundary",
+          "nodes": [
+            {
+              "label": "Request"
+            },
+            {
+              "label": "Validation"
+            },
+            {
+              "label": "Service logic"
+            },
+            {
+              "label": "Database"
+            },
+            {
+              "label": "Response"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "backend-q06",
-      "type": "bug_hunt",
-      "prompt": "Production duplicated records after a timeout. What is the bug?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
+      "type": "scenario_choice",
+      "prompt": "An email can be sent after the API response returns. Which FastAPI feature fits?",
+      "explanation": "Background tasks are useful when work can continue after the user receives the response.",
+      "difficulty": 1,
       "tags": [
-        "fastapi",
-        "middleware",
-        "duplicate",
-        "retry"
+        "background tasks"
       ],
       "options": [
-        "Retrying POST without an idempotency key",
-        "Using HTTPS",
-        "Returning 201 after create",
-        "Sorting by created_at"
+        "Background task",
+        "Response model",
+        "CORS header",
+        "Primary key"
       ],
-      "answer": "Retrying POST without an idempotency key"
+      "answer": "Background task",
+      "concept_panel": {
+        "title": "Async, Concurrency, and Parallelism",
+        "explanation": "Async helps a program make progress while waiting on I/O such as database calls or HTTP requests. It does not make CPU-heavy work faster by itself. Concurrency is about handling multiple tasks in overlapping time; parallelism is about running work at the same time on multiple CPU cores. Interviewers often test this because many candidates use `async` as a vague performance answer.",
+        "key_takeaways": [
+          "Async helps I/O-bound work.",
+          "CPU-heavy work needs parallelism or workers.",
+          "Concurrency and parallelism are different concepts."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand backend performance models.",
+        "practical_example": "Awaiting a slow API call lets the server process other requests while it waits.",
+        "diagram": {
+          "type": "compare",
+          "title": "Workload fit",
+          "columns": [
+            {
+              "title": "I/O-bound",
+              "items": [
+                "await database",
+                "await HTTP",
+                "async helps"
+              ]
+            },
+            {
+              "title": "CPU-bound",
+              "items": [
+                "image encode",
+                "ML inference",
+                "workers help"
+              ]
+            }
+          ]
+        }
+      }
     },
     {
       "id": "backend-q07",
-      "type": "code_output",
-      "prompt": "What does classify_status_code(404) return?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "code output",
-        "status code"
-      ],
-      "options": [
-        "client_error",
-        "server_error",
-        "success",
-        "unknown"
-      ],
-      "answer": "client_error"
-    },
-    {
-      "id": "backend-q08",
-      "type": "scenario_choice",
-      "prompt": "A changing feed skips items with page numbers. What pagination style fits better?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "pagination",
-        "cursor"
-      ],
-      "options": [
-        "Cursor pagination",
-        "Offset pagination",
-        "Return everything",
-        "Sort in the browser"
-      ],
-      "answer": "Cursor pagination"
-    },
-    {
-      "id": "backend-q09",
-      "type": "multiple_choice",
-      "prompt": "Which change best preserves existing clients when a response shape breaks compatibility?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "versioning",
-        "contract"
-      ],
-      "options": [
-        "Add /v2",
-        "Silently change /v1",
-        "Remove old fields",
-        "Document it after deploy"
-      ],
-      "answer": "Add /v2"
-    },
-    {
-      "id": "backend-q10",
-      "type": "multi_select",
-      "prompt": "Select the reasons to validate input before business logic.",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "validation",
-        "security"
-      ],
-      "options": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk",
-        "Make CPU work parallel"
-      ],
-      "answer": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk"
-      ]
-    },
-    {
-      "id": "backend-q11",
-      "type": "matching",
-      "prompt": "Match the scaling tool to the bottleneck.",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "performance",
-        "scaling"
-      ],
-      "pairs": [
-        {
-          "left": "Cache",
-          "right": "Repeated reads"
-        },
-        {
-          "left": "Queue",
-          "right": "Bursty writes"
-        },
-        {
-          "left": "Read replica",
-          "right": "Read-heavy database load"
-        }
-      ],
-      "answer": {
-        "Cache": "Repeated reads",
-        "Queue": "Bursty writes",
-        "Read replica": "Read-heavy database load"
-      }
-    },
-    {
-      "id": "backend-q12",
       "type": "bug_hunt",
-      "prompt": "An endpoint loads 100 users, then reads user.orders in a loop. What is happening?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
+      "prompt": "An endpoint returns password_hash because it serializes the ORM object directly. What is the bug?",
+      "explanation": "Response models define the public output shape and prevent sensitive internal fields from leaking.",
+      "difficulty": 2,
       "tags": [
-        "fastapi",
-        "middleware",
-        "n+1",
-        "sqlalchemy"
-      ],
-      "options": [
-        "N+1 queries",
-        "A CORS preflight",
-        "A DNS failure",
-        "A cache hit"
-      ],
-      "answer": "N+1 queries"
-    },
-    {
-      "id": "backend-q13",
-      "type": "multi_select",
-      "prompt": "Pick two fixes for the N+1 query pattern.",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "selectinload",
-        "joinedload"
-      ],
-      "options": [
-        "selectinload",
-        "joinedload",
-        "Unlimited retries",
-        "Client-side filtering"
-      ],
-      "answer": [
-        "selectinload",
-        "joinedload"
-      ]
-    },
-    {
-      "id": "backend-q14",
-      "type": "scenario_choice",
-      "prompt": "A downstream service is failing and your app keeps retrying instantly. What should you add first?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "timeout",
-        "backoff"
-      ],
-      "options": [
-        "Timeouts and exponential backoff",
-        "More unlimited retries",
-        "A larger JSON payload",
-        "A second frontend"
-      ],
-      "answer": "Timeouts and exponential backoff"
-    },
-    {
-      "id": "backend-q15",
-      "type": "ordering",
-      "prompt": "Order the transaction flow.",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "transaction",
-        "acid"
-      ],
-      "options": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ],
-      "answer": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ]
-    },
-    {
-      "id": "backend-q16",
-      "type": "matching",
-      "prompt": "Match data shape to storage fit.",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "sql",
-        "nosql"
-      ],
-      "pairs": [
-        {
-          "left": "Strong relationships",
-          "right": "SQL"
-        },
-        {
-          "left": "Flexible documents",
-          "right": "NoSQL"
-        },
-        {
-          "left": "Hot session cache",
-          "right": "Redis"
-        }
-      ],
-      "answer": {
-        "Strong relationships": "SQL",
-        "Flexible documents": "NoSQL",
-        "Hot session cache": "Redis"
-      }
-    },
-    {
-      "id": "backend-q17",
-      "type": "code_fill",
-      "prompt": "Fill the safer SQLAlchemy loading option for a collection.",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "sqlalchemy",
-        "loading"
-      ],
-      "options": [
-        "selectinload",
-        "time.sleep",
-        "requests.get",
-        "os.system"
-      ],
-      "code": "stmt = select(User).options(____(User.orders))",
-      "answer": "selectinload"
-    },
-    {
-      "id": "backend-q18",
-      "type": "multiple_choice",
-      "prompt": "CPU-heavy image processing is slowing requests. Which model helps most?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "parallelism",
-        "cpu"
-      ],
-      "options": [
-        "Parallelism",
-        "Async await only",
-        "More CORS headers",
-        "Offset pagination"
-      ],
-      "answer": "Parallelism"
-    },
-    {
-      "id": "backend-q19",
-      "type": "scenario_choice",
-      "prompt": "A product page needs recommendations, but the recommender is down. What behavior is best?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "degradation",
-        "reliability"
-      ],
-      "options": [
-        "Serve the page without recommendations",
-        "Fail the entire page",
-        "Retry forever",
-        "Delete the cache"
-      ],
-      "answer": "Serve the page without recommendations"
-    },
-    {
-      "id": "backend-q20",
-      "type": "multi_select",
-      "prompt": "Which signals make an API easier for clients to use?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "fastapi",
-        "middleware",
-        "contract",
-        "openapi"
-      ],
-      "options": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema",
-        "Random response fields"
-      ],
-      "answer": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema"
-      ]
-    },
-    {
-      "id": "backend-q21",
-      "type": "bug_hunt",
-      "prompt": "A response model includes password_hash. What is the bug?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "fastapi",
-        "middleware",
         "response model",
         "security"
       ],
       "options": [
-        "Leaking sensitive data",
-        "Using a router",
-        "Returning JSON",
-        "Using a status code"
+        "Missing response model",
+        "Missing DNS lookup",
+        "Wrong pagination style",
+        "Too much CORS"
       ],
-      "answer": "Leaking sensitive data"
+      "answer": "Missing response model",
+      "concept_panel": {
+        "title": "Input Validation Boundary",
+        "explanation": "Validation rejects malformed or unsafe input before business logic runs. That keeps core logic simpler and produces predictable errors for clients. In typed frameworks, schemas can validate shape, types, ranges, and required fields automatically. Validation is not just correctness; it is also a security and maintainability boundary.",
+        "key_takeaways": [
+          "Validate before business logic.",
+          "Schemas make errors predictable.",
+          "Validation reduces security and data-quality risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand backend boundaries and defensive API design.",
+        "practical_example": "A request with age=-10 should fail validation before creating a user.",
+        "diagram": {
+          "type": "flow",
+          "title": "Request boundary",
+          "nodes": [
+            {
+              "label": "Request"
+            },
+            {
+              "label": "Validation"
+            },
+            {
+              "label": "Service logic"
+            },
+            {
+              "label": "Database"
+            },
+            {
+              "label": "Response"
+            }
+          ]
+        }
+      }
     },
     {
-      "id": "backend-q22",
-      "type": "scenario_choice",
-      "prompt": "A social like count appears five seconds late. When is that acceptable?",
-      "explanation": "Key idea: apply Backend by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
+      "id": "backend-q08",
+      "type": "multi_select",
+      "prompt": "Which jobs benefit from async concurrency?",
+      "explanation": "Async helps while waiting on I/O. CPU-heavy work needs parallelism or worker processes.",
+      "difficulty": 2,
       "tags": [
-        "fastapi",
-        "middleware",
-        "eventual consistency",
-        "trade-off"
+        "async",
+        "concurrency",
+        "await"
       ],
       "options": [
-        "When eventual consistency is acceptable",
-        "When money is transferred",
-        "When validating passwords",
-        "When committing inventory"
+        "Waiting on database I/O",
+        "Waiting on external HTTP APIs",
+        "Reading files",
+        "CPU-heavy image encoding"
       ],
-      "answer": "When eventual consistency is acceptable"
+      "answer": [
+        "Waiting on database I/O",
+        "Waiting on external HTTP APIs",
+        "Reading files"
+      ],
+      "concept_panel": {
+        "title": "Async, Concurrency, and Parallelism",
+        "explanation": "Async helps a program make progress while waiting on I/O such as database calls or HTTP requests. It does not make CPU-heavy work faster by itself. Concurrency is about handling multiple tasks in overlapping time; parallelism is about running work at the same time on multiple CPU cores. Interviewers often test this because many candidates use `async` as a vague performance answer.",
+        "key_takeaways": [
+          "Async helps I/O-bound work.",
+          "CPU-heavy work needs parallelism or workers.",
+          "Concurrency and parallelism are different concepts."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand backend performance models.",
+        "practical_example": "Awaiting a slow API call lets the server process other requests while it waits.",
+        "diagram": {
+          "type": "compare",
+          "title": "Workload fit",
+          "columns": [
+            {
+              "title": "I/O-bound",
+              "items": [
+                "await database",
+                "await HTTP",
+                "async helps"
+              ]
+            },
+            {
+              "title": "CPU-bound",
+              "items": [
+                "image encode",
+                "ML inference",
+                "workers help"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "backend-q09",
+      "type": "scenario_choice",
+      "prompt": "A CPU-heavy ML inference step blocks requests. What helps more than `await` alone?",
+      "explanation": "Async does not make CPU work run in parallel. CPU-bound work needs process/thread pools or separate workers.",
+      "difficulty": 2,
+      "tags": [
+        "parallelism",
+        "cpu"
+      ],
+      "options": [
+        "Parallelism or worker process",
+        "More query parameters",
+        "Swagger UI",
+        "Cookie session"
+      ],
+      "answer": "Parallelism or worker process",
+      "concept_panel": {
+        "title": "Async, Concurrency, and Parallelism",
+        "explanation": "Async helps a program make progress while waiting on I/O such as database calls or HTTP requests. It does not make CPU-heavy work faster by itself. Concurrency is about handling multiple tasks in overlapping time; parallelism is about running work at the same time on multiple CPU cores. Interviewers often test this because many candidates use `async` as a vague performance answer.",
+        "key_takeaways": [
+          "Async helps I/O-bound work.",
+          "CPU-heavy work needs parallelism or workers.",
+          "Concurrency and parallelism are different concepts."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand backend performance models.",
+        "practical_example": "Awaiting a slow API call lets the server process other requests while it waits.",
+        "diagram": {
+          "type": "compare",
+          "title": "Workload fit",
+          "columns": [
+            {
+              "title": "I/O-bound",
+              "items": [
+                "await database",
+                "await HTTP",
+                "async helps"
+              ]
+            },
+            {
+              "title": "CPU-bound",
+              "items": [
+                "image encode",
+                "ML inference",
+                "workers help"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "backend-q10",
+      "type": "matching",
+      "prompt": "Match backend building blocks.",
+      "explanation": "Routers organize endpoints, middleware wraps requests, and validation protects business logic.",
+      "difficulty": 1,
+      "tags": [
+        "router",
+        "middleware",
+        "validation"
+      ],
+      "pairs": [
+        {
+          "left": "Router",
+          "right": "Groups related endpoints"
+        },
+        {
+          "left": "Middleware",
+          "right": "Runs before or after requests"
+        },
+        {
+          "left": "Validation",
+          "right": "Rejects invalid input before logic"
+        }
+      ],
+      "answer": {
+        "Router": "Groups related endpoints",
+        "Middleware": "Runs before or after requests",
+        "Validation": "Rejects invalid input before logic"
+      },
+      "concept_panel": {
+        "title": "Input Validation Boundary",
+        "explanation": "Validation rejects malformed or unsafe input before business logic runs. That keeps core logic simpler and produces predictable errors for clients. In typed frameworks, schemas can validate shape, types, ranges, and required fields automatically. Validation is not just correctness; it is also a security and maintainability boundary.",
+        "key_takeaways": [
+          "Validate before business logic.",
+          "Schemas make errors predictable.",
+          "Validation reduces security and data-quality risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand backend boundaries and defensive API design.",
+        "practical_example": "A request with age=-10 should fail validation before creating a user.",
+        "diagram": {
+          "type": "flow",
+          "title": "Request boundary",
+          "nodes": [
+            {
+              "label": "Request"
+            },
+            {
+              "label": "Validation"
+            },
+            {
+              "label": "Service logic"
+            },
+            {
+              "label": "Database"
+            },
+            {
+              "label": "Response"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "backend-q11",
+      "type": "code_fill",
+      "prompt": "Fill the FastAPI dependency injection marker.",
+      "explanation": "FastAPI uses `Depends` to declare dependencies such as database sessions.",
+      "difficulty": 2,
+      "tags": [
+        "fastapi",
+        "dependency injection"
+      ],
+      "options": [
+        "Depends",
+        "await",
+        "BaseModel",
+        "BackgroundTasks"
+      ],
+      "code": "def list_users(db: Session = ____(get_db)):\n    return service.list_users(db)",
+      "answer": "Depends",
+      "concept_panel": {
+        "title": "Backend Framework Trade-offs",
+        "explanation": "Backend frameworks provide routing, request parsing, response generation, and extension points. FastAPI emphasizes Python type hints, Pydantic validation, async support, and generated OpenAPI docs. Flask is smaller and more flexible, while Express is the lightweight Node.js equivalent and NestJS adds more structure for TypeScript teams. The best framework choice depends on team language, project size, validation needs, and operational conventions.",
+        "key_takeaways": [
+          "Frameworks shape routing and request handling.",
+          "FastAPI is strong for typed Python APIs.",
+          "Express is lightweight; NestJS is more structured."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can choose backend tools based on constraints rather than popularity.",
+        "practical_example": "Choose FastAPI when Python typing and automatic OpenAPI docs are useful; choose Express for a small Node API.",
+        "diagram": {
+          "type": "compare",
+          "title": "Framework fit",
+          "columns": [
+            {
+              "title": "FastAPI/Flask",
+              "items": [
+                "Python",
+                "Validation/docs",
+                "Flexible service size"
+              ]
+            },
+            {
+              "title": "Express/NestJS",
+              "items": [
+                "Node/TypeScript",
+                "Lightweight vs structured",
+                "Web API ecosystem"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "backend-q12",
+      "type": "scenario_choice",
+      "prompt": "A request body contains age=-10. Where should that fail?",
+      "explanation": "Invalid input should fail at validation before business logic runs.",
+      "difficulty": 1,
+      "tags": [
+        "validation",
+        "pydantic"
+      ],
+      "options": [
+        "Request validation",
+        "DNS resolution",
+        "Background task queue",
+        "Swagger CSS"
+      ],
+      "answer": "Request validation",
+      "concept_panel": {
+        "title": "Input Validation Boundary",
+        "explanation": "Validation rejects malformed or unsafe input before business logic runs. That keeps core logic simpler and produces predictable errors for clients. In typed frameworks, schemas can validate shape, types, ranges, and required fields automatically. Validation is not just correctness; it is also a security and maintainability boundary.",
+        "key_takeaways": [
+          "Validate before business logic.",
+          "Schemas make errors predictable.",
+          "Validation reduces security and data-quality risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand backend boundaries and defensive API design.",
+        "practical_example": "A request with age=-10 should fail validation before creating a user.",
+        "diagram": {
+          "type": "flow",
+          "title": "Request boundary",
+          "nodes": [
+            {
+              "label": "Request"
+            },
+            {
+              "label": "Validation"
+            },
+            {
+              "label": "Service logic"
+            },
+            {
+              "label": "Database"
+            },
+            {
+              "label": "Response"
+            }
+          ]
+        }
+      }
     }
   ],
   "coding_challenges": [

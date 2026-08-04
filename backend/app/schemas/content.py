@@ -30,6 +30,30 @@ class Lesson(BaseModel):
     tags: list[str] = Field(default_factory=list)
 
 
+class DiagramSpec(BaseModel):
+    type: Literal["flow", "compare", "network", "triangle", "tree"]
+    title: str | None = None
+    nodes: list[dict[str, Any]] = Field(default_factory=list)
+    edges: list[dict[str, Any]] = Field(default_factory=list)
+    columns: list[dict[str, Any]] = Field(default_factory=list)
+    points: list[dict[str, Any]] = Field(default_factory=list)
+
+
+class ConceptPanel(BaseModel):
+    title: str
+    explanation: str
+    key_takeaways: list[str] = Field(min_length=3, max_length=5)
+    interview_insight: str
+    practical_example: str
+    diagram: DiagramSpec | None = None
+
+    @model_validator(mode="after")
+    def validate_interview_insight(self) -> "ConceptPanel":
+        if not self.interview_insight.startswith("Interviewers usually ask this concept to evaluate"):
+            raise ValueError("concept_panel.interview_insight must start with 'Interviewers usually ask this concept to evaluate'")
+        return self
+
+
 class Question(BaseModel):
     id: str
     type: QuestionType
@@ -44,6 +68,7 @@ class Question(BaseModel):
     explanation: str
     difficulty: int = Field(ge=1, le=3)
     tags: list[str] = Field(default_factory=list)
+    concept_panel: ConceptPanel | None = None
 
     @model_validator(mode="after")
     def validate_answer_shape(self) -> "Question":

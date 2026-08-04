@@ -1,0 +1,937 @@
+{
+  "id": "ddia-transactions",
+  "title": "DDIA: Transactions",
+  "description": "ACID, isolation levels, write skew, lost updates, serializability, and distributed transactions.",
+  "order": 18,
+  "tags": [
+    "ddia",
+    "transactions",
+    "isolation"
+  ],
+  "lessons": [
+    {
+      "id": "ddia-transactions-core-model",
+      "title": "Core Mental Model",
+      "summary": "ACID, isolation levels, write skew, lost updates, serializability, and distributed transactions.",
+      "explanation": "ACID, isolation levels, write skew, lost updates, serializability, and distributed transactions. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "ddia",
+        "transactions",
+        "isolation"
+      ],
+      "examples": [
+        "Use DDIA: Transactions concepts to name the workload, guarantee, and failure mode before choosing a tool."
+      ],
+      "interview_questions": [
+        "When would you apply core mental model?",
+        "What failure mode appears when core mental model is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "ddia",
+        "transactions",
+        "isolation"
+      ]
+    },
+    {
+      "id": "ddia-transactions-failure-mode",
+      "title": "Failure Mode Drill",
+      "summary": "Most data-system mistakes come from hidden assumptions about time, ordering, durability, or coordination.",
+      "explanation": "Most data-system mistakes come from hidden assumptions about time, ordering, durability, or coordination. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "failure",
+        "assumption",
+        "trade-off"
+      ],
+      "examples": [
+        "Ask what can be stale, duplicated, delayed, reordered, or partially applied."
+      ],
+      "interview_questions": [
+        "When would you apply failure mode drill?",
+        "What failure mode appears when failure mode drill is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "failure",
+        "assumption",
+        "trade-off"
+      ]
+    },
+    {
+      "id": "ddia-transactions-design-choice",
+      "title": "Design Choice",
+      "summary": "Good architecture explains what it optimizes and what it makes harder.",
+      "explanation": "Good architecture explains what it optimizes and what it makes harder. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "design",
+        "trade-off",
+        "constraint"
+      ],
+      "examples": [
+        "A read replica improves read capacity but can show stale data."
+      ],
+      "interview_questions": [
+        "When would you apply design choice?",
+        "What failure mode appears when design choice is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "design",
+        "trade-off",
+        "constraint"
+      ]
+    },
+    {
+      "id": "ddia-transactions-interview-synthesis",
+      "title": "Interview Synthesis",
+      "summary": "Strong answers connect symptoms to guarantees, then propose a measured mitigation.",
+      "explanation": "Strong answers connect symptoms to guarantees, then propose a measured mitigation. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "interview",
+        "diagnosis",
+        "mitigation"
+      ],
+      "examples": [
+        "Name the invariant, pick the weakest guarantee that protects it, and explain the cost."
+      ],
+      "interview_questions": [
+        "When would you apply interview synthesis?",
+        "What failure mode appears when interview synthesis is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "interview",
+        "diagnosis",
+        "mitigation"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "ddia-transactions-q01",
+      "type": "scenario_choice",
+      "prompt": "Two doctors concurrently mark themselves off-call and the system ends with no doctor on call.",
+      "explanation": "Use serializable isolation or a constraint that prevents write skew. In DDIA: Transactions, the first move is to protect the system's real guarantee: know which anomaly is possible.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "Use serializable isolation or a constraint that prevents write skew",
+        "Use read uncommitted",
+        "Add a cache",
+        "Retry POST forever"
+      ],
+      "answer": "Use serializable isolation or a constraint that prevents write skew",
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q02",
+      "type": "multi_select",
+      "prompt": "Which concepts belong in a DDIA: Transactions design discussion?",
+      "explanation": "These concepts are central to ddia: transactions. The unrelated option may matter in frontend work, but it does not diagnose this data-system problem.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "Atomicity",
+        "Isolation",
+        "Durability",
+        "CSS color choice"
+      ],
+      "answer": [
+        "Atomicity",
+        "Isolation",
+        "Durability"
+      ],
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q03",
+      "type": "matching",
+      "prompt": "Match the DDIA: Transactions concepts.",
+      "explanation": "The mapping links each term to the operational behavior you should listen for in interviews and incidents.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "pairs": [
+        {
+          "left": "Atomicity",
+          "right": "All writes commit or none do"
+        },
+        {
+          "left": "Isolation",
+          "right": "Concurrent transactions do not break expected invariants"
+        },
+        {
+          "left": "Durability",
+          "right": "Data survives crashes or restarts"
+        }
+      ],
+      "answer": {
+        "Atomicity": "All writes commit or none do",
+        "Isolation": "Concurrent transactions do not break expected invariants",
+        "Durability": "Data survives crashes or restarts"
+      },
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q04",
+      "type": "ordering",
+      "prompt": "Order the DDIA: Transactions design move.",
+      "explanation": "This order keeps the reasoning grounded: observe the requirement, choose the guarantee, then validate it with the system behavior.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "Begin",
+        "Read relevant rows",
+        "Check invariant",
+        "Commit atomically"
+      ],
+      "answer": [
+        "Begin",
+        "Read relevant rows",
+        "Check invariant",
+        "Commit atomically"
+      ],
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q05",
+      "type": "bug_hunt",
+      "prompt": "Two users edit the same counter and one increment disappears.",
+      "explanation": "The symptom is best explained by Lost update. A strong answer names the anomaly and then proposes a mitigation.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "Lost update",
+        "Replica lag",
+        "Hot shard",
+        "Schema evolution"
+      ],
+      "answer": "Lost update",
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q06",
+      "type": "multiple_choice",
+      "prompt": "What trade-off should you say out loud for DDIA: Transactions?",
+      "explanation": "Transactions protect invariants, but stronger isolation can reduce concurrency and increase coordination cost.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "Transactions protect invariants, but stronger isolation can reduce concurrency and increase coordination cost.",
+        "Every tool gives the same guarantees",
+        "Latency and correctness are unrelated",
+        "Adding replicas always removes complexity"
+      ],
+      "answer": "Transactions protect invariants, but stronger isolation can reduce concurrency and increase coordination cost.",
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q07",
+      "type": "scenario_choice",
+      "prompt": "During design review, what question best tests the DDIA: Transactions choice?",
+      "explanation": "Data-system design should start from invariants and failure behavior. Tool choice follows from the guarantee you need.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "What guarantee must hold during failure?",
+        "Which logo color is final?",
+        "Can we skip metrics?",
+        "Can clients guess the schema?"
+      ],
+      "answer": "What guarantee must hold during failure?",
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q08",
+      "type": "multi_select",
+      "prompt": "Pick interview moves that make a DDIA: Transactions answer sound senior.",
+      "explanation": "Strong answers are conditional: they describe load, data shape, failure mode, and cost instead of pretending one tool is always best.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "Name the workload",
+        "Name the failure mode",
+        "State the trade-off",
+        "Claim there is one perfect database"
+      ],
+      "answer": [
+        "Name the workload",
+        "Name the failure mode",
+        "State the trade-off"
+      ],
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q09",
+      "type": "matching",
+      "prompt": "Match outcome to design pressure in DDIA: Transactions.",
+      "explanation": "Reversing the mapping trains recognition from symptoms back to the concept, which is how incidents and interviews usually present the problem.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "pairs": [
+        {
+          "left": "One write overwrites another without seeing it",
+          "right": "Lost update"
+        },
+        {
+          "left": "Concurrent writes satisfy local checks but break a global invariant",
+          "right": "Write skew"
+        },
+        {
+          "left": "Result is equivalent to running transactions one at a time",
+          "right": "Serializable"
+        }
+      ],
+      "answer": {
+        "One write overwrites another without seeing it": "Lost update",
+        "Concurrent writes satisfy local checks but break a global invariant": "Write skew",
+        "Result is equivalent to running transactions one at a time": "Serializable"
+      },
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q10",
+      "type": "code_fill",
+      "prompt": "Fill the guard that prevents an unsafe operation from continuing.",
+      "explanation": "When a guarantee is uncertain, the safe path is to retry with idempotency or reconcile state. Assuming success hides data loss or duplication.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "\"retry_or_reconcile\"",
+        "\"ignore\"",
+        "\"delete_history\"",
+        "\"assume_success\""
+      ],
+      "code": "if not guarantee_holds(event):\n    return ____",
+      "answer": "\"retry_or_reconcile\"",
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q11",
+      "type": "bug_hunt",
+      "prompt": "A team adds DDIA: Transactions machinery but cannot explain the invariant it protects. What is the real issue?",
+      "explanation": "Advanced data tools are justified by guarantees. Without a stated invariant, the team cannot tell whether complexity is buying anything.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "Architecture without a stated guarantee",
+        "Too many unit tests",
+        "Correct schema evolution",
+        "Clear observability"
+      ],
+      "answer": "Architecture without a stated guarantee",
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q12",
+      "type": "scenario_choice",
+      "prompt": "What is the safest first response when DDIA: Transactions behavior surprises production?",
+      "explanation": "Data-system failures are often timing or workload dependent. Evidence lets you distinguish stale reads, duplicate work, hot keys, lock waits, and real data loss.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "Capture evidence with logs, metrics, and traces",
+        "Delete the database",
+        "Retry all writes forever",
+        "Disable validation"
+      ],
+      "answer": "Capture evidence with logs, metrics, and traces",
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q13",
+      "type": "ordering",
+      "prompt": "Order the incident explanation for DDIA: Transactions.",
+      "explanation": "This structure turns a vague answer into an engineering argument: symptom, cause, fix, and cost.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "Observed symptom",
+        "Likely invariant violation",
+        "Concrete mitigation",
+        "Trade-off introduced"
+      ],
+      "answer": [
+        "Observed symptom",
+        "Likely invariant violation",
+        "Concrete mitigation",
+        "Trade-off introduced"
+      ],
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q14",
+      "type": "multi_select",
+      "prompt": "Which answers are honest about DDIA: Transactions trade-offs?",
+      "explanation": "DDIA-style reasoning is explicit about workload and guarantees. Average-only or absolute claims usually hide the real trade-off.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "transactions"
+      ],
+      "options": [
+        "It depends on workload",
+        "Measure tail behavior",
+        "State consistency needs",
+        "Always optimize averages only"
+      ],
+      "answer": [
+        "It depends on workload",
+        "Measure tail behavior",
+        "State consistency needs"
+      ],
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-transactions-q15",
+      "type": "matching",
+      "prompt": "Match transaction isolation terms.",
+      "explanation": "Isolation choices determine which anomalies remain possible. Distributed transactions add coordination cost.",
+      "difficulty": 3,
+      "tags": [
+        "ACID",
+        "snapshot isolation",
+        "distributed transaction"
+      ],
+      "pairs": [
+        {
+          "left": "ACID",
+          "right": "Transaction guarantees around correctness and durability"
+        },
+        {
+          "left": "Snapshot isolation",
+          "right": "Reads from a consistent database snapshot"
+        },
+        {
+          "left": "Distributed transaction",
+          "right": "Coordinates commit across multiple nodes or services"
+        }
+      ],
+      "answer": {
+        "ACID": "Transaction guarantees around correctness and durability",
+        "Snapshot isolation": "Reads from a consistent database snapshot",
+        "Distributed transaction": "Coordinates commit across multiple nodes or services"
+      },
+      "concept_panel": {
+        "title": "Transactions and ACID",
+        "explanation": "A transaction groups related database changes so they commit together or roll back together. ACID describes guarantees around atomicity, consistency, isolation, and durability. This matters when partial updates would corrupt business invariants, such as money transfers. Stronger transaction guarantees protect correctness but can reduce concurrency.",
+        "key_takeaways": [
+          "Atomicity means all-or-nothing changes.",
+          "Isolation controls concurrent behavior.",
+          "Use transactions to protect invariants."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand data correctness under concurrent changes.",
+        "practical_example": "Debit one account and credit another inside one transaction.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe transaction",
+          "nodes": [
+            {
+              "label": "Begin"
+            },
+            {
+              "label": "Debit"
+            },
+            {
+              "label": "Credit"
+            },
+            {
+              "label": "Commit or rollback"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "ddia-transactions-route-partition",
+      "title": "DDIA: Transactions partition router",
+      "instructions": "Implement route_partition(key: str, partitions: int) -> int. Return a stable partition from 0 to partitions - 1. Raise ValueError when partitions is less than 1.",
+      "starter_code": "def route_partition(key: str, partitions: int) -> int:\n    pass\n",
+      "function_signature": "def route_partition(key: str, partitions: int) -> int",
+      "visible_tests": [
+        {
+          "name": "range",
+          "call": "0 <= route_partition('user-7', 8) < 8",
+          "expected": true
+        },
+        {
+          "name": "stable",
+          "call": "route_partition('tenant-a', 16) == route_partition('tenant-a', 16)",
+          "expected": true
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "single partition",
+          "call": "route_partition('anything', 1)",
+          "expected": 0
+        },
+        {
+          "name": "different size still range",
+          "call": "0 <= route_partition('order-9', 3) < 3",
+          "expected": true
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Stable routing is a core primitive behind partitioning. This exercise checks deterministic mapping and input validation.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "transactions",
+        "isolation"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "ddia-transactions-boss",
+    "title": "DDIA: Transactions boss battle",
+    "question_ids": [
+      "ddia-transactions-q01",
+      "ddia-transactions-q02",
+      "ddia-transactions-q03",
+      "ddia-transactions-q04",
+      "ddia-transactions-q05",
+      "ddia-transactions-q06",
+      "ddia-transactions-q07",
+      "ddia-transactions-q08",
+      "ddia-transactions-q09",
+      "ddia-transactions-q10",
+      "ddia-transactions-q11",
+      "ddia-transactions-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

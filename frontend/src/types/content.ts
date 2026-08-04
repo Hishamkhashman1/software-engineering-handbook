@@ -12,6 +12,24 @@ export interface Lesson {
   tags: string[];
 }
 
+export interface DiagramSpec {
+  type: 'flow' | 'compare' | 'network' | 'triangle' | 'tree';
+  title?: string;
+  nodes?: { id?: string; label: string; status?: string }[];
+  edges?: { from: string; to: string; label?: string; status?: string }[];
+  columns?: { title: string; items: string[] }[];
+  points?: { label: string; detail?: string }[];
+}
+
+export interface ConceptPanel {
+  title: string;
+  explanation: string;
+  key_takeaways: string[];
+  interview_insight: string;
+  practical_example: string;
+  diagram?: DiagramSpec;
+}
+
 export interface Question {
   id: string;
   type: QuestionType;
@@ -22,6 +40,7 @@ export interface Question {
   explanation: string;
   difficulty: number;
   tags: string[];
+  concept_panel?: ConceptPanel;
 }
 
 export interface CodingChallenge {

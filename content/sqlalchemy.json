@@ -111,504 +111,654 @@
   "questions": [
     {
       "id": "sqlalchemy-q01",
-      "type": "scenario_choice",
-      "prompt": "A profile endpoint receives only a new email field. What should the API prefer?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "partial update",
-        "api"
-      ],
-      "options": [
-        "PATCH the selected field",
-        "PUT an empty profile",
-        "GET with a body",
-        "DELETE and recreate"
-      ],
-      "answer": "PATCH the selected field"
-    },
-    {
-      "id": "sqlalchemy-q02",
-      "type": "multi_select",
-      "prompt": "Pick the operations that are usually safe to retry.",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "idempotency",
-        "retry"
-      ],
-      "options": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5",
-        "POST /users"
-      ],
-      "answer": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5"
-      ]
-    },
-    {
-      "id": "sqlalchemy-q03",
-      "type": "ordering",
-      "prompt": "Arrange the request path.",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "request",
-        "validation"
-      ],
-      "options": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
-      ],
-      "answer": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
-      ]
-    },
-    {
-      "id": "sqlalchemy-q04",
       "type": "matching",
-      "prompt": "Match each signal to its meaning.",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "Match SQLAlchemy core concepts.",
+      "explanation": "SQLAlchemy maps Python objects to relational tables and uses sessions to track changes.",
       "difficulty": 1,
       "tags": [
-        "sqlalchemy",
+        "model",
         "session",
-        "status code",
-        "http"
+        "relationship"
       ],
       "pairs": [
         {
-          "left": "401",
-          "right": "Authentication required"
+          "left": "Model",
+          "right": "Python class mapped to a table"
         },
         {
-          "left": "403",
-          "right": "Authenticated but forbidden"
+          "left": "Session",
+          "right": "Unit-of-work boundary for persistence"
         },
         {
-          "left": "503",
-          "right": "Service unavailable"
+          "left": "Relationship",
+          "right": "Object link between tables"
         }
       ],
       "answer": {
-        "401": "Authentication required",
-        "403": "Authenticated but forbidden",
-        "503": "Service unavailable"
+        "Model": "Python class mapped to a table",
+        "Session": "Unit-of-work boundary for persistence",
+        "Relationship": "Object link between tables"
+      },
+      "concept_panel": {
+        "title": "SQLAlchemy Session and Unit of Work",
+        "explanation": "A SQLAlchemy Session tracks objects, pending changes, and the transaction boundary for a unit of work. Calling `add` marks an object for persistence; `flush` sends SQL without committing; `commit` completes the transaction. Sessions should usually be scoped per request in web apps so identity maps and transaction state do not leak. This concept is different from browser sessions.",
+        "key_takeaways": [
+          "Session tracks ORM object state.",
+          "flush sends SQL inside the transaction.",
+          "Web apps should avoid one global shared Session."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ORM persistence boundaries and transaction scope.",
+        "practical_example": "Create a user, add it to the request-scoped session, flush to get its ID, then commit.",
+        "diagram": {
+          "type": "flow",
+          "title": "Unit of work",
+          "nodes": [
+            {
+              "label": "Create object"
+            },
+            {
+              "label": "Session.add"
+            },
+            {
+              "label": "Flush SQL"
+            },
+            {
+              "label": "Commit"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "sqlalchemy-q02",
+      "type": "ordering",
+      "prompt": "Order a typical SQLAlchemy create flow.",
+      "explanation": "The session tracks pending objects; flush sends SQL; commit completes the transaction.",
+      "difficulty": 2,
+      "tags": [
+        "session",
+        "unit of work"
+      ],
+      "options": [
+        "Create model object",
+        "Add to session",
+        "Flush or commit",
+        "Refresh/read generated fields"
+      ],
+      "answer": [
+        "Create model object",
+        "Add to session",
+        "Flush or commit",
+        "Refresh/read generated fields"
+      ],
+      "concept_panel": {
+        "title": "SQLAlchemy Session and Unit of Work",
+        "explanation": "A SQLAlchemy Session tracks objects, pending changes, and the transaction boundary for a unit of work. Calling `add` marks an object for persistence; `flush` sends SQL without committing; `commit` completes the transaction. Sessions should usually be scoped per request in web apps so identity maps and transaction state do not leak. This concept is different from browser sessions.",
+        "key_takeaways": [
+          "Session tracks ORM object state.",
+          "flush sends SQL inside the transaction.",
+          "Web apps should avoid one global shared Session."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ORM persistence boundaries and transaction scope.",
+        "practical_example": "Create a user, add it to the request-scoped session, flush to get its ID, then commit.",
+        "diagram": {
+          "type": "flow",
+          "title": "Unit of work",
+          "nodes": [
+            {
+              "label": "Create object"
+            },
+            {
+              "label": "Session.add"
+            },
+            {
+              "label": "Flush SQL"
+            },
+            {
+              "label": "Commit"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "sqlalchemy-q03",
+      "type": "scenario_choice",
+      "prompt": "You need the new row ID before committing. Which operation can send pending SQL?",
+      "explanation": "Flush sends pending changes to the database within the transaction, often making generated IDs available before commit.",
+      "difficulty": 2,
+      "tags": [
+        "flush",
+        "session"
+      ],
+      "options": [
+        "flush",
+        "joinedload",
+        "rollback",
+        "relationship"
+      ],
+      "answer": "flush",
+      "concept_panel": {
+        "title": "SQLAlchemy Session and Unit of Work",
+        "explanation": "A SQLAlchemy Session tracks objects, pending changes, and the transaction boundary for a unit of work. Calling `add` marks an object for persistence; `flush` sends SQL without committing; `commit` completes the transaction. Sessions should usually be scoped per request in web apps so identity maps and transaction state do not leak. This concept is different from browser sessions.",
+        "key_takeaways": [
+          "Session tracks ORM object state.",
+          "flush sends SQL inside the transaction.",
+          "Web apps should avoid one global shared Session."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ORM persistence boundaries and transaction scope.",
+        "practical_example": "Create a user, add it to the request-scoped session, flush to get its ID, then commit.",
+        "diagram": {
+          "type": "flow",
+          "title": "Unit of work",
+          "nodes": [
+            {
+              "label": "Create object"
+            },
+            {
+              "label": "Session.add"
+            },
+            {
+              "label": "Flush SQL"
+            },
+            {
+              "label": "Commit"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "sqlalchemy-q04",
+      "type": "bug_hunt",
+      "prompt": "Loading 100 users then reading user.orders causes 101 SQL queries. What is the problem?",
+      "explanation": "Lazy relationship access inside a loop can issue one query per parent row, creating the N+1 pattern.",
+      "difficulty": 2,
+      "tags": [
+        "n+1",
+        "lazy loading"
+      ],
+      "options": [
+        "N+1 from lazy loading",
+        "CORS preflight",
+        "Missing Swagger",
+        "DNS lookup"
+      ],
+      "answer": "N+1 from lazy loading",
+      "concept_panel": {
+        "title": "N+1 Queries",
+        "explanation": "N+1 happens when one query loads parent rows and then one additional query runs for each parent as code accesses a lazy relationship. Loading 100 users and reading `user.orders` in a loop can become 101 queries. SQLAlchemy loading options such as `selectinload` and `joinedload` fetch related data earlier. The fix depends on relationship size and query shape.",
+        "key_takeaways": [
+          "Lazy relationship access inside loops can explode query count.",
+          "selectinload is often safer for collections.",
+          "joinedload can be useful but may duplicate parent rows."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ORM performance instead of treating the ORM as invisible.",
+        "practical_example": "Use `select(User).options(selectinload(User.orders))` before looping over users and orders.",
+        "diagram": {
+          "type": "flow",
+          "title": "N+1 pattern",
+          "nodes": [
+            {
+              "label": "SELECT users"
+            },
+            {
+              "label": "Loop"
+            },
+            {
+              "label": "SELECT orders"
+            },
+            {
+              "label": "SELECT orders"
+            },
+            {
+              "label": "101 queries",
+              "status": "hot"
+            },
+            {
+              "label": "selectinload",
+              "status": "good"
+            }
+          ]
+        }
       }
     },
     {
       "id": "sqlalchemy-q05",
-      "type": "code_fill",
-      "prompt": "Fill the branch that classifies server errors.",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "code",
-        "status code"
-      ],
-      "options": [
-        "\"server_error\"",
-        "\"client_error\"",
-        "\"success\"",
-        "\"redirect\""
-      ],
-      "code": "def classify(code):\n    if 500 <= code < 600:\n        return ____",
-      "answer": "\"server_error\""
-    },
-    {
-      "id": "sqlalchemy-q06",
-      "type": "bug_hunt",
-      "prompt": "Production duplicated records after a timeout. What is the bug?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "duplicate",
-        "retry"
-      ],
-      "options": [
-        "Retrying POST without an idempotency key",
-        "Using HTTPS",
-        "Returning 201 after create",
-        "Sorting by created_at"
-      ],
-      "answer": "Retrying POST without an idempotency key"
-    },
-    {
-      "id": "sqlalchemy-q07",
-      "type": "code_output",
-      "prompt": "What does classify_status_code(404) return?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "code output",
-        "status code"
-      ],
-      "options": [
-        "client_error",
-        "server_error",
-        "success",
-        "unknown"
-      ],
-      "answer": "client_error"
-    },
-    {
-      "id": "sqlalchemy-q08",
-      "type": "scenario_choice",
-      "prompt": "A changing feed skips items with page numbers. What pagination style fits better?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "pagination",
-        "cursor"
-      ],
-      "options": [
-        "Cursor pagination",
-        "Offset pagination",
-        "Return everything",
-        "Sort in the browser"
-      ],
-      "answer": "Cursor pagination"
-    },
-    {
-      "id": "sqlalchemy-q09",
-      "type": "multiple_choice",
-      "prompt": "Which change best preserves existing clients when a response shape breaks compatibility?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "versioning",
-        "contract"
-      ],
-      "options": [
-        "Add /v2",
-        "Silently change /v1",
-        "Remove old fields",
-        "Document it after deploy"
-      ],
-      "answer": "Add /v2"
-    },
-    {
-      "id": "sqlalchemy-q10",
       "type": "multi_select",
-      "prompt": "Select the reasons to validate input before business logic.",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "Which loading strategies can fix many N+1 collection reads?",
+      "explanation": "selectinload and joinedload eager-load related data instead of lazily querying each row.",
       "difficulty": 2,
       "tags": [
-        "sqlalchemy",
-        "session",
-        "validation",
-        "security"
-      ],
-      "options": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk",
-        "Make CPU work parallel"
-      ],
-      "answer": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk"
-      ]
-    },
-    {
-      "id": "sqlalchemy-q11",
-      "type": "matching",
-      "prompt": "Match the scaling tool to the bottleneck.",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "performance",
-        "scaling"
-      ],
-      "pairs": [
-        {
-          "left": "Cache",
-          "right": "Repeated reads"
-        },
-        {
-          "left": "Queue",
-          "right": "Bursty writes"
-        },
-        {
-          "left": "Read replica",
-          "right": "Read-heavy database load"
-        }
-      ],
-      "answer": {
-        "Cache": "Repeated reads",
-        "Queue": "Bursty writes",
-        "Read replica": "Read-heavy database load"
-      }
-    },
-    {
-      "id": "sqlalchemy-q12",
-      "type": "bug_hunt",
-      "prompt": "An endpoint loads 100 users, then reads user.orders in a loop. What is happening?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "n+1"
-      ],
-      "options": [
-        "N+1 queries",
-        "A CORS preflight",
-        "A DNS failure",
-        "A cache hit"
-      ],
-      "answer": "N+1 queries"
-    },
-    {
-      "id": "sqlalchemy-q13",
-      "type": "multi_select",
-      "prompt": "Pick two fixes for the N+1 query pattern.",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "sqlalchemy",
-        "session",
         "selectinload",
-        "joinedload"
+        "joinedload",
+        "eager"
       ],
       "options": [
         "selectinload",
         "joinedload",
-        "Unlimited retries",
-        "Client-side filtering"
+        "time.sleep",
+        "os.system"
       ],
       "answer": [
         "selectinload",
         "joinedload"
-      ]
-    },
-    {
-      "id": "sqlalchemy-q14",
-      "type": "scenario_choice",
-      "prompt": "A downstream service is failing and your app keeps retrying instantly. What should you add first?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "timeout",
-        "backoff"
       ],
-      "options": [
-        "Timeouts and exponential backoff",
-        "More unlimited retries",
-        "A larger JSON payload",
-        "A second frontend"
-      ],
-      "answer": "Timeouts and exponential backoff"
-    },
-    {
-      "id": "sqlalchemy-q15",
-      "type": "ordering",
-      "prompt": "Order the transaction flow.",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "transaction",
-        "acid"
-      ],
-      "options": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ],
-      "answer": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ]
-    },
-    {
-      "id": "sqlalchemy-q16",
-      "type": "matching",
-      "prompt": "Match data shape to storage fit.",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "sqlalchemy",
-        "session",
-        "sql",
-        "nosql"
-      ],
-      "pairs": [
-        {
-          "left": "Strong relationships",
-          "right": "SQL"
-        },
-        {
-          "left": "Flexible documents",
-          "right": "NoSQL"
-        },
-        {
-          "left": "Hot session cache",
-          "right": "Redis"
+      "concept_panel": {
+        "title": "SQLAlchemy Loading Strategies",
+        "explanation": "SQLAlchemy relationships can load lazily or eagerly. Lazy loading waits until the attribute is accessed, which can create N+1 queries. `selectinload` performs a second SELECT for related rows and is often a good fit for collections. `joinedload` uses a JOIN and can be efficient for smaller relationships but may duplicate parent data in large collection results.",
+        "key_takeaways": [
+          "Lazy loading can hide database work.",
+          "selectinload often fits one-to-many collections.",
+          "joinedload trades fewer round trips for larger joined result sets."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can diagnose SQLAlchemy query behavior in production.",
+        "practical_example": "`select(User).options(selectinload(User.orders))` loads users and their orders without one query per user.",
+        "diagram": {
+          "type": "compare",
+          "title": "Eager loading choice",
+          "columns": [
+            {
+              "title": "selectinload",
+              "items": [
+                "Second SELECT",
+                "Good for collections",
+                "Avoids huge JOIN rows"
+              ]
+            },
+            {
+              "title": "joinedload",
+              "items": [
+                "Single JOIN",
+                "Good for small related data",
+                "Can duplicate parent rows"
+              ]
+            }
+          ]
         }
-      ],
-      "answer": {
-        "Strong relationships": "SQL",
-        "Flexible documents": "NoSQL",
-        "Hot session cache": "Redis"
       }
     },
     {
-      "id": "sqlalchemy-q17",
-      "type": "code_fill",
-      "prompt": "Fill the safer SQLAlchemy loading option for a collection.",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
+      "id": "sqlalchemy-q06",
+      "type": "scenario_choice",
+      "prompt": "A collection relationship creates huge duplicate parent rows with a JOIN. Which eager strategy is often safer?",
+      "explanation": "selectinload loads collections with a second SELECT and avoids one huge joined result for large collections.",
+      "difficulty": 2,
       "tags": [
-        "sqlalchemy",
-        "session",
+        "selectinload",
         "loading"
       ],
       "options": [
         "selectinload",
-        "time.sleep",
-        "requests.get",
-        "os.system"
+        "raw string concat",
+        "global session",
+        "CORS"
       ],
-      "code": "stmt = select(User).options(____(User.orders))",
-      "answer": "selectinload"
+      "answer": "selectinload",
+      "concept_panel": {
+        "title": "SQLAlchemy Loading Strategies",
+        "explanation": "SQLAlchemy relationships can load lazily or eagerly. Lazy loading waits until the attribute is accessed, which can create N+1 queries. `selectinload` performs a second SELECT for related rows and is often a good fit for collections. `joinedload` uses a JOIN and can be efficient for smaller relationships but may duplicate parent data in large collection results.",
+        "key_takeaways": [
+          "Lazy loading can hide database work.",
+          "selectinload often fits one-to-many collections.",
+          "joinedload trades fewer round trips for larger joined result sets."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can diagnose SQLAlchemy query behavior in production.",
+        "practical_example": "`select(User).options(selectinload(User.orders))` loads users and their orders without one query per user.",
+        "diagram": {
+          "type": "compare",
+          "title": "Eager loading choice",
+          "columns": [
+            {
+              "title": "selectinload",
+              "items": [
+                "Second SELECT",
+                "Good for collections",
+                "Avoids huge JOIN rows"
+              ]
+            },
+            {
+              "title": "joinedload",
+              "items": [
+                "Single JOIN",
+                "Good for small related data",
+                "Can duplicate parent rows"
+              ]
+            }
+          ]
+        }
+      }
     },
     {
-      "id": "sqlalchemy-q18",
-      "type": "multiple_choice",
-      "prompt": "CPU-heavy image processing is slowing requests. Which model helps most?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
+      "id": "sqlalchemy-q07",
+      "type": "matching",
+      "prompt": "Match migration terms.",
+      "explanation": "Migrations make database schema evolution explicit, reviewable, and repeatable.",
+      "difficulty": 2,
       "tags": [
-        "sqlalchemy",
-        "session",
-        "parallelism",
-        "cpu"
+        "migration",
+        "alembic"
       ],
-      "options": [
-        "Parallelism",
-        "Async await only",
-        "More CORS headers",
-        "Offset pagination"
+      "pairs": [
+        {
+          "left": "Migration",
+          "right": "Versioned schema change"
+        },
+        {
+          "left": "Alembic",
+          "right": "Common SQLAlchemy migration tool"
+        },
+        {
+          "left": "Rollback",
+          "right": "Reverts a schema change"
+        }
       ],
-      "answer": "Parallelism"
+      "answer": {
+        "Migration": "Versioned schema change",
+        "Alembic": "Common SQLAlchemy migration tool",
+        "Rollback": "Reverts a schema change"
+      },
+      "concept_panel": {
+        "title": "Schema Migrations",
+        "explanation": "Migrations are versioned database schema changes. In SQLAlchemy projects, Alembic is commonly used to create, review, apply, and roll back those changes. Migrations make schema evolution repeatable across local, test, and production databases. They are operational artifacts, not just generated files.",
+        "key_takeaways": [
+          "Migrations version schema changes.",
+          "Alembic is common with SQLAlchemy.",
+          "Rollback plans reduce deployment risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand production schema evolution.",
+        "practical_example": "Add a nullable column in one migration, deploy readers, then later enforce constraints when writers are ready.",
+        "diagram": {
+          "type": "flow",
+          "title": "Migration lifecycle",
+          "nodes": [
+            {
+              "label": "Model change"
+            },
+            {
+              "label": "Migration file"
+            },
+            {
+              "label": "Review"
+            },
+            {
+              "label": "Apply"
+            },
+            {
+              "label": "Rollback if needed"
+            }
+          ]
+        }
+      }
     },
     {
-      "id": "sqlalchemy-q19",
+      "id": "sqlalchemy-q08",
       "type": "scenario_choice",
-      "prompt": "A product page needs recommendations, but the recommender is down. What behavior is best?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "An ORM query is too complex and database-specific. What escape hatch can be appropriate?",
+      "explanation": "SQLAlchemy allows raw SQL when needed, but parameters are essential to avoid injection risks.",
       "difficulty": 3,
       "tags": [
-        "sqlalchemy",
-        "session",
-        "degradation",
-        "reliability"
+        "raw sql",
+        "query"
       ],
       "options": [
-        "Serve the page without recommendations",
-        "Fail the entire page",
-        "Retry forever",
-        "Delete the cache"
+        "Raw SQL with parameters",
+        "String interpolation with user input",
+        "Disable transactions",
+        "Ignore indexes"
       ],
-      "answer": "Serve the page without recommendations"
+      "answer": "Raw SQL with parameters",
+      "concept_panel": {
+        "title": "Raw SQL Escape Hatches",
+        "explanation": "ORMs cover common queries, but complex reporting, database-specific features, or performance-critical paths may need raw SQL. Raw SQL should still use parameters rather than string interpolation, otherwise user input can become SQL injection. The point is not avoiding ORMs; it is knowing when to step below the abstraction safely.",
+        "key_takeaways": [
+          "Raw SQL can be appropriate for complex queries.",
+          "Always parameterize user input.",
+          "Measure before replacing ORM queries."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can use lower-level database tools safely.",
+        "practical_example": "Use a parameterized SQL statement for a database-specific reporting query that the ORM expresses poorly.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe raw SQL",
+          "nodes": [
+            {
+              "label": "Complex query"
+            },
+            {
+              "label": "Parameterized SQL"
+            },
+            {
+              "label": "Database"
+            },
+            {
+              "label": "Typed result"
+            }
+          ]
+        }
+      }
     },
     {
-      "id": "sqlalchemy-q20",
-      "type": "multi_select",
-      "prompt": "Which signals make an API easier for clients to use?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
+      "id": "sqlalchemy-q09",
+      "type": "ordering",
+      "prompt": "Order a safe transactional update.",
+      "explanation": "A session often scopes a transaction; failures should roll back pending changes.",
+      "difficulty": 2,
       "tags": [
-        "sqlalchemy",
-        "session",
-        "contract",
-        "openapi"
+        "transaction",
+        "session"
       ],
       "options": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema",
-        "Random response fields"
+        "Open session/transaction",
+        "Load rows",
+        "Apply changes",
+        "Commit or rollback"
       ],
       "answer": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema"
-      ]
+        "Open session/transaction",
+        "Load rows",
+        "Apply changes",
+        "Commit or rollback"
+      ],
+      "concept_panel": {
+        "title": "SQLAlchemy Session and Unit of Work",
+        "explanation": "A SQLAlchemy Session tracks objects, pending changes, and the transaction boundary for a unit of work. Calling `add` marks an object for persistence; `flush` sends SQL without committing; `commit` completes the transaction. Sessions should usually be scoped per request in web apps so identity maps and transaction state do not leak. This concept is different from browser sessions.",
+        "key_takeaways": [
+          "Session tracks ORM object state.",
+          "flush sends SQL inside the transaction.",
+          "Web apps should avoid one global shared Session."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ORM persistence boundaries and transaction scope.",
+        "practical_example": "Create a user, add it to the request-scoped session, flush to get its ID, then commit.",
+        "diagram": {
+          "type": "flow",
+          "title": "Unit of work",
+          "nodes": [
+            {
+              "label": "Create object"
+            },
+            {
+              "label": "Session.add"
+            },
+            {
+              "label": "Flush SQL"
+            },
+            {
+              "label": "Commit"
+            }
+          ]
+        }
+      }
     },
     {
-      "id": "sqlalchemy-q21",
+      "id": "sqlalchemy-q10",
+      "type": "code_fill",
+      "prompt": "Fill the SQLAlchemy eager-loading option.",
+      "explanation": "selectinload is an eager-loading option commonly used to avoid N+1 queries for collections.",
+      "difficulty": 2,
+      "tags": [
+        "selectinload",
+        "eager"
+      ],
+      "options": [
+        "selectinload",
+        "Depends",
+        "pytest",
+        "BaseModel"
+      ],
+      "code": "stmt = select(User).options(____(User.orders))",
+      "answer": "selectinload",
+      "concept_panel": {
+        "title": "SQLAlchemy Loading Strategies",
+        "explanation": "SQLAlchemy relationships can load lazily or eagerly. Lazy loading waits until the attribute is accessed, which can create N+1 queries. `selectinload` performs a second SELECT for related rows and is often a good fit for collections. `joinedload` uses a JOIN and can be efficient for smaller relationships but may duplicate parent data in large collection results.",
+        "key_takeaways": [
+          "Lazy loading can hide database work.",
+          "selectinload often fits one-to-many collections.",
+          "joinedload trades fewer round trips for larger joined result sets."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can diagnose SQLAlchemy query behavior in production.",
+        "practical_example": "`select(User).options(selectinload(User.orders))` loads users and their orders without one query per user.",
+        "diagram": {
+          "type": "compare",
+          "title": "Eager loading choice",
+          "columns": [
+            {
+              "title": "selectinload",
+              "items": [
+                "Second SELECT",
+                "Good for collections",
+                "Avoids huge JOIN rows"
+              ]
+            },
+            {
+              "title": "joinedload",
+              "items": [
+                "Single JOIN",
+                "Good for small related data",
+                "Can duplicate parent rows"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "sqlalchemy-q11",
       "type": "bug_hunt",
-      "prompt": "A response model includes password_hash. What is the bug?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "A web app shares one global SQLAlchemy Session across all requests. What is the risk?",
+      "explanation": "Sessions should be scoped carefully, often per request, so transactions and identity maps do not leak across users.",
       "difficulty": 3,
       "tags": [
-        "sqlalchemy",
         "session",
-        "response model",
-        "security"
+        "unit of work"
       ],
       "options": [
-        "Leaking sensitive data",
-        "Using a router",
-        "Returning JSON",
-        "Using a status code"
+        "Request state leaks and transaction boundaries blur",
+        "DNS becomes slower",
+        "Swagger disappears",
+        "PATCH becomes GET"
       ],
-      "answer": "Leaking sensitive data"
+      "answer": "Request state leaks and transaction boundaries blur",
+      "concept_panel": {
+        "title": "SQLAlchemy Session and Unit of Work",
+        "explanation": "A SQLAlchemy Session tracks objects, pending changes, and the transaction boundary for a unit of work. Calling `add` marks an object for persistence; `flush` sends SQL without committing; `commit` completes the transaction. Sessions should usually be scoped per request in web apps so identity maps and transaction state do not leak. This concept is different from browser sessions.",
+        "key_takeaways": [
+          "Session tracks ORM object state.",
+          "flush sends SQL inside the transaction.",
+          "Web apps should avoid one global shared Session."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ORM persistence boundaries and transaction scope.",
+        "practical_example": "Create a user, add it to the request-scoped session, flush to get its ID, then commit.",
+        "diagram": {
+          "type": "flow",
+          "title": "Unit of work",
+          "nodes": [
+            {
+              "label": "Create object"
+            },
+            {
+              "label": "Session.add"
+            },
+            {
+              "label": "Flush SQL"
+            },
+            {
+              "label": "Commit"
+            }
+          ]
+        }
+      }
     },
     {
-      "id": "sqlalchemy-q22",
-      "type": "scenario_choice",
-      "prompt": "A social like count appears five seconds late. When is that acceptable?",
-      "explanation": "Key idea: apply SQLAlchemy Deep Dive by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
+      "id": "sqlalchemy-q12",
+      "type": "matching",
+      "prompt": "Match relationship shapes.",
+      "explanation": "SQLAlchemy relationships mirror relational foreign-key structures and association tables.",
+      "difficulty": 1,
       "tags": [
-        "sqlalchemy",
-        "session",
-        "eventual consistency",
-        "trade-off"
+        "relationship",
+        "foreign key"
       ],
-      "options": [
-        "When eventual consistency is acceptable",
-        "When money is transferred",
-        "When validating passwords",
-        "When committing inventory"
+      "pairs": [
+        {
+          "left": "One-to-many",
+          "right": "User has many orders"
+        },
+        {
+          "left": "Many-to-many",
+          "right": "Students enroll in courses"
+        },
+        {
+          "left": "Foreign key",
+          "right": "Column that points to another table"
+        }
       ],
-      "answer": "When eventual consistency is acceptable"
+      "answer": {
+        "One-to-many": "User has many orders",
+        "Many-to-many": "Students enroll in courses",
+        "Foreign key": "Column that points to another table"
+      },
+      "concept_panel": {
+        "title": "Keys, Relationships, and JOINs",
+        "explanation": "Primary keys uniquely identify rows, and foreign keys connect rows across tables. JOINs combine related rows so normalized data can answer richer questions. Many-to-many relationships usually need a junction table. This is foundational because database schema design determines both correctness and query performance.",
+        "key_takeaways": [
+          "Primary keys identify rows.",
+          "Foreign keys model relationships.",
+          "JOINs reconstruct related data at query time."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand relational modeling, not just SQL syntax.",
+        "practical_example": "orders.user_id references users.id, letting a query join orders to the owning user.",
+        "diagram": {
+          "type": "network",
+          "title": "Relational link",
+          "nodes": [
+            {
+              "id": "users",
+              "label": "users"
+            },
+            {
+              "id": "orders",
+              "label": "orders"
+            },
+            {
+              "id": "order_items",
+              "label": "order_items"
+            }
+          ],
+          "edges": [
+            {
+              "from": "orders",
+              "to": "users",
+              "label": "foreign key"
+            },
+            {
+              "from": "order_items",
+              "to": "orders",
+              "label": "foreign key"
+            }
+          ]
+        }
+      }
     }
   ],
   "coding_challenges": [

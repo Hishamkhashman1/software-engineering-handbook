@@ -114,85 +114,299 @@
   "questions": [
     {
       "id": "web-fundamentals-q01",
-      "type": "scenario_choice",
-      "prompt": "A profile endpoint receives only a new email field. What should the API prefer?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "ordering",
+      "prompt": "Put the browser request lifecycle in order.",
+      "explanation": "A browser first resolves the hostname, establishes a secure connection when using HTTPS, sends the request, then receives status, headers, and body.",
       "difficulty": 1,
       "tags": [
-        "http",
+        "dns",
         "https",
-        "partial update",
-        "api"
+        "request"
       ],
       "options": [
-        "PATCH the selected field",
-        "PUT an empty profile",
-        "GET with a body",
-        "DELETE and recreate"
+        "Resolve DNS",
+        "Open HTTPS/TLS connection",
+        "Send HTTP request",
+        "Receive HTTP response"
       ],
-      "answer": "PATCH the selected field"
+      "answer": [
+        "Resolve DNS",
+        "Open HTTPS/TLS connection",
+        "Send HTTP request",
+        "Receive HTTP response"
+      ],
+      "concept_panel": {
+        "title": "DNS Resolution",
+        "explanation": "DNS turns a human-readable domain into the IP address a client can connect to. It happens before the HTTP request is sent, so DNS failures look like connection failures rather than application bugs. In interviews, DNS is usually part of the browser-to-server lifecycle. The important mental model is that naming, connection setup, HTTP, and application logic are separate stages.",
+        "key_takeaways": [
+          "DNS resolves names before HTTP starts.",
+          "DNS problems can prevent any request from reaching the server.",
+          "Caching can make DNS behavior look inconsistent during changes."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand the web request lifecycle below application code.",
+        "practical_example": "A browser cannot call https://api.example.com until api.example.com resolves to an address.",
+        "diagram": {
+          "type": "flow",
+          "title": "Request starts before HTTP",
+          "nodes": [
+            {
+              "label": "Browser"
+            },
+            {
+              "label": "DNS lookup"
+            },
+            {
+              "label": "IP address"
+            },
+            {
+              "label": "Connect"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "web-fundamentals-q02",
-      "type": "multi_select",
-      "prompt": "Pick the operations that are usually safe to retry.",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "matching",
+      "prompt": "Match each web term to its job.",
+      "explanation": "DNS finds the server, TLS protects the channel, and HTTP carries the application-level request and response.",
       "difficulty": 1,
       "tags": [
-        "http",
-        "https",
-        "idempotency",
-        "retry"
+        "dns",
+        "tls",
+        "http"
       ],
-      "options": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5",
-        "POST /users"
+      "pairs": [
+        {
+          "left": "DNS",
+          "right": "Maps domain names to IP addresses"
+        },
+        {
+          "left": "TLS",
+          "right": "Encrypts and authenticates the connection"
+        },
+        {
+          "left": "HTTP",
+          "right": "Defines request and response messages"
+        }
       ],
-      "answer": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5"
-      ]
+      "answer": {
+        "DNS": "Maps domain names to IP addresses",
+        "TLS": "Encrypts and authenticates the connection",
+        "HTTP": "Defines request and response messages"
+      },
+      "concept_panel": {
+        "title": "DNS Resolution",
+        "explanation": "DNS turns a human-readable domain into the IP address a client can connect to. It happens before the HTTP request is sent, so DNS failures look like connection failures rather than application bugs. In interviews, DNS is usually part of the browser-to-server lifecycle. The important mental model is that naming, connection setup, HTTP, and application logic are separate stages.",
+        "key_takeaways": [
+          "DNS resolves names before HTTP starts.",
+          "DNS problems can prevent any request from reaching the server.",
+          "Caching can make DNS behavior look inconsistent during changes."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand the web request lifecycle below application code.",
+        "practical_example": "A browser cannot call https://api.example.com until api.example.com resolves to an address.",
+        "diagram": {
+          "type": "flow",
+          "title": "Request starts before HTTP",
+          "nodes": [
+            {
+              "label": "Browser"
+            },
+            {
+              "label": "DNS lookup"
+            },
+            {
+              "label": "IP address"
+            },
+            {
+              "label": "Connect"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "web-fundamentals-q03",
-      "type": "ordering",
-      "prompt": "Arrange the request path.",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "multi_select",
+      "prompt": "Which fields are usually part of an HTTP request?",
+      "explanation": "Requests contain routing and intent data: URL, method, headers, query parameters, and sometimes a body.",
       "difficulty": 1,
       "tags": [
-        "http",
-        "https",
         "request",
-        "validation"
+        "method",
+        "headers"
       ],
       "options": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
+        "URL",
+        "Method",
+        "Headers",
+        "Optional body",
+        "Database index"
       ],
       "answer": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
-      ]
+        "URL",
+        "Method",
+        "Headers",
+        "Optional body"
+      ],
+      "concept_panel": {
+        "title": "HTTP Request and Response",
+        "explanation": "HTTP is a request-response protocol. The client sends a method, URL, headers, and sometimes a body; the server returns a status code, headers, and response body. Interview questions often test whether you can separate intent from outcome. Methods express what the client wants; status codes express what happened.",
+        "key_takeaways": [
+          "Methods describe intent.",
+          "Status codes describe outcomes.",
+          "Headers carry metadata for auth, content type, caching, and negotiation."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can reason about client-server contracts instead of memorizing codes.",
+        "practical_example": "GET /users/7 asks for a resource; 404 says that resource was not found.",
+        "diagram": {
+          "type": "flow",
+          "title": "HTTP lifecycle",
+          "nodes": [
+            {
+              "label": "Client"
+            },
+            {
+              "label": "Request"
+            },
+            {
+              "label": "Server"
+            },
+            {
+              "label": "Response"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "web-fundamentals-q04",
       "type": "matching",
-      "prompt": "Match each signal to its meaning.",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "Match the method to its normal intent.",
+      "explanation": "HTTP methods communicate intent. PATCH is partial update; PUT is full replacement; POST usually creates or triggers processing.",
       "difficulty": 1,
       "tags": [
-        "http",
-        "https",
-        "status code"
+        "get",
+        "post",
+        "patch"
       ],
       "pairs": [
+        {
+          "left": "GET",
+          "right": "Retrieve data"
+        },
+        {
+          "left": "POST",
+          "right": "Create a resource"
+        },
+        {
+          "left": "PATCH",
+          "right": "Update selected fields"
+        }
+      ],
+      "answer": {
+        "GET": "Retrieve data",
+        "POST": "Create a resource",
+        "PATCH": "Update selected fields"
+      },
+      "concept_panel": {
+        "title": "PATCH vs PUT",
+        "explanation": "PUT normally means replacing the whole resource representation. PATCH means applying a partial update to selected fields. If the client only sends a new email, PATCH communicates the intended change without implying that omitted fields should be cleared. This is a contract question: the method should match the update semantics.",
+        "key_takeaways": [
+          "PUT is full replacement in conventional REST design.",
+          "PATCH is partial update.",
+          "Choosing the right method prevents accidental data loss."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API semantics and resource-update contracts.",
+        "practical_example": "PATCH /users/5 with {\"email\":\"new@example.com\"} updates only the email field.",
+        "diagram": {
+          "type": "compare",
+          "title": "Update semantics",
+          "columns": [
+            {
+              "title": "PUT",
+              "items": [
+                "Replace entire resource",
+                "Missing fields may matter"
+              ]
+            },
+            {
+              "title": "PATCH",
+              "items": [
+                "Update selected fields",
+                "Safer for partial edits"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "web-fundamentals-q05",
+      "type": "scenario_choice",
+      "prompt": "A client sends only a new email for an existing user. Which method is most precise?",
+      "explanation": "PATCH communicates partial update. PUT would normally mean replacing the full user representation.",
+      "difficulty": 1,
+      "tags": [
+        "patch",
+        "put",
+        "method"
+      ],
+      "options": [
+        "PATCH",
+        "PUT",
+        "GET",
+        "DELETE"
+      ],
+      "answer": "PATCH",
+      "concept_panel": {
+        "title": "PATCH vs PUT",
+        "explanation": "PUT normally means replacing the whole resource representation. PATCH means applying a partial update to selected fields. If the client only sends a new email, PATCH communicates the intended change without implying that omitted fields should be cleared. This is a contract question: the method should match the update semantics.",
+        "key_takeaways": [
+          "PUT is full replacement in conventional REST design.",
+          "PATCH is partial update.",
+          "Choosing the right method prevents accidental data loss."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API semantics and resource-update contracts.",
+        "practical_example": "PATCH /users/5 with {\"email\":\"new@example.com\"} updates only the email field.",
+        "diagram": {
+          "type": "compare",
+          "title": "Update semantics",
+          "columns": [
+            {
+              "title": "PUT",
+              "items": [
+                "Replace entire resource",
+                "Missing fields may matter"
+              ]
+            },
+            {
+              "title": "PATCH",
+              "items": [
+                "Update selected fields",
+                "Safer for partial edits"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "web-fundamentals-q06",
+      "type": "matching",
+      "prompt": "Match each status code to the interview meaning.",
+      "explanation": "401 is about missing/invalid authentication. 403 is about authorization after identity is known.",
+      "difficulty": 1,
+      "tags": [
+        "status code",
+        "401",
+        "403"
+      ],
+      "pairs": [
+        {
+          "left": "201",
+          "right": "Resource created"
+        },
         {
           "left": "401",
           "right": "Authentication required"
@@ -200,419 +414,350 @@
         {
           "left": "403",
           "right": "Authenticated but forbidden"
-        },
-        {
-          "left": "503",
-          "right": "Service unavailable"
         }
       ],
       "answer": {
+        "201": "Resource created",
         "401": "Authentication required",
-        "403": "Authenticated but forbidden",
-        "503": "Service unavailable"
+        "403": "Authenticated but forbidden"
+      },
+      "concept_panel": {
+        "title": "HTTP Status Codes",
+        "explanation": "Status codes are compact signals about request outcomes. 2xx means success, 4xx means the client request has a problem, and 5xx means the server or dependency failed. The common interview trap is 401 vs 403: 401 means authentication is missing or invalid, while 403 means identity is known but access is denied.",
+        "key_takeaways": [
+          "2xx means success.",
+          "4xx means client-side request problem.",
+          "401 is authentication; 403 is authorization."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can communicate API failures clearly to clients.",
+        "practical_example": "A logged-in user without admin permission should usually receive 403, not 401.",
+        "diagram": {
+          "type": "flow",
+          "title": "Status code bands",
+          "nodes": [
+            {
+              "label": "2xx success",
+              "status": "good"
+            },
+            {
+              "label": "4xx client issue"
+            },
+            {
+              "label": "5xx server issue",
+              "status": "hot"
+            }
+          ]
+        }
       }
     },
     {
-      "id": "web-fundamentals-q05",
-      "type": "code_fill",
-      "prompt": "Fill the branch that classifies server errors.",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "http",
-        "https",
-        "code",
-        "status code"
-      ],
-      "options": [
-        "\"server_error\"",
-        "\"client_error\"",
-        "\"success\"",
-        "\"redirect\""
-      ],
-      "code": "def classify(code):\n    if 500 <= code < 600:\n        return ____",
-      "answer": "\"server_error\""
-    },
-    {
-      "id": "web-fundamentals-q06",
-      "type": "bug_hunt",
-      "prompt": "Production duplicated records after a timeout. What is the bug?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "http",
-        "https",
-        "duplicate",
-        "retry"
-      ],
-      "options": [
-        "Retrying POST without an idempotency key",
-        "Using HTTPS",
-        "Returning 201 after create",
-        "Sorting by created_at"
-      ],
-      "answer": "Retrying POST without an idempotency key"
-    },
-    {
       "id": "web-fundamentals-q07",
-      "type": "code_output",
-      "prompt": "What does classify_status_code(404) return?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
+      "type": "multi_select",
+      "prompt": "Which examples are HTTP headers?",
+      "explanation": "Headers are request/response metadata. Authorization, Content-Type, Accept, and Cache-Control are common HTTP headers.",
+      "difficulty": 1,
       "tags": [
-        "http",
-        "https",
-        "code output",
-        "status code"
+        "headers",
+        "authorization",
+        "cache-control"
       ],
       "options": [
-        "client_error",
-        "server_error",
-        "success",
-        "unknown"
+        "Authorization",
+        "Content-Type",
+        "Accept",
+        "Cache-Control",
+        "PRIMARY KEY"
       ],
-      "answer": "client_error"
+      "answer": [
+        "Authorization",
+        "Content-Type",
+        "Accept",
+        "Cache-Control"
+      ],
+      "concept_panel": {
+        "title": "HTTP Request and Response",
+        "explanation": "HTTP is a request-response protocol. The client sends a method, URL, headers, and sometimes a body; the server returns a status code, headers, and response body. Interview questions often test whether you can separate intent from outcome. Methods express what the client wants; status codes express what happened.",
+        "key_takeaways": [
+          "Methods describe intent.",
+          "Status codes describe outcomes.",
+          "Headers carry metadata for auth, content type, caching, and negotiation."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can reason about client-server contracts instead of memorizing codes.",
+        "practical_example": "GET /users/7 asks for a resource; 404 says that resource was not found.",
+        "diagram": {
+          "type": "flow",
+          "title": "HTTP lifecycle",
+          "nodes": [
+            {
+              "label": "Client"
+            },
+            {
+              "label": "Request"
+            },
+            {
+              "label": "Server"
+            },
+            {
+              "label": "Response"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "web-fundamentals-q08",
       "type": "scenario_choice",
-      "prompt": "A changing feed skips items with page numbers. What pagination style fits better?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "Your React app at localhost:5173 calls an API at localhost:8000 and the browser blocks it. What is the likely mechanism?",
+      "explanation": "Different scheme/host/port combinations are different origins. Browsers require the API to allow the frontend origin via CORS.",
       "difficulty": 2,
       "tags": [
-        "http",
-        "https",
-        "pagination",
-        "cursor"
+        "cors",
+        "origin",
+        "browser"
       ],
       "options": [
-        "Cursor pagination",
-        "Offset pagination",
-        "Return everything",
-        "Sort in the browser"
+        "CORS",
+        "SQL isolation",
+        "B-tree compaction",
+        "JWT signing"
       ],
-      "answer": "Cursor pagination"
+      "answer": "CORS",
+      "concept_panel": {
+        "title": "CORS and Origins",
+        "explanation": "CORS is a browser security mechanism for cross-origin requests. An origin is the scheme, host, and port together, so localhost:5173 and localhost:8000 are different origins. The browser blocks the response unless the API explicitly allows the frontend origin. CORS does not protect server-to-server calls; it is enforced by browsers.",
+        "key_takeaways": [
+          "Origin means scheme plus host plus port.",
+          "Browsers enforce CORS; servers declare allowed origins.",
+          "CORS is not authentication."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand browser security boundaries.",
+        "practical_example": "A Vite frontend on localhost:5173 needs the FastAPI server on localhost:8000 to allow that origin.",
+        "diagram": {
+          "type": "network",
+          "title": "Cross-origin browser call",
+          "nodes": [
+            {
+              "id": "Browser",
+              "label": "Browser"
+            },
+            {
+              "id": "API",
+              "label": "API"
+            }
+          ],
+          "edges": [
+            {
+              "from": "Browser",
+              "to": "API",
+              "label": "Origin checked"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "web-fundamentals-q09",
-      "type": "multiple_choice",
-      "prompt": "Which change best preserves existing clients when a response shape breaks compatibility?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "matching",
+      "prompt": "Match browser state mechanisms.",
+      "explanation": "Cookies live in the browser; sessions live on the server and are usually referenced by an ID stored in a cookie.",
       "difficulty": 2,
       "tags": [
-        "http",
-        "https",
-        "versioning",
-        "contract"
+        "cookies",
+        "sessions"
       ],
-      "options": [
-        "Add /v2",
-        "Silently change /v1",
-        "Remove old fields",
-        "Document it after deploy"
+      "pairs": [
+        {
+          "left": "Cookie",
+          "right": "Small browser-stored value sent with requests"
+        },
+        {
+          "left": "Session",
+          "right": "Server-side data linked by an ID"
+        },
+        {
+          "left": "Session ID",
+          "right": "Identifier often stored in a cookie"
+        }
       ],
-      "answer": "Add /v2"
+      "answer": {
+        "Cookie": "Small browser-stored value sent with requests",
+        "Session": "Server-side data linked by an ID",
+        "Session ID": "Identifier often stored in a cookie"
+      },
+      "concept_panel": {
+        "title": "Cookies and Sessions",
+        "explanation": "Cookies are small values stored by the browser and sent with matching requests. Sessions usually store user state on the server and use a session ID in a cookie to link the browser to that state. This distinction matters for security and scaling. The cookie is not the whole user record; it is usually a pointer or token.",
+        "key_takeaways": [
+          "Cookies live in the browser.",
+          "Sessions usually live on the server.",
+          "Session IDs connect the two."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand state in stateless HTTP workflows.",
+        "practical_example": "A server stores cart state by session ID, while the browser only stores the session cookie.",
+        "diagram": {
+          "type": "flow",
+          "title": "Session lookup",
+          "nodes": [
+            {
+              "label": "Browser cookie"
+            },
+            {
+              "label": "Session ID"
+            },
+            {
+              "label": "Server session store"
+            },
+            {
+              "label": "User state"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "web-fundamentals-q10",
       "type": "multi_select",
-      "prompt": "Select the reasons to validate input before business logic.",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "What does HTTPS add over plain HTTP?",
+      "explanation": "HTTPS uses TLS to protect confidentiality, verify the server identity, and detect tampering.",
+      "difficulty": 1,
+      "tags": [
+        "https",
+        "tls"
+      ],
+      "options": [
+        "Encryption",
+        "Authentication",
+        "Data integrity",
+        "Automatic database sharding"
+      ],
+      "answer": [
+        "Encryption",
+        "Authentication",
+        "Data integrity"
+      ],
+      "concept_panel": {
+        "title": "HTTPS and TLS",
+        "explanation": "HTTPS is HTTP carried over TLS. TLS encrypts traffic, authenticates the server, and protects message integrity. This matters because tokens, cookies, and private payloads can otherwise be read or modified in transit. A strong answer separates transport security from application authorization.",
+        "key_takeaways": [
+          "HTTPS encrypts traffic in transit.",
+          "Certificates authenticate the server identity.",
+          "TLS does not replace input validation or authorization."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand transport security and where it sits in the request path.",
+        "practical_example": "A login cookie sent over plain HTTP can be stolen by a network observer.",
+        "diagram": {
+          "type": "flow",
+          "title": "Secure request path",
+          "nodes": [
+            {
+              "label": "Browser"
+            },
+            {
+              "label": "TLS handshake"
+            },
+            {
+              "label": "Encrypted HTTP"
+            },
+            {
+              "label": "API"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "web-fundamentals-q11",
+      "type": "bug_hunt",
+      "prompt": "A production site sends login tokens over plain HTTP. What is the bug?",
+      "explanation": "Without HTTPS, intermediaries may inspect or alter sensitive traffic such as tokens and session identifiers.",
       "difficulty": 2,
       "tags": [
         "http",
         "https",
-        "validation",
         "security"
       ],
       "options": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk",
-        "Make CPU work parallel"
+        "Traffic can be read or modified in transit",
+        "DNS cannot resolve names",
+        "PATCH replaces the resource",
+        "CORS disables cookies"
       ],
-      "answer": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk"
-      ]
-    },
-    {
-      "id": "web-fundamentals-q11",
-      "type": "matching",
-      "prompt": "Match the scaling tool to the bottleneck.",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "performance",
-        "scaling"
-      ],
-      "pairs": [
-        {
-          "left": "Cache",
-          "right": "Repeated reads"
-        },
-        {
-          "left": "Queue",
-          "right": "Bursty writes"
-        },
-        {
-          "left": "Read replica",
-          "right": "Read-heavy database load"
+      "answer": "Traffic can be read or modified in transit",
+      "concept_panel": {
+        "title": "HTTP Request and Response",
+        "explanation": "HTTP is a request-response protocol. The client sends a method, URL, headers, and sometimes a body; the server returns a status code, headers, and response body. Interview questions often test whether you can separate intent from outcome. Methods express what the client wants; status codes express what happened.",
+        "key_takeaways": [
+          "Methods describe intent.",
+          "Status codes describe outcomes.",
+          "Headers carry metadata for auth, content type, caching, and negotiation."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can reason about client-server contracts instead of memorizing codes.",
+        "practical_example": "GET /users/7 asks for a resource; 404 says that resource was not found.",
+        "diagram": {
+          "type": "flow",
+          "title": "HTTP lifecycle",
+          "nodes": [
+            {
+              "label": "Client"
+            },
+            {
+              "label": "Request"
+            },
+            {
+              "label": "Server"
+            },
+            {
+              "label": "Response"
+            }
+          ]
         }
-      ],
-      "answer": {
-        "Cache": "Repeated reads",
-        "Queue": "Bursty writes",
-        "Read replica": "Read-heavy database load"
       }
     },
     {
       "id": "web-fundamentals-q12",
-      "type": "bug_hunt",
-      "prompt": "An endpoint loads 100 users, then reads user.orders in a loop. What is happening?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "n+1",
-        "sqlalchemy"
-      ],
-      "options": [
-        "N+1 queries",
-        "A CORS preflight",
-        "A DNS failure",
-        "A cache hit"
-      ],
-      "answer": "N+1 queries"
-    },
-    {
-      "id": "web-fundamentals-q13",
-      "type": "multi_select",
-      "prompt": "Pick two fixes for the N+1 query pattern.",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "selectinload",
-        "joinedload"
-      ],
-      "options": [
-        "selectinload",
-        "joinedload",
-        "Unlimited retries",
-        "Client-side filtering"
-      ],
-      "answer": [
-        "selectinload",
-        "joinedload"
-      ]
-    },
-    {
-      "id": "web-fundamentals-q14",
       "type": "scenario_choice",
-      "prompt": "A downstream service is failing and your app keeps retrying instantly. What should you add first?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
+      "prompt": "A response succeeds but intentionally has no body. Which status code fits?",
+      "explanation": "204 means success with no response body. It is common for successful deletes or updates that return nothing.",
+      "difficulty": 1,
       "tags": [
-        "http",
-        "https",
-        "timeout",
-        "backoff"
+        "status code",
+        "response"
       ],
       "options": [
-        "Timeouts and exponential backoff",
-        "More unlimited retries",
-        "A larger JSON payload",
-        "A second frontend"
+        "204",
+        "201",
+        "404",
+        "503"
       ],
-      "answer": "Timeouts and exponential backoff"
-    },
-    {
-      "id": "web-fundamentals-q15",
-      "type": "ordering",
-      "prompt": "Order the transaction flow.",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "transaction",
-        "acid"
-      ],
-      "options": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ],
-      "answer": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ]
-    },
-    {
-      "id": "web-fundamentals-q16",
-      "type": "matching",
-      "prompt": "Match data shape to storage fit.",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "sql",
-        "nosql"
-      ],
-      "pairs": [
-        {
-          "left": "Strong relationships",
-          "right": "SQL"
-        },
-        {
-          "left": "Flexible documents",
-          "right": "NoSQL"
-        },
-        {
-          "left": "Hot session cache",
-          "right": "Redis"
+      "answer": "204",
+      "concept_panel": {
+        "title": "HTTP Status Codes",
+        "explanation": "Status codes are compact signals about request outcomes. 2xx means success, 4xx means the client request has a problem, and 5xx means the server or dependency failed. The common interview trap is 401 vs 403: 401 means authentication is missing or invalid, while 403 means identity is known but access is denied.",
+        "key_takeaways": [
+          "2xx means success.",
+          "4xx means client-side request problem.",
+          "401 is authentication; 403 is authorization."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can communicate API failures clearly to clients.",
+        "practical_example": "A logged-in user without admin permission should usually receive 403, not 401.",
+        "diagram": {
+          "type": "flow",
+          "title": "Status code bands",
+          "nodes": [
+            {
+              "label": "2xx success",
+              "status": "good"
+            },
+            {
+              "label": "4xx client issue"
+            },
+            {
+              "label": "5xx server issue",
+              "status": "hot"
+            }
+          ]
         }
-      ],
-      "answer": {
-        "Strong relationships": "SQL",
-        "Flexible documents": "NoSQL",
-        "Hot session cache": "Redis"
       }
-    },
-    {
-      "id": "web-fundamentals-q17",
-      "type": "code_fill",
-      "prompt": "Fill the safer SQLAlchemy loading option for a collection.",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "sqlalchemy",
-        "loading"
-      ],
-      "options": [
-        "selectinload",
-        "time.sleep",
-        "requests.get",
-        "os.system"
-      ],
-      "code": "stmt = select(User).options(____(User.orders))",
-      "answer": "selectinload"
-    },
-    {
-      "id": "web-fundamentals-q18",
-      "type": "multiple_choice",
-      "prompt": "CPU-heavy image processing is slowing requests. Which model helps most?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "parallelism",
-        "cpu"
-      ],
-      "options": [
-        "Parallelism",
-        "Async await only",
-        "More CORS headers",
-        "Offset pagination"
-      ],
-      "answer": "Parallelism"
-    },
-    {
-      "id": "web-fundamentals-q19",
-      "type": "scenario_choice",
-      "prompt": "A product page needs recommendations, but the recommender is down. What behavior is best?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "degradation",
-        "reliability"
-      ],
-      "options": [
-        "Serve the page without recommendations",
-        "Fail the entire page",
-        "Retry forever",
-        "Delete the cache"
-      ],
-      "answer": "Serve the page without recommendations"
-    },
-    {
-      "id": "web-fundamentals-q20",
-      "type": "multi_select",
-      "prompt": "Which signals make an API easier for clients to use?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "contract",
-        "openapi"
-      ],
-      "options": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema",
-        "Random response fields"
-      ],
-      "answer": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema"
-      ]
-    },
-    {
-      "id": "web-fundamentals-q21",
-      "type": "bug_hunt",
-      "prompt": "A response model includes password_hash. What is the bug?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "response model",
-        "security"
-      ],
-      "options": [
-        "Leaking sensitive data",
-        "Using a router",
-        "Returning JSON",
-        "Using a status code"
-      ],
-      "answer": "Leaking sensitive data"
-    },
-    {
-      "id": "web-fundamentals-q22",
-      "type": "scenario_choice",
-      "prompt": "A social like count appears five seconds late. When is that acceptable?",
-      "explanation": "Key idea: apply Web Fundamentals by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "http",
-        "https",
-        "eventual consistency",
-        "trade-off"
-      ],
-      "options": [
-        "When eventual consistency is acceptable",
-        "When money is transferred",
-        "When validating passwords",
-        "When committing inventory"
-      ],
-      "answer": "When eventual consistency is acceptable"
     }
   ],
   "coding_challenges": [

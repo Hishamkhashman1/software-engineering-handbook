@@ -23,6 +23,15 @@ def test_question_grading_short_answer_partial_credit():
     assert result.score >= 0.7
 
 
+def test_interactive_question_grading():
+    multi = q(type="multi_select", options=["GET", "PUT", "POST"], answer=["GET", "PUT"])
+    assert grade_question(multi, ["PUT", "GET"]).correct
+    matching = q(type="matching", options=None, pairs=[{"left": "401", "right": "Auth required"}, {"left": "503", "right": "Unavailable"}], answer={"401": "Auth required", "503": "Unavailable"})
+    assert grade_question(matching, {"401": "Auth required", "503": "Unavailable"}).correct
+    fill = q(type="code_fill", options=["selectinload", "sleep"], code="options(____)", answer="selectinload")
+    assert grade_question(fill, "selectinload").correct
+
+
 def test_quiz_selection_respects_count_and_seed():
     module = Module.model_validate({
         "id": "m",

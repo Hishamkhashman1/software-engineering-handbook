@@ -1,6 +1,7 @@
 import { Check, X } from 'lucide-react';
 import { useState } from 'react';
 import type { GradeResult, Question } from '../types/content';
+import { ConceptPanel } from './ConceptPanel';
 
 export function QuestionCard({
   question,
@@ -23,27 +24,30 @@ export function QuestionCard({
   }
 
   return (
-    <article className="panel question-card">
-      <div className="question-meta">
-        <span>{question.type.replace('_', ' ')}</span>
-        <span>Difficulty {question.difficulty}</span>
-      </div>
-      <h3>{question.prompt}</h3>
-      {renderInput(question, answer, setAnswer)}
-      <button className="primary" onClick={submit} disabled={busy}>
-        Submit
-      </button>
-      {feedback && (
-        <div className={`feedback ${feedback.correct ? 'correct' : 'incorrect'}`}>
-          {feedback.correct ? <Check size={18} /> : <X size={18} />}
-          <div>
-            <strong>{feedback.correct ? 'Correct' : `Score ${Math.round(feedback.score * 100)}%`}</strong>
-            <p>{feedback.explanation}</p>
-            {feedback.xp_awarded > 0 && <small>+{feedback.xp_awarded} XP</small>}
-          </div>
+    <div className="question-card-layout">
+      <article className="panel question-card">
+        <div className="question-meta">
+          <span>{question.type.replace('_', ' ')}</span>
+          <span>Difficulty {question.difficulty}</span>
         </div>
-      )}
-    </article>
+        <h3>{question.prompt}</h3>
+        {renderInput(question, answer, setAnswer)}
+        <button className="primary" onClick={submit} disabled={busy}>
+          Submit
+        </button>
+        {feedback && (
+          <div className={`feedback ${feedback.correct ? 'correct' : 'incorrect'}`}>
+            {feedback.correct ? <Check size={18} /> : <X size={18} />}
+            <div>
+              <strong>{feedback.correct ? 'Correct' : `Score ${Math.round(feedback.score * 100)}%`}</strong>
+              <p>{feedback.explanation}</p>
+              {feedback.xp_awarded > 0 && <small>+{feedback.xp_awarded} XP</small>}
+            </div>
+          </div>
+        )}
+      </article>
+      <ConceptPanel panel={question.concept_panel} />
+    </div>
   );
 }
 

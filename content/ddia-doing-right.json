@@ -1,0 +1,1026 @@
+{
+  "id": "ddia-doing-right",
+  "title": "DDIA: Doing the Right Thing",
+  "description": "Data ethics, privacy, correctness, auditability, security, retention, and human impact.",
+  "order": 24,
+  "tags": [
+    "ddia",
+    "privacy",
+    "ethics"
+  ],
+  "lessons": [
+    {
+      "id": "ddia-doing-right-core-model",
+      "title": "Core Mental Model",
+      "summary": "Data ethics, privacy, correctness, auditability, security, retention, and human impact.",
+      "explanation": "Data ethics, privacy, correctness, auditability, security, retention, and human impact. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "ddia",
+        "privacy",
+        "ethics"
+      ],
+      "examples": [
+        "Use DDIA: Doing the Right Thing concepts to name the workload, guarantee, and failure mode before choosing a tool."
+      ],
+      "interview_questions": [
+        "When would you apply core mental model?",
+        "What failure mode appears when core mental model is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "ddia",
+        "privacy",
+        "ethics"
+      ]
+    },
+    {
+      "id": "ddia-doing-right-failure-mode",
+      "title": "Failure Mode Drill",
+      "summary": "Most data-system mistakes come from hidden assumptions about time, ordering, durability, or coordination.",
+      "explanation": "Most data-system mistakes come from hidden assumptions about time, ordering, durability, or coordination. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "failure",
+        "assumption",
+        "trade-off"
+      ],
+      "examples": [
+        "Ask what can be stale, duplicated, delayed, reordered, or partially applied."
+      ],
+      "interview_questions": [
+        "When would you apply failure mode drill?",
+        "What failure mode appears when failure mode drill is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "failure",
+        "assumption",
+        "trade-off"
+      ]
+    },
+    {
+      "id": "ddia-doing-right-design-choice",
+      "title": "Design Choice",
+      "summary": "Good architecture explains what it optimizes and what it makes harder.",
+      "explanation": "Good architecture explains what it optimizes and what it makes harder. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "design",
+        "trade-off",
+        "constraint"
+      ],
+      "examples": [
+        "A read replica improves read capacity but can show stale data."
+      ],
+      "interview_questions": [
+        "When would you apply design choice?",
+        "What failure mode appears when design choice is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "design",
+        "trade-off",
+        "constraint"
+      ]
+    },
+    {
+      "id": "ddia-doing-right-interview-synthesis",
+      "title": "Interview Synthesis",
+      "summary": "Strong answers connect symptoms to guarantees, then propose a measured mitigation.",
+      "explanation": "Strong answers connect symptoms to guarantees, then propose a measured mitigation. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "interview",
+        "diagnosis",
+        "mitigation"
+      ],
+      "examples": [
+        "Name the invariant, pick the weakest guarantee that protects it, and explain the cost."
+      ],
+      "interview_questions": [
+        "When would you apply interview synthesis?",
+        "What failure mode appears when interview synthesis is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "interview",
+        "diagnosis",
+        "mitigation"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "ddia-doing-right-q01",
+      "type": "scenario_choice",
+      "prompt": "A team wants to keep raw user events forever because storage is cheap.",
+      "explanation": "Define retention, purpose, access controls, and deletion rules. In DDIA: Doing the Right Thing, the first move is to protect the system's real guarantee: design for responsible data use.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "Define retention, purpose, access controls, and deletion rules",
+        "Keep everything forever",
+        "Hide policy in code",
+        "Disable audit logs"
+      ],
+      "answer": "Define retention, purpose, access controls, and deletion rules",
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q02",
+      "type": "multi_select",
+      "prompt": "Which concepts belong in a DDIA: Doing the Right Thing design discussion?",
+      "explanation": "These concepts are central to ddia: doing the right thing. The unrelated option may matter in frontend work, but it does not diagnose this data-system problem.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "Data minimization",
+        "Retention",
+        "Auditability",
+        "CSS color choice"
+      ],
+      "answer": [
+        "Data minimization",
+        "Retention",
+        "Auditability"
+      ],
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q03",
+      "type": "matching",
+      "prompt": "Match the DDIA: Doing the Right Thing concepts.",
+      "explanation": "The mapping links each term to the operational behavior you should listen for in interviews and incidents.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "pairs": [
+        {
+          "left": "Data minimization",
+          "right": "Collect only data needed for a defined purpose"
+        },
+        {
+          "left": "Retention",
+          "right": "How long data is kept"
+        },
+        {
+          "left": "Auditability",
+          "right": "Ability to inspect and explain data access or changes"
+        }
+      ],
+      "answer": {
+        "Data minimization": "Collect only data needed for a defined purpose",
+        "Retention": "How long data is kept",
+        "Auditability": "Ability to inspect and explain data access or changes"
+      },
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q04",
+      "type": "ordering",
+      "prompt": "Order the DDIA: Doing the Right Thing design move.",
+      "explanation": "This order keeps the reasoning grounded: observe the requirement, choose the guarantee, then validate it with the system behavior.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "Define purpose",
+        "Limit collection",
+        "Control access",
+        "Audit use"
+      ],
+      "answer": [
+        "Define purpose",
+        "Limit collection",
+        "Control access",
+        "Audit use"
+      ],
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q05",
+      "type": "bug_hunt",
+      "prompt": "An analyst can query sensitive production data without review or logging.",
+      "explanation": "The symptom is best explained by Missing governance controls. A strong answer names the anomaly and then proposes a mitigation.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "Missing governance controls",
+        "Partition skew",
+        "B-tree",
+        "Quorum read"
+      ],
+      "answer": "Missing governance controls",
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q06",
+      "type": "multiple_choice",
+      "prompt": "What trade-off should you say out loud for DDIA: Doing the Right Thing?",
+      "explanation": "Responsible systems treat data as risk as well as value: collect less, protect it, and make use accountable.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "Responsible systems treat data as risk as well as value: collect less, protect it, and make use accountable.",
+        "Every tool gives the same guarantees",
+        "Latency and correctness are unrelated",
+        "Adding replicas always removes complexity"
+      ],
+      "answer": "Responsible systems treat data as risk as well as value: collect less, protect it, and make use accountable.",
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q07",
+      "type": "scenario_choice",
+      "prompt": "During design review, what question best tests the DDIA: Doing the Right Thing choice?",
+      "explanation": "Data-system design should start from invariants and failure behavior. Tool choice follows from the guarantee you need.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "What guarantee must hold during failure?",
+        "Which logo color is final?",
+        "Can we skip metrics?",
+        "Can clients guess the schema?"
+      ],
+      "answer": "What guarantee must hold during failure?",
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q08",
+      "type": "multi_select",
+      "prompt": "Pick interview moves that make a DDIA: Doing the Right Thing answer sound senior.",
+      "explanation": "Strong answers are conditional: they describe load, data shape, failure mode, and cost instead of pretending one tool is always best.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "Name the workload",
+        "Name the failure mode",
+        "State the trade-off",
+        "Claim there is one perfect database"
+      ],
+      "answer": [
+        "Name the workload",
+        "Name the failure mode",
+        "State the trade-off"
+      ],
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q09",
+      "type": "matching",
+      "prompt": "Match outcome to design pressure in DDIA: Doing the Right Thing.",
+      "explanation": "Reversing the mapping trains recognition from symptoms back to the concept, which is how incidents and interviews usually present the problem.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "pairs": [
+        {
+          "left": "Rules limiting who can read or modify data",
+          "right": "Access control"
+        },
+        {
+          "left": "User permission for a defined data use",
+          "right": "Consent"
+        },
+        {
+          "left": "Removing data according to policy or request",
+          "right": "Deletion"
+        }
+      ],
+      "answer": {
+        "Rules limiting who can read or modify data": "Access control",
+        "User permission for a defined data use": "Consent",
+        "Removing data according to policy or request": "Deletion"
+      },
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q10",
+      "type": "code_fill",
+      "prompt": "Fill the guard that prevents an unsafe operation from continuing.",
+      "explanation": "When a guarantee is uncertain, the safe path is to retry with idempotency or reconcile state. Assuming success hides data loss or duplication.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "\"retry_or_reconcile\"",
+        "\"ignore\"",
+        "\"delete_history\"",
+        "\"assume_success\""
+      ],
+      "code": "if not guarantee_holds(event):\n    return ____",
+      "answer": "\"retry_or_reconcile\"",
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q11",
+      "type": "bug_hunt",
+      "prompt": "A team adds DDIA: Doing the Right Thing machinery but cannot explain the invariant it protects. What is the real issue?",
+      "explanation": "Advanced data tools are justified by guarantees. Without a stated invariant, the team cannot tell whether complexity is buying anything.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "Architecture without a stated guarantee",
+        "Too many unit tests",
+        "Correct schema evolution",
+        "Clear observability"
+      ],
+      "answer": "Architecture without a stated guarantee",
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q12",
+      "type": "scenario_choice",
+      "prompt": "What is the safest first response when DDIA: Doing the Right Thing behavior surprises production?",
+      "explanation": "Data-system failures are often timing or workload dependent. Evidence lets you distinguish stale reads, duplicate work, hot keys, lock waits, and real data loss.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "Capture evidence with logs, metrics, and traces",
+        "Delete the database",
+        "Retry all writes forever",
+        "Disable validation"
+      ],
+      "answer": "Capture evidence with logs, metrics, and traces",
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q13",
+      "type": "ordering",
+      "prompt": "Order the incident explanation for DDIA: Doing the Right Thing.",
+      "explanation": "This structure turns a vague answer into an engineering argument: symptom, cause, fix, and cost.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "Observed symptom",
+        "Likely invariant violation",
+        "Concrete mitigation",
+        "Trade-off introduced"
+      ],
+      "answer": [
+        "Observed symptom",
+        "Likely invariant violation",
+        "Concrete mitigation",
+        "Trade-off introduced"
+      ],
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q14",
+      "type": "multi_select",
+      "prompt": "Which answers are honest about DDIA: Doing the Right Thing trade-offs?",
+      "explanation": "DDIA-style reasoning is explicit about workload and guarantees. Average-only or absolute claims usually hide the real trade-off.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "privacy"
+      ],
+      "options": [
+        "It depends on workload",
+        "Measure tail behavior",
+        "State consistency needs",
+        "Always optimize averages only"
+      ],
+      "answer": [
+        "It depends on workload",
+        "Measure tail behavior",
+        "State consistency needs"
+      ],
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q15",
+      "type": "scenario_choice",
+      "prompt": "A team can collect sensitive user behavior but has no clear product purpose. What principle should stop them?",
+      "explanation": "Responsible systems collect data for a defined purpose, minimize unnecessary retention, and consider human impact.",
+      "difficulty": 3,
+      "tags": [
+        "ethics",
+        "data minimization",
+        "privacy"
+      ],
+      "options": [
+        "Data minimization and ethics",
+        "More derived indexes",
+        "More replicas",
+        "Lower p99 only"
+      ],
+      "answer": "Data minimization and ethics",
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-doing-right-q16",
+      "type": "multi_select",
+      "prompt": "Which controls support responsible data use?",
+      "explanation": "Consent, retention, access review, governance, and auditability make data use accountable.",
+      "difficulty": 3,
+      "tags": [
+        "consent",
+        "governance",
+        "auditability",
+        "retention"
+      ],
+      "options": [
+        "Consent",
+        "Retention policy",
+        "Governance/audit logs",
+        "Unlimited analyst access"
+      ],
+      "answer": [
+        "Consent",
+        "Retention policy",
+        "Governance/audit logs"
+      ],
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "ddia-doing-right-route-partition",
+      "title": "DDIA: Doing the Right Thing partition router",
+      "instructions": "Implement route_partition(key: str, partitions: int) -> int. Return a stable partition from 0 to partitions - 1. Raise ValueError when partitions is less than 1.",
+      "starter_code": "def route_partition(key: str, partitions: int) -> int:\n    pass\n",
+      "function_signature": "def route_partition(key: str, partitions: int) -> int",
+      "visible_tests": [
+        {
+          "name": "range",
+          "call": "0 <= route_partition('user-7', 8) < 8",
+          "expected": true
+        },
+        {
+          "name": "stable",
+          "call": "route_partition('tenant-a', 16) == route_partition('tenant-a', 16)",
+          "expected": true
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "single partition",
+          "call": "route_partition('anything', 1)",
+          "expected": 0
+        },
+        {
+          "name": "different size still range",
+          "call": "0 <= route_partition('order-9', 3) < 3",
+          "expected": true
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Stable routing is a core primitive behind partitioning. This exercise checks deterministic mapping and input validation.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "privacy",
+        "ethics"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "ddia-doing-right-boss",
+    "title": "DDIA: Doing the Right Thing boss battle",
+    "question_ids": [
+      "ddia-doing-right-q01",
+      "ddia-doing-right-q02",
+      "ddia-doing-right-q03",
+      "ddia-doing-right-q04",
+      "ddia-doing-right-q05",
+      "ddia-doing-right-q06",
+      "ddia-doing-right-q07",
+      "ddia-doing-right-q08",
+      "ddia-doing-right-q09",
+      "ddia-doing-right-q10",
+      "ddia-doing-right-q11",
+      "ddia-doing-right-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

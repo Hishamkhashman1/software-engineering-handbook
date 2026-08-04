@@ -8,6 +8,8 @@ Features
 
 - Data-driven modules loaded from `content/*.json`
 - Strict startup validation with duplicate ID detection
+- 34 seed modules, including advanced DDIA-style data systems, EPAM interview, Forecast Alpha defense, and portfolio assistant LLM tracks
+- Per-question concept panels with explanations, interview insight, practical examples, and renderable diagram specs
 - Learn mode with lessons, examples, quick questions, and mastery updates
 - Quick quiz, weak-topic review, timed interview mode, coding lab, and module boss battles
 - SQLite progress tracking for XP, levels, streaks, accuracy, lesson completion, mastery, attempts, coding runs, and badges
@@ -84,6 +86,19 @@ Questions support:
 - `code_output`
 - `debugging`
 
+Each question can also include `concept_panel`. The panel is shown beside the question on desktop and below it on mobile. It teaches the concept needed to reason about the question without revealing the answer directly.
+
+`concept_panel` fields:
+
+- `title`
+- `explanation`
+- `key_takeaways`
+- `interview_insight`
+- `practical_example`
+- optional `diagram`
+
+Diagrams are structured JSON specs rendered by the frontend. Current diagram types are `flow`, `compare`, `network`, `triangle`, and `tree`.
+
 Short answers, scenarios, and debugging questions are graded deterministically using accepted answers and/or required keywords. No LLM is used.
 
 Coding Challenges
@@ -120,3 +135,4 @@ Future Extensions
 - Add import/export progress snapshots
 - Add richer module-specific coding challenges
 - Add keyboard shortcuts and configurable interview timing
+- Add deeper per-chapter DDIA boss battles with custom diagrams and simulations

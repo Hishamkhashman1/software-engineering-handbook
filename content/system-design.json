@@ -111,506 +111,660 @@
   "questions": [
     {
       "id": "system-design-q01",
-      "type": "scenario_choice",
-      "prompt": "A profile endpoint receives only a new email field. What should the API prefer?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "ordering",
+      "prompt": "Order the first moves in a system design interview.",
+      "explanation": "Design choices should follow requirements, scale, and access patterns. Jumping to tools too early weakens the answer.",
       "difficulty": 1,
       "tags": [
-        "system design",
-        "scalability",
-        "partial update",
-        "api"
+        "requirements",
+        "access pattern"
       ],
       "options": [
-        "PATCH the selected field",
-        "PUT an empty profile",
-        "GET with a body",
-        "DELETE and recreate"
+        "Clarify functional requirements",
+        "Clarify non-functional requirements",
+        "Estimate scale/access patterns",
+        "Choose APIs and data model"
       ],
-      "answer": "PATCH the selected field"
+      "answer": [
+        "Clarify functional requirements",
+        "Clarify non-functional requirements",
+        "Estimate scale/access patterns",
+        "Choose APIs and data model"
+      ],
+      "concept_panel": {
+        "title": "System Design Requirements",
+        "explanation": "System design starts by clarifying what the system must do and what qualities it must have. Functional requirements describe behavior; non-functional requirements describe scale, latency, availability, durability, privacy, and cost constraints. Good designs tie APIs and data models to access patterns. Jumping to tools before requirements usually produces weak answers.",
+        "key_takeaways": [
+          "Clarify functional requirements first.",
+          "Non-functional requirements drive architecture.",
+          "Access patterns shape APIs and data models."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can turn vague product goals into concrete engineering constraints.",
+        "practical_example": "A feed service design changes depending on read/write ratio, freshness needs, and fan-out size.",
+        "diagram": {
+          "type": "flow",
+          "title": "Design interview opening",
+          "nodes": [
+            {
+              "label": "Functional reqs"
+            },
+            {
+              "label": "NFRs"
+            },
+            {
+              "label": "Scale/access patterns"
+            },
+            {
+              "label": "API + data model"
+            },
+            {
+              "label": "Trade-offs"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "system-design-q02",
-      "type": "multi_select",
-      "prompt": "Pick the operations that are usually safe to retry.",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "system design",
-        "scalability",
-        "idempotency",
-        "retry"
-      ],
-      "options": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5",
-        "POST /users"
-      ],
-      "answer": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5"
-      ]
-    },
-    {
-      "id": "system-design-q03",
-      "type": "ordering",
-      "prompt": "Arrange the request path.",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "system design",
-        "scalability",
-        "request",
-        "validation"
-      ],
-      "options": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
-      ],
-      "answer": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
-      ]
-    },
-    {
-      "id": "system-design-q04",
       "type": "matching",
-      "prompt": "Match each signal to its meaning.",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "Match design requirement types.",
+      "explanation": "Functional requirements define behavior; non-functional requirements define qualities and constraints.",
       "difficulty": 1,
       "tags": [
-        "system design",
-        "scalability",
-        "status code",
-        "http"
+        "functional requirements",
+        "nonfunctional requirements"
       ],
       "pairs": [
         {
-          "left": "401",
-          "right": "Authentication required"
+          "left": "Functional",
+          "right": "What the system does"
         },
         {
-          "left": "403",
-          "right": "Authenticated but forbidden"
+          "left": "Latency",
+          "right": "How fast it responds"
         },
         {
-          "left": "503",
-          "right": "Service unavailable"
+          "left": "Availability",
+          "right": "How often it can serve requests"
         }
       ],
       "answer": {
-        "401": "Authentication required",
-        "403": "Authenticated but forbidden",
-        "503": "Service unavailable"
+        "Functional": "What the system does",
+        "Latency": "How fast it responds",
+        "Availability": "How often it can serve requests"
+      },
+      "concept_panel": {
+        "title": "System Design Requirements",
+        "explanation": "System design starts by clarifying what the system must do and what qualities it must have. Functional requirements describe behavior; non-functional requirements describe scale, latency, availability, durability, privacy, and cost constraints. Good designs tie APIs and data models to access patterns. Jumping to tools before requirements usually produces weak answers.",
+        "key_takeaways": [
+          "Clarify functional requirements first.",
+          "Non-functional requirements drive architecture.",
+          "Access patterns shape APIs and data models."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can turn vague product goals into concrete engineering constraints.",
+        "practical_example": "A feed service design changes depending on read/write ratio, freshness needs, and fan-out size.",
+        "diagram": {
+          "type": "flow",
+          "title": "Design interview opening",
+          "nodes": [
+            {
+              "label": "Functional reqs"
+            },
+            {
+              "label": "NFRs"
+            },
+            {
+              "label": "Scale/access patterns"
+            },
+            {
+              "label": "API + data model"
+            },
+            {
+              "label": "Trade-offs"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "system-design-q03",
+      "type": "scenario_choice",
+      "prompt": "A timeline feed has many reads and fewer writes. Which design pressure comes first?",
+      "explanation": "Feed design is shaped by read/write ratio, fan-out, freshness needs, and cacheability.",
+      "difficulty": 2,
+      "tags": [
+        "feed",
+        "cache"
+      ],
+      "options": [
+        "Read access pattern and caching strategy",
+        "Only color tokens",
+        "Delete old APIs",
+        "Use one table blindly"
+      ],
+      "answer": "Read access pattern and caching strategy",
+      "concept_panel": {
+        "title": "Caching",
+        "explanation": "A cache stores previously computed or fetched data so repeated reads avoid expensive work. Caching improves latency and reduces load, but introduces staleness and invalidation problems. You should cache data that is read often, expensive to compute, and safe to serve slightly stale. Always explain cache hit, cache miss, TTL, and invalidation.",
+        "key_takeaways": [
+          "Cache hits avoid database or service work.",
+          "Cache misses still need the source of truth.",
+          "Invalidation and staleness are the main trade-offs."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand performance trade-offs and stale-data risk.",
+        "practical_example": "A product catalog can be cached in Redis with a TTL if updates are infrequent.",
+        "diagram": {
+          "type": "flow",
+          "title": "Cache hit/miss",
+          "nodes": [
+            {
+              "label": "Client"
+            },
+            {
+              "label": "Redis cache"
+            },
+            {
+              "label": "Hit: return",
+              "status": "good"
+            },
+            {
+              "label": "Miss: database"
+            },
+            {
+              "label": "Store result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "system-design-q04",
+      "type": "scenario_choice",
+      "prompt": "Writes arrive in bursts, and users do not need immediate processing. Which component helps?",
+      "explanation": "Queues absorb bursts and decouple producers from workers, at the cost of delayed processing.",
+      "difficulty": 2,
+      "tags": [
+        "queue",
+        "async"
+      ],
+      "options": [
+        "Queue",
+        "Synchronous recursive call",
+        "Browser cookie",
+        "Swagger UI"
+      ],
+      "answer": "Queue",
+      "concept_panel": {
+        "title": "Queues and Backpressure",
+        "explanation": "A queue decouples producers from workers. It smooths bursts by storing work until consumers can process it, which improves resilience but adds delay. Queues are useful when immediate completion is not required. The design must handle retries, duplicates, dead-letter queues, and visibility into lag.",
+        "key_takeaways": [
+          "Queues smooth bursty writes.",
+          "Async processing trades immediacy for resilience.",
+          "Consumer lag and duplicate handling matter."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand async system design and backpressure.",
+        "practical_example": "Send email jobs to a queue so signup responses do not wait for the email provider.",
+        "diagram": {
+          "type": "flow",
+          "title": "Queued work",
+          "nodes": [
+            {
+              "label": "API"
+            },
+            {
+              "label": "Queue"
+            },
+            {
+              "label": "Worker"
+            },
+            {
+              "label": "External service"
+            }
+          ]
+        }
       }
     },
     {
       "id": "system-design-q05",
-      "type": "code_fill",
-      "prompt": "Fill the branch that classifies server errors.",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "system design",
-        "scalability",
-        "code",
-        "status code"
-      ],
-      "options": [
-        "\"server_error\"",
-        "\"client_error\"",
-        "\"success\"",
-        "\"redirect\""
-      ],
-      "code": "def classify(code):\n    if 500 <= code < 600:\n        return ____",
-      "answer": "\"server_error\""
-    },
-    {
-      "id": "system-design-q06",
-      "type": "bug_hunt",
-      "prompt": "Production duplicated records after a timeout. What is the bug?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "system design",
-        "scalability",
-        "duplicate",
-        "retry"
-      ],
-      "options": [
-        "Retrying POST without an idempotency key",
-        "Using HTTPS",
-        "Returning 201 after create",
-        "Sorting by created_at"
-      ],
-      "answer": "Retrying POST without an idempotency key"
-    },
-    {
-      "id": "system-design-q07",
-      "type": "code_output",
-      "prompt": "What does classify_status_code(404) return?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "system design",
-        "scalability",
-        "code output",
-        "status code"
-      ],
-      "options": [
-        "client_error",
-        "server_error",
-        "success",
-        "unknown"
-      ],
-      "answer": "client_error"
-    },
-    {
-      "id": "system-design-q08",
-      "type": "scenario_choice",
-      "prompt": "A changing feed skips items with page numbers. What pagination style fits better?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "system design",
-        "scalability",
-        "pagination",
-        "cursor"
-      ],
-      "options": [
-        "Cursor pagination",
-        "Offset pagination",
-        "Return everything",
-        "Sort in the browser"
-      ],
-      "answer": "Cursor pagination"
-    },
-    {
-      "id": "system-design-q09",
-      "type": "multiple_choice",
-      "prompt": "Which change best preserves existing clients when a response shape breaks compatibility?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "system design",
-        "scalability",
-        "versioning",
-        "contract"
-      ],
-      "options": [
-        "Add /v2",
-        "Silently change /v1",
-        "Remove old fields",
-        "Document it after deploy"
-      ],
-      "answer": "Add /v2"
-    },
-    {
-      "id": "system-design-q10",
-      "type": "multi_select",
-      "prompt": "Select the reasons to validate input before business logic.",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "system design",
-        "scalability",
-        "validation",
-        "security"
-      ],
-      "options": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk",
-        "Make CPU work parallel"
-      ],
-      "answer": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk"
-      ]
-    },
-    {
-      "id": "system-design-q11",
       "type": "matching",
-      "prompt": "Match the scaling tool to the bottleneck.",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
+      "prompt": "Match scale tools to bottlenecks.",
+      "explanation": "Each scale pattern solves a different bottleneck; mixing them up creates complexity without capacity.",
+      "difficulty": 2,
       "tags": [
-        "system design",
-        "scalability",
-        "performance",
-        "scaling"
+        "cache",
+        "replica",
+        "partition"
       ],
       "pairs": [
         {
           "left": "Cache",
-          "right": "Repeated reads"
-        },
-        {
-          "left": "Queue",
-          "right": "Bursty writes"
+          "right": "Repeated expensive reads"
         },
         {
           "left": "Read replica",
           "right": "Read-heavy database load"
+        },
+        {
+          "left": "Partitioning",
+          "right": "Data or write load too large for one node"
         }
       ],
       "answer": {
-        "Cache": "Repeated reads",
-        "Queue": "Bursty writes",
-        "Read replica": "Read-heavy database load"
+        "Cache": "Repeated expensive reads",
+        "Read replica": "Read-heavy database load",
+        "Partitioning": "Data or write load too large for one node"
+      },
+      "concept_panel": {
+        "title": "Replication and Replica Lag",
+        "explanation": "Replication copies data from a primary or leader to follower replicas. It can improve read capacity and availability, but followers may lag behind recent writes. A user who writes to the leader and immediately reads from a lagging replica may see stale data. The design must decide which reads require freshness.",
+        "key_takeaways": [
+          "Replicas help read scale and availability.",
+          "Replica lag creates stale-read risk.",
+          "Read-your-writes may require leader reads or session-aware routing."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand consistency trade-offs in replicated systems.",
+        "practical_example": "After updating a profile, route that user's next profile read to the leader until replicas catch up.",
+        "diagram": {
+          "type": "network",
+          "title": "Leader replication",
+          "nodes": [
+            {
+              "id": "Primary",
+              "label": "Primary",
+              "status": "good"
+            },
+            {
+              "id": "Replica A",
+              "label": "Replica A"
+            },
+            {
+              "id": "Replica B",
+              "label": "Replica B",
+              "status": "hot"
+            }
+          ],
+          "edges": [
+            {
+              "from": "Primary",
+              "to": "Replica A",
+              "label": "fresh"
+            },
+            {
+              "from": "Primary",
+              "to": "Replica B",
+              "label": "lagging"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "system-design-q06",
+      "type": "scenario_choice",
+      "prompt": "A username must be unique globally during failover. What should you prioritize?",
+      "explanation": "Uniqueness is an invariant. Protect it with a strongly consistent path even if other parts can be eventually consistent.",
+      "difficulty": 3,
+      "tags": [
+        "consistency",
+        "invariant"
+      ],
+      "options": [
+        "Strong consistency for the uniqueness check",
+        "Eventual consistency everywhere",
+        "Client-side validation only",
+        "A CDN cache"
+      ],
+      "answer": "Strong consistency for the uniqueness check",
+      "concept_panel": {
+        "title": "Consistency vs Availability",
+        "explanation": "Consistency describes what reads are allowed to observe after writes. Some invariants, like unique usernames or bank balances, need strong consistency. Other values, like social counters, can often be eventually consistent. During failures, stronger consistency may reduce availability because coordination is required.",
+        "key_takeaways": [
+          "Use strong consistency for hard invariants.",
+          "Eventual consistency can fit counters and feeds.",
+          "Consistency choices trade off with latency and availability."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can choose guarantees based on business invariants.",
+        "practical_example": "A like count can lag briefly, but a payment ledger should not accept conflicting balances.",
+        "diagram": {
+          "type": "triangle",
+          "title": "CAP pressure",
+          "points": [
+            {
+              "label": "Consistency"
+            },
+            {
+              "label": "Availability"
+            },
+            {
+              "label": "Partition tolerance"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "system-design-q07",
+      "type": "scenario_choice",
+      "prompt": "A like counter can be stale for a few seconds. Which trade-off is acceptable?",
+      "explanation": "Counters and feeds often tolerate temporary staleness, which can reduce coordination and improve availability.",
+      "difficulty": 2,
+      "tags": [
+        "eventual consistency",
+        "availability"
+      ],
+      "options": [
+        "Eventual consistency for higher availability/throughput",
+        "Serializable transactions for every click",
+        "Manual SQL only",
+        "No database"
+      ],
+      "answer": "Eventual consistency for higher availability/throughput",
+      "concept_panel": {
+        "title": "Consistency vs Availability",
+        "explanation": "Consistency describes what reads are allowed to observe after writes. Some invariants, like unique usernames or bank balances, need strong consistency. Other values, like social counters, can often be eventually consistent. During failures, stronger consistency may reduce availability because coordination is required.",
+        "key_takeaways": [
+          "Use strong consistency for hard invariants.",
+          "Eventual consistency can fit counters and feeds.",
+          "Consistency choices trade off with latency and availability."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can choose guarantees based on business invariants.",
+        "practical_example": "A like count can lag briefly, but a payment ledger should not accept conflicting balances.",
+        "diagram": {
+          "type": "triangle",
+          "title": "CAP pressure",
+          "points": [
+            {
+              "label": "Consistency"
+            },
+            {
+              "label": "Availability"
+            },
+            {
+              "label": "Partition tolerance"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "system-design-q08",
+      "type": "bug_hunt",
+      "prompt": "A design says 'add cache' without defining invalidation or staleness. What is missing?",
+      "explanation": "Caches introduce stale data risk. A strong design names TTLs, invalidation, and correctness impact.",
+      "difficulty": 2,
+      "tags": [
+        "cache",
+        "staleness"
+      ],
+      "options": [
+        "Cache consistency strategy",
+        "Button hover state",
+        "More endpoints",
+        "Less monitoring"
+      ],
+      "answer": "Cache consistency strategy",
+      "concept_panel": {
+        "title": "Caching",
+        "explanation": "A cache stores previously computed or fetched data so repeated reads avoid expensive work. Caching improves latency and reduces load, but introduces staleness and invalidation problems. You should cache data that is read often, expensive to compute, and safe to serve slightly stale. Always explain cache hit, cache miss, TTL, and invalidation.",
+        "key_takeaways": [
+          "Cache hits avoid database or service work.",
+          "Cache misses still need the source of truth.",
+          "Invalidation and staleness are the main trade-offs."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand performance trade-offs and stale-data risk.",
+        "practical_example": "A product catalog can be cached in Redis with a TTL if updates are infrequent.",
+        "diagram": {
+          "type": "flow",
+          "title": "Cache hit/miss",
+          "nodes": [
+            {
+              "label": "Client"
+            },
+            {
+              "label": "Redis cache"
+            },
+            {
+              "label": "Hit: return",
+              "status": "good"
+            },
+            {
+              "label": "Miss: database"
+            },
+            {
+              "label": "Store result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "system-design-q09",
+      "type": "multi_select",
+      "prompt": "Which details belong in an API/data-model section?",
+      "explanation": "Data models should be justified by how the API reads and writes the data.",
+      "difficulty": 1,
+      "tags": [
+        "api",
+        "data model",
+        "index"
+      ],
+      "options": [
+        "Core entities",
+        "Read/write access patterns",
+        "Important indexes",
+        "Random frontend animation"
+      ],
+      "answer": [
+        "Core entities",
+        "Read/write access patterns",
+        "Important indexes"
+      ],
+      "concept_panel": {
+        "title": "System Design Requirements",
+        "explanation": "System design starts by clarifying what the system must do and what qualities it must have. Functional requirements describe behavior; non-functional requirements describe scale, latency, availability, durability, privacy, and cost constraints. Good designs tie APIs and data models to access patterns. Jumping to tools before requirements usually produces weak answers.",
+        "key_takeaways": [
+          "Clarify functional requirements first.",
+          "Non-functional requirements drive architecture.",
+          "Access patterns shape APIs and data models."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can turn vague product goals into concrete engineering constraints.",
+        "practical_example": "A feed service design changes depending on read/write ratio, freshness needs, and fan-out size.",
+        "diagram": {
+          "type": "flow",
+          "title": "Design interview opening",
+          "nodes": [
+            {
+              "label": "Functional reqs"
+            },
+            {
+              "label": "NFRs"
+            },
+            {
+              "label": "Scale/access patterns"
+            },
+            {
+              "label": "API + data model"
+            },
+            {
+              "label": "Trade-offs"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "system-design-q10",
+      "type": "ordering",
+      "prompt": "Order a bottleneck-driven scaling answer.",
+      "explanation": "System design improves when every scale choice maps to a measured pressure and an explicit cost.",
+      "difficulty": 2,
+      "tags": [
+        "bottleneck",
+        "trade-off"
+      ],
+      "options": [
+        "Name current bottleneck",
+        "Pick targeted mitigation",
+        "State new trade-off",
+        "Measure result"
+      ],
+      "answer": [
+        "Name current bottleneck",
+        "Pick targeted mitigation",
+        "State new trade-off",
+        "Measure result"
+      ],
+      "concept_panel": {
+        "title": "System Design Requirements",
+        "explanation": "System design starts by clarifying what the system must do and what qualities it must have. Functional requirements describe behavior; non-functional requirements describe scale, latency, availability, durability, privacy, and cost constraints. Good designs tie APIs and data models to access patterns. Jumping to tools before requirements usually produces weak answers.",
+        "key_takeaways": [
+          "Clarify functional requirements first.",
+          "Non-functional requirements drive architecture.",
+          "Access patterns shape APIs and data models."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can turn vague product goals into concrete engineering constraints.",
+        "practical_example": "A feed service design changes depending on read/write ratio, freshness needs, and fan-out size.",
+        "diagram": {
+          "type": "flow",
+          "title": "Design interview opening",
+          "nodes": [
+            {
+              "label": "Functional reqs"
+            },
+            {
+              "label": "NFRs"
+            },
+            {
+              "label": "Scale/access patterns"
+            },
+            {
+              "label": "API + data model"
+            },
+            {
+              "label": "Trade-offs"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "system-design-q11",
+      "type": "scenario_choice",
+      "prompt": "A service must keep accepting reads during a regional failure, but latest writes may lag. What are you trading?",
+      "explanation": "In failures, systems often trade freshness/consistency for availability. Name that trade-off directly.",
+      "difficulty": 3,
+      "tags": [
+        "availability",
+        "consistency"
+      ],
+      "options": [
+        "Availability over immediate consistency",
+        "CSS over API design",
+        "Serialization over security",
+        "Unit tests over monitoring"
+      ],
+      "answer": "Availability over immediate consistency",
+      "concept_panel": {
+        "title": "Consistency vs Availability",
+        "explanation": "Consistency describes what reads are allowed to observe after writes. Some invariants, like unique usernames or bank balances, need strong consistency. Other values, like social counters, can often be eventually consistent. During failures, stronger consistency may reduce availability because coordination is required.",
+        "key_takeaways": [
+          "Use strong consistency for hard invariants.",
+          "Eventual consistency can fit counters and feeds.",
+          "Consistency choices trade off with latency and availability."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can choose guarantees based on business invariants.",
+        "practical_example": "A like count can lag briefly, but a payment ledger should not accept conflicting balances.",
+        "diagram": {
+          "type": "triangle",
+          "title": "CAP pressure",
+          "points": [
+            {
+              "label": "Consistency"
+            },
+            {
+              "label": "Availability"
+            },
+            {
+              "label": "Partition tolerance"
+            }
+          ]
+        }
       }
     },
     {
       "id": "system-design-q12",
       "type": "bug_hunt",
-      "prompt": "An endpoint loads 100 users, then reads user.orders in a loop. What is happening?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "A design stores all tenants in one partition by tenant_type, and enterprise traffic overloads one node. What failed?",
+      "explanation": "Partition keys need enough cardinality and balanced traffic. Skewed keys create hot partitions.",
       "difficulty": 3,
       "tags": [
-        "system design",
-        "scalability",
-        "n+1",
-        "sqlalchemy"
+        "partition",
+        "hot shard"
       ],
       "options": [
-        "N+1 queries",
-        "A CORS preflight",
-        "A DNS failure",
-        "A cache hit"
+        "Bad partition key causing skew",
+        "Too much OpenAPI",
+        "A response model leak",
+        "A missing CORS header"
       ],
-      "answer": "N+1 queries"
-    },
-    {
-      "id": "system-design-q13",
-      "type": "multi_select",
-      "prompt": "Pick two fixes for the N+1 query pattern.",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "system design",
-        "scalability",
-        "selectinload",
-        "joinedload"
-      ],
-      "options": [
-        "selectinload",
-        "joinedload",
-        "Unlimited retries",
-        "Client-side filtering"
-      ],
-      "answer": [
-        "selectinload",
-        "joinedload"
-      ]
-    },
-    {
-      "id": "system-design-q14",
-      "type": "scenario_choice",
-      "prompt": "A downstream service is failing and your app keeps retrying instantly. What should you add first?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "system design",
-        "scalability",
-        "timeout",
-        "backoff"
-      ],
-      "options": [
-        "Timeouts and exponential backoff",
-        "More unlimited retries",
-        "A larger JSON payload",
-        "A second frontend"
-      ],
-      "answer": "Timeouts and exponential backoff"
-    },
-    {
-      "id": "system-design-q15",
-      "type": "ordering",
-      "prompt": "Order the transaction flow.",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "system design",
-        "scalability",
-        "transaction",
-        "acid"
-      ],
-      "options": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ],
-      "answer": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ]
-    },
-    {
-      "id": "system-design-q16",
-      "type": "matching",
-      "prompt": "Match data shape to storage fit.",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "system design",
-        "scalability",
-        "sql",
-        "nosql"
-      ],
-      "pairs": [
-        {
-          "left": "Strong relationships",
-          "right": "SQL"
-        },
-        {
-          "left": "Flexible documents",
-          "right": "NoSQL"
-        },
-        {
-          "left": "Hot session cache",
-          "right": "Redis"
+      "answer": "Bad partition key causing skew",
+      "concept_panel": {
+        "title": "Sharding and Hot Partitions",
+        "explanation": "Sharding splits data across nodes so one machine does not hold all data or write load. The shard key decides where each record goes. A poor key can concentrate traffic on one shard and create a hot partition. Sharding increases capacity but makes routing, rebalancing, and cross-shard operations harder.",
+        "key_takeaways": [
+          "Sharding partitions data across nodes.",
+          "Shard-key choice controls balance.",
+          "Skew creates hot shards and operational pain."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand horizontal scaling and data distribution failures.",
+        "practical_example": "Partitioning by tenant_type can overload the enterprise shard if enterprise tenants dominate traffic.",
+        "diagram": {
+          "type": "network",
+          "title": "Shard-key skew",
+          "nodes": [
+            {
+              "id": "Tenant A",
+              "label": "Tenant A"
+            },
+            {
+              "id": "Shard 1",
+              "label": "Shard 1",
+              "status": "hot"
+            },
+            {
+              "id": "Tenant B",
+              "label": "Tenant B"
+            },
+            {
+              "id": "Shard 2",
+              "label": "Shard 2"
+            },
+            {
+              "id": "Tenant C",
+              "label": "Tenant C"
+            },
+            {
+              "id": "Shard 3",
+              "label": "Shard 3"
+            }
+          ],
+          "edges": [
+            {
+              "from": "Tenant A",
+              "to": "Shard 1",
+              "label": "heavy"
+            },
+            {
+              "from": "Tenant B",
+              "to": "Shard 2"
+            },
+            {
+              "from": "Tenant C",
+              "to": "Shard 3"
+            }
+          ]
         }
-      ],
-      "answer": {
-        "Strong relationships": "SQL",
-        "Flexible documents": "NoSQL",
-        "Hot session cache": "Redis"
       }
-    },
-    {
-      "id": "system-design-q17",
-      "type": "code_fill",
-      "prompt": "Fill the safer SQLAlchemy loading option for a collection.",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "system design",
-        "scalability",
-        "sqlalchemy",
-        "loading"
-      ],
-      "options": [
-        "selectinload",
-        "time.sleep",
-        "requests.get",
-        "os.system"
-      ],
-      "code": "stmt = select(User).options(____(User.orders))",
-      "answer": "selectinload"
-    },
-    {
-      "id": "system-design-q18",
-      "type": "multiple_choice",
-      "prompt": "CPU-heavy image processing is slowing requests. Which model helps most?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "system design",
-        "scalability",
-        "parallelism",
-        "cpu"
-      ],
-      "options": [
-        "Parallelism",
-        "Async await only",
-        "More CORS headers",
-        "Offset pagination"
-      ],
-      "answer": "Parallelism"
-    },
-    {
-      "id": "system-design-q19",
-      "type": "scenario_choice",
-      "prompt": "A product page needs recommendations, but the recommender is down. What behavior is best?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "system design",
-        "scalability",
-        "degradation",
-        "reliability"
-      ],
-      "options": [
-        "Serve the page without recommendations",
-        "Fail the entire page",
-        "Retry forever",
-        "Delete the cache"
-      ],
-      "answer": "Serve the page without recommendations"
-    },
-    {
-      "id": "system-design-q20",
-      "type": "multi_select",
-      "prompt": "Which signals make an API easier for clients to use?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "system design",
-        "scalability",
-        "contract",
-        "openapi"
-      ],
-      "options": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema",
-        "Random response fields"
-      ],
-      "answer": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema"
-      ]
-    },
-    {
-      "id": "system-design-q21",
-      "type": "bug_hunt",
-      "prompt": "A response model includes password_hash. What is the bug?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "system design",
-        "scalability",
-        "response model",
-        "security"
-      ],
-      "options": [
-        "Leaking sensitive data",
-        "Using a router",
-        "Returning JSON",
-        "Using a status code"
-      ],
-      "answer": "Leaking sensitive data"
-    },
-    {
-      "id": "system-design-q22",
-      "type": "scenario_choice",
-      "prompt": "A social like count appears five seconds late. When is that acceptable?",
-      "explanation": "Key idea: apply System Design by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "system design",
-        "scalability",
-        "eventual consistency",
-        "trade-off"
-      ],
-      "options": [
-        "When eventual consistency is acceptable",
-        "When money is transferred",
-        "When validating passwords",
-        "When committing inventory"
-      ],
-      "answer": "When eventual consistency is acceptable"
     }
   ],
   "coding_challenges": [

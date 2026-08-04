@@ -110,506 +110,662 @@
   "questions": [
     {
       "id": "apis-q01",
-      "type": "scenario_choice",
-      "prompt": "A profile endpoint receives only a new email field. What should the API prefer?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "rest",
-        "grpc",
-        "partial update",
-        "api"
-      ],
-      "options": [
-        "PATCH the selected field",
-        "PUT an empty profile",
-        "GET with a body",
-        "DELETE and recreate"
-      ],
-      "answer": "PATCH the selected field"
-    },
-    {
-      "id": "apis-q02",
-      "type": "multi_select",
-      "prompt": "Pick the operations that are usually safe to retry.",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "rest",
-        "grpc",
-        "idempotency",
-        "retry"
-      ],
-      "options": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5",
-        "POST /users"
-      ],
-      "answer": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5"
-      ]
-    },
-    {
-      "id": "apis-q03",
-      "type": "ordering",
-      "prompt": "Arrange the request path.",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "rest",
-        "grpc",
-        "request",
-        "validation"
-      ],
-      "options": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
-      ],
-      "answer": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
-      ]
-    },
-    {
-      "id": "apis-q04",
       "type": "matching",
-      "prompt": "Match each signal to its meaning.",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "Match each API style or artifact.",
+      "explanation": "REST is resource-oriented and human-readable; gRPC is efficient for service-to-service calls; OpenAPI documents contracts.",
       "difficulty": 1,
       "tags": [
         "rest",
         "grpc",
-        "status code",
-        "http"
+        "openapi"
       ],
       "pairs": [
         {
-          "left": "401",
-          "right": "Authentication required"
+          "left": "REST",
+          "right": "Resource URLs plus HTTP methods"
         },
         {
-          "left": "403",
-          "right": "Authenticated but forbidden"
+          "left": "gRPC",
+          "right": "HTTP/2 plus Protocol Buffers"
         },
         {
-          "left": "503",
-          "right": "Service unavailable"
+          "left": "OpenAPI",
+          "right": "Machine-readable API specification"
         }
       ],
       "answer": {
-        "401": "Authentication required",
-        "403": "Authenticated but forbidden",
-        "503": "Service unavailable"
+        "REST": "Resource URLs plus HTTP methods",
+        "gRPC": "HTTP/2 plus Protocol Buffers",
+        "OpenAPI": "Machine-readable API specification"
+      },
+      "concept_panel": {
+        "title": "REST vs gRPC",
+        "explanation": "REST usually exposes resources over HTTP with JSON and is easy for humans and browsers to inspect. gRPC uses Protocol Buffers over HTTP/2 and is often better for internal service-to-service APIs where generated clients and efficient binary payloads matter. The right answer depends on consumers, tooling, latency, and operability. Public APIs often favor REST; internal low-latency services may favor gRPC.",
+        "key_takeaways": [
+          "REST is resource-oriented and easy to inspect.",
+          "gRPC is contract-first and efficient for internal services.",
+          "Generated clients reduce drift but add tooling requirements."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can choose API styles based on clients and operational constraints.",
+        "practical_example": "A mobile app public API may use REST, while checkout and inventory services communicate with gRPC internally.",
+        "diagram": {
+          "type": "compare",
+          "title": "API style trade-off",
+          "columns": [
+            {
+              "title": "REST",
+              "items": [
+                "HTTP + JSON",
+                "Human-friendly",
+                "Broad tooling"
+              ]
+            },
+            {
+              "title": "gRPC",
+              "items": [
+                "HTTP/2 + Protobuf",
+                "Generated clients",
+                "Efficient internal calls"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "apis-q02",
+      "type": "scenario_choice",
+      "prompt": "A browser-facing public API must be easy for humans to inspect and test. Which style usually fits best?",
+      "explanation": "REST over HTTP with JSON is easy for browsers, humans, and tools to inspect. gRPC is stronger for internal high-performance service calls.",
+      "difficulty": 1,
+      "tags": [
+        "rest",
+        "grpc"
+      ],
+      "options": [
+        "REST",
+        "gRPC",
+        "Raw TCP protocol",
+        "Cron job"
+      ],
+      "answer": "REST",
+      "concept_panel": {
+        "title": "REST vs gRPC",
+        "explanation": "REST usually exposes resources over HTTP with JSON and is easy for humans and browsers to inspect. gRPC uses Protocol Buffers over HTTP/2 and is often better for internal service-to-service APIs where generated clients and efficient binary payloads matter. The right answer depends on consumers, tooling, latency, and operability. Public APIs often favor REST; internal low-latency services may favor gRPC.",
+        "key_takeaways": [
+          "REST is resource-oriented and easy to inspect.",
+          "gRPC is contract-first and efficient for internal services.",
+          "Generated clients reduce drift but add tooling requirements."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can choose API styles based on clients and operational constraints.",
+        "practical_example": "A mobile app public API may use REST, while checkout and inventory services communicate with gRPC internally.",
+        "diagram": {
+          "type": "compare",
+          "title": "API style trade-off",
+          "columns": [
+            {
+              "title": "REST",
+              "items": [
+                "HTTP + JSON",
+                "Human-friendly",
+                "Broad tooling"
+              ]
+            },
+            {
+              "title": "gRPC",
+              "items": [
+                "HTTP/2 + Protobuf",
+                "Generated clients",
+                "Efficient internal calls"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "apis-q03",
+      "type": "scenario_choice",
+      "prompt": "Two internal services need low-latency binary communication and shared generated clients. What fits better?",
+      "explanation": "gRPC uses Protocol Buffers and HTTP/2, which suits internal service-to-service communication with generated clients.",
+      "difficulty": 2,
+      "tags": [
+        "grpc",
+        "protobuf"
+      ],
+      "options": [
+        "gRPC",
+        "REST with ad hoc JSON",
+        "Swagger UI only",
+        "HTML form posts"
+      ],
+      "answer": "gRPC",
+      "concept_panel": {
+        "title": "REST vs gRPC",
+        "explanation": "REST usually exposes resources over HTTP with JSON and is easy for humans and browsers to inspect. gRPC uses Protocol Buffers over HTTP/2 and is often better for internal service-to-service APIs where generated clients and efficient binary payloads matter. The right answer depends on consumers, tooling, latency, and operability. Public APIs often favor REST; internal low-latency services may favor gRPC.",
+        "key_takeaways": [
+          "REST is resource-oriented and easy to inspect.",
+          "gRPC is contract-first and efficient for internal services.",
+          "Generated clients reduce drift but add tooling requirements."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can choose API styles based on clients and operational constraints.",
+        "practical_example": "A mobile app public API may use REST, while checkout and inventory services communicate with gRPC internally.",
+        "diagram": {
+          "type": "compare",
+          "title": "API style trade-off",
+          "columns": [
+            {
+              "title": "REST",
+              "items": [
+                "HTTP + JSON",
+                "Human-friendly",
+                "Broad tooling"
+              ]
+            },
+            {
+              "title": "gRPC",
+              "items": [
+                "HTTP/2 + Protobuf",
+                "Generated clients",
+                "Efficient internal calls"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "apis-q04",
+      "type": "multi_select",
+      "prompt": "What belongs in an API contract?",
+      "explanation": "An API contract defines how client and server communicate: routes, parameters, payloads, response shapes, and status behavior.",
+      "difficulty": 1,
+      "tags": [
+        "api contract",
+        "status codes"
+      ],
+      "options": [
+        "Endpoints",
+        "Request bodies",
+        "Response schemas",
+        "Status codes",
+        "Developer laptop color"
+      ],
+      "answer": [
+        "Endpoints",
+        "Request bodies",
+        "Response schemas",
+        "Status codes"
+      ],
+      "concept_panel": {
+        "title": "API Contracts and OpenAPI",
+        "explanation": "An API contract defines endpoints, inputs, outputs, status codes, and error shapes. OpenAPI is a machine-readable way to describe that contract, and Swagger UI is a common interface for exploring it. Contracts let frontend and backend teams work independently. Breaking changes should be versioned or rolled out carefully.",
+        "key_takeaways": [
+          "Contracts define request and response expectations.",
+          "OpenAPI documents contracts in a structured format.",
+          "Swagger UI is a viewer, not the contract itself."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API reliability and client/server coordination.",
+        "practical_example": "FastAPI generates `/docs` from the OpenAPI schema so clients can inspect available endpoints.",
+        "diagram": {
+          "type": "flow",
+          "title": "Contract workflow",
+          "nodes": [
+            {
+              "label": "OpenAPI spec"
+            },
+            {
+              "label": "Swagger UI"
+            },
+            {
+              "label": "Client expectations"
+            },
+            {
+              "label": "Server implementation"
+            }
+          ]
+        }
       }
     },
     {
       "id": "apis-q05",
-      "type": "code_fill",
-      "prompt": "Fill the branch that classifies server errors.",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
+      "type": "matching",
+      "prompt": "Match OpenAPI and Swagger.",
+      "explanation": "OpenAPI is the contract document; Swagger UI is one common interface for exploring it.",
+      "difficulty": 1,
       "tags": [
-        "rest",
-        "grpc",
-        "code",
-        "status code"
+        "openapi",
+        "swagger"
       ],
-      "options": [
-        "\"server_error\"",
-        "\"client_error\"",
-        "\"success\"",
-        "\"redirect\""
+      "pairs": [
+        {
+          "left": "OpenAPI",
+          "right": "The specification format"
+        },
+        {
+          "left": "Swagger UI",
+          "right": "Interactive documentation generated from the spec"
+        },
+        {
+          "left": "FastAPI /docs",
+          "right": "A local Swagger interface"
+        }
       ],
-      "code": "def classify(code):\n    if 500 <= code < 600:\n        return ____",
-      "answer": "\"server_error\""
+      "answer": {
+        "OpenAPI": "The specification format",
+        "Swagger UI": "Interactive documentation generated from the spec",
+        "FastAPI /docs": "A local Swagger interface"
+      },
+      "concept_panel": {
+        "title": "API Contracts and OpenAPI",
+        "explanation": "An API contract defines endpoints, inputs, outputs, status codes, and error shapes. OpenAPI is a machine-readable way to describe that contract, and Swagger UI is a common interface for exploring it. Contracts let frontend and backend teams work independently. Breaking changes should be versioned or rolled out carefully.",
+        "key_takeaways": [
+          "Contracts define request and response expectations.",
+          "OpenAPI documents contracts in a structured format.",
+          "Swagger UI is a viewer, not the contract itself."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API reliability and client/server coordination.",
+        "practical_example": "FastAPI generates `/docs` from the OpenAPI schema so clients can inspect available endpoints.",
+        "diagram": {
+          "type": "flow",
+          "title": "Contract workflow",
+          "nodes": [
+            {
+              "label": "OpenAPI spec"
+            },
+            {
+              "label": "Swagger UI"
+            },
+            {
+              "label": "Client expectations"
+            },
+            {
+              "label": "Server implementation"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "apis-q06",
-      "type": "bug_hunt",
-      "prompt": "Production duplicated records after a timeout. What is the bug?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
+      "type": "matching",
+      "prompt": "Map CRUD to HTTP methods.",
+      "explanation": "CRUD maps cleanly to REST: create with POST, read with GET, update with PUT/PATCH, delete with DELETE.",
+      "difficulty": 1,
       "tags": [
-        "rest",
-        "grpc",
-        "duplicate",
-        "retry"
+        "crud",
+        "post",
+        "get"
       ],
-      "options": [
-        "Retrying POST without an idempotency key",
-        "Using HTTPS",
-        "Returning 201 after create",
-        "Sorting by created_at"
+      "pairs": [
+        {
+          "left": "Create",
+          "right": "POST"
+        },
+        {
+          "left": "Read",
+          "right": "GET"
+        },
+        {
+          "left": "Delete",
+          "right": "DELETE"
+        }
       ],
-      "answer": "Retrying POST without an idempotency key"
+      "answer": {
+        "Create": "POST",
+        "Read": "GET",
+        "Delete": "DELETE"
+      },
+      "concept_panel": {
+        "title": "API Contracts and OpenAPI",
+        "explanation": "An API contract defines endpoints, inputs, outputs, status codes, and error shapes. OpenAPI is a machine-readable way to describe that contract, and Swagger UI is a common interface for exploring it. Contracts let frontend and backend teams work independently. Breaking changes should be versioned or rolled out carefully.",
+        "key_takeaways": [
+          "Contracts define request and response expectations.",
+          "OpenAPI documents contracts in a structured format.",
+          "Swagger UI is a viewer, not the contract itself."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API reliability and client/server coordination.",
+        "practical_example": "FastAPI generates `/docs` from the OpenAPI schema so clients can inspect available endpoints.",
+        "diagram": {
+          "type": "flow",
+          "title": "Contract workflow",
+          "nodes": [
+            {
+              "label": "OpenAPI spec"
+            },
+            {
+              "label": "Swagger UI"
+            },
+            {
+              "label": "Client expectations"
+            },
+            {
+              "label": "Server implementation"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "apis-q07",
-      "type": "code_output",
-      "prompt": "What does classify_status_code(404) return?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "ordering",
+      "prompt": "Order a request body through serialization boundaries.",
+      "explanation": "Serialization turns objects into transfer formats such as JSON; deserialization turns received data back into application models.",
       "difficulty": 2,
       "tags": [
-        "rest",
-        "grpc",
-        "code output",
-        "status code"
+        "serialization",
+        "deserialization"
       ],
       "options": [
-        "client_error",
-        "server_error",
-        "success",
-        "unknown"
+        "Client object",
+        "Serialized JSON",
+        "HTTP request body",
+        "Server deserializes into model"
       ],
-      "answer": "client_error"
+      "answer": [
+        "Client object",
+        "Serialized JSON",
+        "HTTP request body",
+        "Server deserializes into model"
+      ],
+      "concept_panel": {
+        "title": "API Contracts and OpenAPI",
+        "explanation": "An API contract defines endpoints, inputs, outputs, status codes, and error shapes. OpenAPI is a machine-readable way to describe that contract, and Swagger UI is a common interface for exploring it. Contracts let frontend and backend teams work independently. Breaking changes should be versioned or rolled out carefully.",
+        "key_takeaways": [
+          "Contracts define request and response expectations.",
+          "OpenAPI documents contracts in a structured format.",
+          "Swagger UI is a viewer, not the contract itself."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API reliability and client/server coordination.",
+        "practical_example": "FastAPI generates `/docs` from the OpenAPI schema so clients can inspect available endpoints.",
+        "diagram": {
+          "type": "flow",
+          "title": "Contract workflow",
+          "nodes": [
+            {
+              "label": "OpenAPI spec"
+            },
+            {
+              "label": "Swagger UI"
+            },
+            {
+              "label": "Client expectations"
+            },
+            {
+              "label": "Server implementation"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "apis-q08",
       "type": "scenario_choice",
-      "prompt": "A changing feed skips items with page numbers. What pagination style fits better?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
+      "prompt": "A response shape must change in a breaking way. What protects existing clients?",
+      "explanation": "Versioning lets old clients continue using the old contract while new clients adopt the breaking change.",
+      "difficulty": 1,
       "tags": [
-        "rest",
-        "grpc",
-        "pagination",
-        "cursor"
-      ],
-      "options": [
-        "Cursor pagination",
-        "Offset pagination",
-        "Return everything",
-        "Sort in the browser"
-      ],
-      "answer": "Cursor pagination"
-    },
-    {
-      "id": "apis-q09",
-      "type": "multiple_choice",
-      "prompt": "Which change best preserves existing clients when a response shape breaks compatibility?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
-      "tags": [
-        "rest",
-        "grpc",
         "versioning",
-        "contract"
+        "api contract"
       ],
       "options": [
         "Add /v2",
         "Silently change /v1",
-        "Remove old fields",
-        "Document it after deploy"
+        "Delete the old endpoint today",
+        "Ask clients to parse anything"
       ],
-      "answer": "Add /v2"
+      "answer": "Add /v2",
+      "concept_panel": {
+        "title": "API Contracts and OpenAPI",
+        "explanation": "An API contract defines endpoints, inputs, outputs, status codes, and error shapes. OpenAPI is a machine-readable way to describe that contract, and Swagger UI is a common interface for exploring it. Contracts let frontend and backend teams work independently. Breaking changes should be versioned or rolled out carefully.",
+        "key_takeaways": [
+          "Contracts define request and response expectations.",
+          "OpenAPI documents contracts in a structured format.",
+          "Swagger UI is a viewer, not the contract itself."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API reliability and client/server coordination.",
+        "practical_example": "FastAPI generates `/docs` from the OpenAPI schema so clients can inspect available endpoints.",
+        "diagram": {
+          "type": "flow",
+          "title": "Contract workflow",
+          "nodes": [
+            {
+              "label": "OpenAPI spec"
+            },
+            {
+              "label": "Swagger UI"
+            },
+            {
+              "label": "Client expectations"
+            },
+            {
+              "label": "Server implementation"
+            }
+          ]
+        }
+      }
     },
     {
-      "id": "apis-q10",
-      "type": "multi_select",
-      "prompt": "Select the reasons to validate input before business logic.",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "id": "apis-q09",
+      "type": "matching",
+      "prompt": "Match pagination strategies.",
+      "explanation": "Offset is easy for dashboards; cursor is safer for large or changing feeds.",
       "difficulty": 2,
       "tags": [
-        "rest",
-        "grpc",
-        "validation",
-        "security"
-      ],
-      "options": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk",
-        "Make CPU work parallel"
-      ],
-      "answer": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk"
-      ]
-    },
-    {
-      "id": "apis-q11",
-      "type": "matching",
-      "prompt": "Match the scaling tool to the bottleneck.",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "performance",
-        "scaling"
+        "pagination",
+        "offset",
+        "cursor"
       ],
       "pairs": [
         {
-          "left": "Cache",
-          "right": "Repeated reads"
+          "left": "Offset pagination",
+          "right": "Simple page numbers but unstable on changing data"
         },
         {
-          "left": "Queue",
-          "right": "Bursty writes"
+          "left": "Cursor pagination",
+          "right": "Continue after a stable record marker"
         },
         {
-          "left": "Read replica",
-          "right": "Read-heavy database load"
+          "left": "Large unpaginated response",
+          "right": "High memory and latency risk"
         }
       ],
       "answer": {
-        "Cache": "Repeated reads",
-        "Queue": "Bursty writes",
-        "Read replica": "Read-heavy database load"
+        "Offset pagination": "Simple page numbers but unstable on changing data",
+        "Cursor pagination": "Continue after a stable record marker",
+        "Large unpaginated response": "High memory and latency risk"
+      },
+      "concept_panel": {
+        "title": "Cursor vs Offset Pagination",
+        "explanation": "Offset pagination skips a number of rows and is simple for stable datasets. Cursor pagination continues from a stable record marker, which is safer when rows are inserted or deleted while the user pages. Large offsets can also become expensive because the database still has to walk past skipped rows. Feeds and timelines usually prefer cursors.",
+        "key_takeaways": [
+          "Offset is simple but unstable on changing data.",
+          "Cursor pagination follows a stable position.",
+          "Cursor pagination usually fits large feeds better."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API data access patterns at scale.",
+        "practical_example": "A feed ordered by created_at can use the last seen timestamp/id as the next cursor.",
+        "diagram": {
+          "type": "compare",
+          "title": "Pagination behavior",
+          "columns": [
+            {
+              "title": "Offset",
+              "items": [
+                "page=5",
+                "Can skip/duplicate",
+                "Can be expensive"
+              ]
+            },
+            {
+              "title": "Cursor",
+              "items": [
+                "after=item_123",
+                "Stable continuation",
+                "Good for feeds"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "apis-q10",
+      "type": "scenario_choice",
+      "prompt": "Which URL filters users to Mexico?",
+      "explanation": "Filtering is commonly expressed with query parameters that constrain returned records.",
+      "difficulty": 1,
+      "tags": [
+        "filtering",
+        "query parameters"
+      ],
+      "options": [
+        "GET /users?country=Mexico",
+        "POST /users?page=Mexico",
+        "GET /users#Mexico",
+        "DELETE /users?country=Mexico"
+      ],
+      "answer": "GET /users?country=Mexico",
+      "concept_panel": {
+        "title": "Cursor vs Offset Pagination",
+        "explanation": "Offset pagination skips a number of rows and is simple for stable datasets. Cursor pagination continues from a stable record marker, which is safer when rows are inserted or deleted while the user pages. Large offsets can also become expensive because the database still has to walk past skipped rows. Feeds and timelines usually prefer cursors.",
+        "key_takeaways": [
+          "Offset is simple but unstable on changing data.",
+          "Cursor pagination follows a stable position.",
+          "Cursor pagination usually fits large feeds better."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API data access patterns at scale.",
+        "practical_example": "A feed ordered by created_at can use the last seen timestamp/id as the next cursor.",
+        "diagram": {
+          "type": "compare",
+          "title": "Pagination behavior",
+          "columns": [
+            {
+              "title": "Offset",
+              "items": [
+                "page=5",
+                "Can skip/duplicate",
+                "Can be expensive"
+              ]
+            },
+            {
+              "title": "Cursor",
+              "items": [
+                "after=item_123",
+                "Stable continuation",
+                "Good for feeds"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "apis-q11",
+      "type": "scenario_choice",
+      "prompt": "Which URL sorts newest users first?",
+      "explanation": "A common convention is `sort=field` for ascending and `sort=-field` for descending.",
+      "difficulty": 1,
+      "tags": [
+        "sorting",
+        "pagination"
+      ],
+      "options": [
+        "GET /users?sort=-created_at",
+        "GET /users?filter=-created_at",
+        "POST /sort/users",
+        "GET /users?country=created_at"
+      ],
+      "answer": "GET /users?sort=-created_at",
+      "concept_panel": {
+        "title": "Cursor vs Offset Pagination",
+        "explanation": "Offset pagination skips a number of rows and is simple for stable datasets. Cursor pagination continues from a stable record marker, which is safer when rows are inserted or deleted while the user pages. Large offsets can also become expensive because the database still has to walk past skipped rows. Feeds and timelines usually prefer cursors.",
+        "key_takeaways": [
+          "Offset is simple but unstable on changing data.",
+          "Cursor pagination follows a stable position.",
+          "Cursor pagination usually fits large feeds better."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API data access patterns at scale.",
+        "practical_example": "A feed ordered by created_at can use the last seen timestamp/id as the next cursor.",
+        "diagram": {
+          "type": "compare",
+          "title": "Pagination behavior",
+          "columns": [
+            {
+              "title": "Offset",
+              "items": [
+                "page=5",
+                "Can skip/duplicate",
+                "Can be expensive"
+              ]
+            },
+            {
+              "title": "Cursor",
+              "items": [
+                "after=item_123",
+                "Stable continuation",
+                "Good for feeds"
+              ]
+            }
+          ]
+        }
       }
     },
     {
       "id": "apis-q12",
-      "type": "bug_hunt",
-      "prompt": "An endpoint loads 100 users, then reads user.orders in a loop. What is happening?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "n+1",
-        "sqlalchemy"
-      ],
-      "options": [
-        "N+1 queries",
-        "A CORS preflight",
-        "A DNS failure",
-        "A cache hit"
-      ],
-      "answer": "N+1 queries"
-    },
-    {
-      "id": "apis-q13",
       "type": "multi_select",
-      "prompt": "Pick two fixes for the N+1 query pattern.",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
+      "prompt": "Which requests are idempotent in normal REST design?",
+      "explanation": "Idempotent operations produce the same final state when repeated. POST usually creates another resource unless protected by an idempotency key.",
+      "difficulty": 2,
       "tags": [
-        "rest",
-        "grpc",
-        "selectinload",
-        "joinedload"
+        "idempotency",
+        "retry"
       ],
       "options": [
-        "selectinload",
-        "joinedload",
-        "Unlimited retries",
-        "Client-side filtering"
+        "GET /users/5",
+        "PUT /users/5",
+        "DELETE /users/5",
+        "POST /users"
       ],
       "answer": [
-        "selectinload",
-        "joinedload"
-      ]
-    },
-    {
-      "id": "apis-q14",
-      "type": "scenario_choice",
-      "prompt": "A downstream service is failing and your app keeps retrying instantly. What should you add first?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "timeout",
-        "backoff"
+        "GET /users/5",
+        "PUT /users/5",
+        "DELETE /users/5"
       ],
-      "options": [
-        "Timeouts and exponential backoff",
-        "More unlimited retries",
-        "A larger JSON payload",
-        "A second frontend"
-      ],
-      "answer": "Timeouts and exponential backoff"
-    },
-    {
-      "id": "apis-q15",
-      "type": "ordering",
-      "prompt": "Order the transaction flow.",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "transaction",
-        "acid"
-      ],
-      "options": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ],
-      "answer": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ]
-    },
-    {
-      "id": "apis-q16",
-      "type": "matching",
-      "prompt": "Match data shape to storage fit.",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "sql",
-        "nosql"
-      ],
-      "pairs": [
-        {
-          "left": "Strong relationships",
-          "right": "SQL"
-        },
-        {
-          "left": "Flexible documents",
-          "right": "NoSQL"
-        },
-        {
-          "left": "Hot session cache",
-          "right": "Redis"
+      "concept_panel": {
+        "title": "Idempotency Keys",
+        "explanation": "An idempotent operation can be repeated without changing the final result beyond the first attempt. POST is often not idempotent because it creates a new resource each time. If a payment request times out, the server may still have processed it; retrying without an idempotency key can charge twice. Idempotency keys let the server recognize a retry and return the original result.",
+        "key_takeaways": [
+          "Timeout does not prove failure.",
+          "POST retries can duplicate work.",
+          "Idempotency keys make unsafe retries safer."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand API reliability under partial failure.",
+        "practical_example": "POST /payments with Idempotency-Key: abc123 can return the first payment response when the client retries.",
+        "diagram": {
+          "type": "flow",
+          "title": "Safe payment retry",
+          "nodes": [
+            {
+              "label": "Client"
+            },
+            {
+              "label": "POST payment"
+            },
+            {
+              "label": "Timeout",
+              "status": "hot"
+            },
+            {
+              "label": "Retry with key"
+            },
+            {
+              "label": "Return previous response",
+              "status": "good"
+            }
+          ]
         }
-      ],
-      "answer": {
-        "Strong relationships": "SQL",
-        "Flexible documents": "NoSQL",
-        "Hot session cache": "Redis"
       }
-    },
-    {
-      "id": "apis-q17",
-      "type": "code_fill",
-      "prompt": "Fill the safer SQLAlchemy loading option for a collection.",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "sqlalchemy",
-        "loading"
-      ],
-      "options": [
-        "selectinload",
-        "time.sleep",
-        "requests.get",
-        "os.system"
-      ],
-      "code": "stmt = select(User).options(____(User.orders))",
-      "answer": "selectinload"
-    },
-    {
-      "id": "apis-q18",
-      "type": "multiple_choice",
-      "prompt": "CPU-heavy image processing is slowing requests. Which model helps most?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "parallelism",
-        "cpu"
-      ],
-      "options": [
-        "Parallelism",
-        "Async await only",
-        "More CORS headers",
-        "Offset pagination"
-      ],
-      "answer": "Parallelism"
-    },
-    {
-      "id": "apis-q19",
-      "type": "scenario_choice",
-      "prompt": "A product page needs recommendations, but the recommender is down. What behavior is best?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "degradation",
-        "reliability"
-      ],
-      "options": [
-        "Serve the page without recommendations",
-        "Fail the entire page",
-        "Retry forever",
-        "Delete the cache"
-      ],
-      "answer": "Serve the page without recommendations"
-    },
-    {
-      "id": "apis-q20",
-      "type": "multi_select",
-      "prompt": "Which signals make an API easier for clients to use?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "contract",
-        "openapi"
-      ],
-      "options": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema",
-        "Random response fields"
-      ],
-      "answer": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema"
-      ]
-    },
-    {
-      "id": "apis-q21",
-      "type": "bug_hunt",
-      "prompt": "A response model includes password_hash. What is the bug?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "response model",
-        "security"
-      ],
-      "options": [
-        "Leaking sensitive data",
-        "Using a router",
-        "Returning JSON",
-        "Using a status code"
-      ],
-      "answer": "Leaking sensitive data"
-    },
-    {
-      "id": "apis-q22",
-      "type": "scenario_choice",
-      "prompt": "A social like count appears five seconds late. When is that acceptable?",
-      "explanation": "Key idea: apply APIs by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "rest",
-        "grpc",
-        "eventual consistency",
-        "trade-off"
-      ],
-      "options": [
-        "When eventual consistency is acceptable",
-        "When money is transferred",
-        "When validating passwords",
-        "When committing inventory"
-      ],
-      "answer": "When eventual consistency is acceptable"
     }
   ],
   "coding_challenges": [

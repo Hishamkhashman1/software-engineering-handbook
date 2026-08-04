@@ -1,0 +1,736 @@
+{
+  "id": "epam-python-oop",
+  "title": "EPAM Python OOP",
+  "description": "Classes, objects, encapsulation, inheritance, composition, polymorphism, dataclasses, ABCs, protocols, DI, special methods, iterators, generators, decorators, and context managers.",
+  "order": 27,
+  "tags": [
+    "python",
+    "oop",
+    "dataclasses",
+    "protocols"
+  ],
+  "lessons": [
+    {
+      "id": "epam-python-oop-lesson-1",
+      "title": "OOP Fundamentals",
+      "summary": "EPAM interview drill for oop fundamentals.",
+      "explanation": "Explain oop fundamentals through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "classes",
+        "objects",
+        "encapsulation",
+        "inheritance"
+      ],
+      "examples": [
+        "Use oop fundamentals to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain oop fundamentals in an interview?",
+        "What common bug appears when oop fundamentals is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "classes",
+        "objects",
+        "encapsulation",
+        "inheritance"
+      ]
+    },
+    {
+      "id": "epam-python-oop-lesson-2",
+      "title": "Composition and Polymorphism",
+      "summary": "EPAM interview drill for composition and polymorphism.",
+      "explanation": "Explain composition and polymorphism through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "composition",
+        "polymorphism",
+        "dependency injection"
+      ],
+      "examples": [
+        "Use composition and polymorphism to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain composition and polymorphism in an interview?",
+        "What common bug appears when composition and polymorphism is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "composition",
+        "polymorphism",
+        "dependency injection"
+      ]
+    },
+    {
+      "id": "epam-python-oop-lesson-3",
+      "title": "Advanced OOP",
+      "summary": "EPAM interview drill for advanced oop.",
+      "explanation": "Explain advanced oop through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "dataclasses",
+        "abstract base classes",
+        "protocols",
+        "special methods"
+      ],
+      "examples": [
+        "Use advanced oop to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain advanced oop in an interview?",
+        "What common bug appears when advanced oop is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "dataclasses",
+        "abstract base classes",
+        "protocols",
+        "special methods"
+      ]
+    },
+    {
+      "id": "epam-python-oop-lesson-4",
+      "title": "Python Control Abstractions",
+      "summary": "EPAM interview drill for python control abstractions.",
+      "explanation": "Explain python control abstractions through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "iterable",
+        "iterators",
+        "generators",
+        "decorators",
+        "context managers"
+      ],
+      "examples": [
+        "Use python control abstractions to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain python control abstractions in an interview?",
+        "What common bug appears when python control abstractions is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "iterable",
+        "iterators",
+        "generators",
+        "decorators",
+        "context managers"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "epam-python-oop-q01",
+      "type": "scenario_choice",
+      "prompt": "What is an object in Python OOP?",
+      "options": [
+        "An instance of a class with state and behavior",
+        "A package directory only",
+        "A database row only",
+        "A function argument marker"
+      ],
+      "answer": "An instance of a class with state and behavior",
+      "explanation": "Classes define structure and behavior; objects are runtime instances. Python objects carry attributes and methods according to their class.",
+      "difficulty": 1,
+      "tags": [
+        "classes",
+        "objects",
+        "oop"
+      ],
+      "concept_panel": {
+        "title": "Classes and Objects",
+        "explanation": "Classes define structure and behavior; objects are runtime instances. Python objects carry attributes and methods according to their class.",
+        "key_takeaways": [
+          "classes",
+          "objects",
+          "oop"
+        ],
+        "practical_example": "A `User` class can create many user objects with different emails.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand basic object modeling.",
+        "diagram": {
+          "type": "flow",
+          "title": "Classes and Objects",
+          "nodes": [
+            {
+              "label": "Classes and Objects"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q02",
+      "type": "scenario_choice",
+      "prompt": "Why hide direct mutation behind methods or properties?",
+      "options": [
+        "To protect invariants and keep state changes controlled",
+        "To make testing impossible",
+        "To avoid constructors",
+        "To force inheritance"
+      ],
+      "answer": "To protect invariants and keep state changes controlled",
+      "explanation": "Encapsulation keeps object state consistent by exposing intentional operations instead of unrestricted mutation.",
+      "difficulty": 1,
+      "tags": [
+        "encapsulation",
+        "invariants",
+        "oop"
+      ],
+      "concept_panel": {
+        "title": "Encapsulation",
+        "explanation": "Encapsulation keeps object state consistent by exposing intentional operations instead of unrestricted mutation.",
+        "key_takeaways": [
+          "encapsulation",
+          "invariants",
+          "oop"
+        ],
+        "practical_example": "Use `account.withdraw(amount)` rather than mutating `balance` freely.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you design objects that protect business rules.",
+        "diagram": {
+          "type": "flow",
+          "title": "Encapsulation",
+          "nodes": [
+            {
+              "label": "Encapsulation"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q03",
+      "type": "scenario_choice",
+      "prompt": "When is inheritance a good fit?",
+      "options": [
+        "When the subtype truly is a specialized version of the base type",
+        "Whenever two classes share one field",
+        "To avoid all composition",
+        "For unrelated utilities"
+      ],
+      "answer": "When the subtype truly is a specialized version of the base type",
+      "explanation": "Inheritance models is-a relationships. Overusing it creates rigid hierarchies and fragile coupling.",
+      "difficulty": 1,
+      "tags": [
+        "inheritance",
+        "is-a",
+        "oop"
+      ],
+      "concept_panel": {
+        "title": "Inheritance",
+        "explanation": "Inheritance models is-a relationships. Overusing it creates rigid hierarchies and fragile coupling.",
+        "key_takeaways": [
+          "inheritance",
+          "is-a",
+          "oop"
+        ],
+        "practical_example": "`AdminUser` may specialize `User` if it preserves the User contract.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand inheritance trade-offs.",
+        "diagram": {
+          "type": "flow",
+          "title": "Inheritance",
+          "nodes": [
+            {
+              "label": "Inheritance"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q04",
+      "type": "scenario_choice",
+      "prompt": "Why prefer composition for many service designs?",
+      "options": [
+        "Collaborators can be injected and replaced independently",
+        "It disables polymorphism",
+        "It removes all classes",
+        "It makes state global"
+      ],
+      "answer": "Collaborators can be injected and replaced independently",
+      "explanation": "Composition builds behavior by combining objects. It often makes code easier to test and change than deep inheritance.",
+      "difficulty": 1,
+      "tags": [
+        "composition",
+        "dependency injection",
+        "services"
+      ],
+      "concept_panel": {
+        "title": "Composition",
+        "explanation": "Composition builds behavior by combining objects. It often makes code easier to test and change than deep inheritance.",
+        "key_takeaways": [
+          "composition",
+          "dependency injection",
+          "services"
+        ],
+        "practical_example": "NotificationService can receive EmailSender and SmsSender collaborators.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can design flexible services.",
+        "diagram": {
+          "type": "flow",
+          "title": "Composition",
+          "nodes": [
+            {
+              "label": "Composition"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q05",
+      "type": "scenario_choice",
+      "prompt": "What does polymorphism mean in Python practice?",
+      "options": [
+        "Different objects can be used through the same expected behavior",
+        "Every class needs the same parent",
+        "Only numbers can be compared",
+        "Objects cannot be swapped"
+      ],
+      "answer": "Different objects can be used through the same expected behavior",
+      "explanation": "Python often uses duck typing: if an object provides the needed behavior, it can be used.",
+      "difficulty": 2,
+      "tags": [
+        "polymorphism",
+        "duck typing",
+        "protocols"
+      ],
+      "concept_panel": {
+        "title": "Polymorphism",
+        "explanation": "Python often uses duck typing: if an object provides the needed behavior, it can be used.",
+        "key_takeaways": [
+          "polymorphism",
+          "duck typing",
+          "protocols"
+        ],
+        "practical_example": "Any object with `.send(message)` can satisfy a notification sender role.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand behavior-based design.",
+        "diagram": {
+          "type": "flow",
+          "title": "Polymorphism",
+          "nodes": [
+            {
+              "label": "Polymorphism"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q06",
+      "type": "scenario_choice",
+      "prompt": "When should you consider a dataclass?",
+      "options": [
+        "For simple data containers with generated init/repr/equality",
+        "For every service class",
+        "For async event loops",
+        "For SQL joins"
+      ],
+      "answer": "For simple data containers with generated init/repr/equality",
+      "explanation": "Dataclasses reduce boilerplate for value-like objects. They are not a substitute for all domain logic.",
+      "difficulty": 2,
+      "tags": [
+        "dataclasses",
+        "__init__",
+        "__repr__",
+        "__eq__"
+      ],
+      "concept_panel": {
+        "title": "Dataclasses",
+        "explanation": "Dataclasses reduce boilerplate for value-like objects. They are not a substitute for all domain logic.",
+        "key_takeaways": [
+          "dataclasses",
+          "__init__",
+          "__repr__",
+          "__eq__"
+        ],
+        "practical_example": "@dataclass class ForecastPoint: date: str; value: float",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you know modern Python data modeling tools.",
+        "diagram": {
+          "type": "flow",
+          "title": "Dataclasses",
+          "nodes": [
+            {
+              "label": "Dataclasses"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q07",
+      "type": "scenario_choice",
+      "prompt": "What does an ABC communicate?",
+      "options": [
+        "Required methods for subclasses through inheritance",
+        "A JSON schema",
+        "A package initializer",
+        "A thread lock"
+      ],
+      "answer": "Required methods for subclasses through inheritance",
+      "explanation": "Abstract Base Classes define contracts that subclasses must implement. They are useful when inheritance is the intended relationship.",
+      "difficulty": 2,
+      "tags": [
+        "abstract base classes",
+        "abc",
+        "interfaces"
+      ],
+      "concept_panel": {
+        "title": "Abstract Base Classes",
+        "explanation": "Abstract Base Classes define contracts that subclasses must implement. They are useful when inheritance is the intended relationship.",
+        "key_takeaways": [
+          "abstract base classes",
+          "abc",
+          "interfaces"
+        ],
+        "practical_example": "An abstract Repository can require `get_by_id` and `save`.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can define explicit object contracts.",
+        "diagram": {
+          "type": "flow",
+          "title": "Abstract Base Classes",
+          "nodes": [
+            {
+              "label": "Abstract Base Classes"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q08",
+      "type": "scenario_choice",
+      "prompt": "Why use a Protocol?",
+      "options": [
+        "To express structural typing without requiring inheritance",
+        "To start a web server",
+        "To catch all exceptions",
+        "To replace dictionaries"
+      ],
+      "answer": "To express structural typing without requiring inheritance",
+      "explanation": "Protocols let any object with the right methods satisfy an interface. They fit Python's duck-typing style while helping type checkers.",
+      "difficulty": 2,
+      "tags": [
+        "protocols",
+        "structural typing",
+        "dependency injection"
+      ],
+      "concept_panel": {
+        "title": "Protocols",
+        "explanation": "Protocols let any object with the right methods satisfy an interface. They fit Python's duck-typing style while helping type checkers.",
+        "key_takeaways": [
+          "protocols",
+          "structural typing",
+          "dependency injection"
+        ],
+        "practical_example": "A fake repository can satisfy a Repository Protocol in tests.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand Pythonic interfaces.",
+        "diagram": {
+          "type": "flow",
+          "title": "Protocols",
+          "nodes": [
+            {
+              "label": "Protocols"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q09",
+      "type": "scenario_choice",
+      "prompt": "Why keep `__eq__` and `__hash__` consistent?",
+      "options": [
+        "Objects used in sets/dicts rely on stable equality and hash behavior",
+        "They control imports",
+        "They start generators",
+        "They handle JWTs"
+      ],
+      "answer": "Objects used in sets/dicts rely on stable equality and hash behavior",
+      "explanation": "`__eq__` defines equality and `__hash__` supports hashed collections. Equal objects should have equal hashes.",
+      "difficulty": 2,
+      "tags": [
+        "__eq__",
+        "__hash__",
+        "__repr__",
+        "__str__"
+      ],
+      "concept_panel": {
+        "title": "Special Methods",
+        "explanation": "`__eq__` defines equality and `__hash__` supports hashed collections. Equal objects should have equal hashes.",
+        "key_takeaways": [
+          "__eq__",
+          "__hash__",
+          "__repr__",
+          "__str__"
+        ],
+        "practical_example": "A value object used as a dict key needs stable hashable fields.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand Python object behavior in collections.",
+        "diagram": {
+          "type": "flow",
+          "title": "Special Methods",
+          "nodes": [
+            {
+              "label": "Special Methods"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q10",
+      "type": "scenario_choice",
+      "prompt": "What does `yield` do?",
+      "options": [
+        "Produces a value and pauses generator state",
+        "Creates a thread",
+        "Commits a transaction",
+        "Imports a package"
+      ],
+      "answer": "Produces a value and pauses generator state",
+      "explanation": "An iterable can produce an iterator, and generators produce values lazily. They are useful for streaming and large sequences.",
+      "difficulty": 3,
+      "tags": [
+        "iterable",
+        "iterators",
+        "generators",
+        "yield",
+        "lazy evaluation"
+      ],
+      "concept_panel": {
+        "title": "Iterators and Generators",
+        "explanation": "An iterable can produce an iterator, and generators produce values lazily. They are useful for streaming and large sequences.",
+        "key_takeaways": [
+          "iterable",
+          "iterators",
+          "generators",
+          "yield",
+          "lazy evaluation"
+        ],
+        "practical_example": "Yield rows from a large CSV instead of loading all rows into memory.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand lazy evaluation.",
+        "diagram": {
+          "type": "flow",
+          "title": "Iterators and Generators",
+          "nodes": [
+            {
+              "label": "Iterators and Generators"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q11",
+      "type": "scenario_choice",
+      "prompt": "What is a practical decorator use?",
+      "options": [
+        "Wrap a function with logging, timing, auth, or retry behavior",
+        "Change a tuple into a list",
+        "Declare a SQL JOIN",
+        "Create a virtualenv"
+      ],
+      "answer": "Wrap a function with logging, timing, auth, or retry behavior",
+      "explanation": "Decorators add cross-cutting behavior around functions while keeping the function call interface.",
+      "difficulty": 3,
+      "tags": [
+        "decorators",
+        "function decorators",
+        "practical uses"
+      ],
+      "concept_panel": {
+        "title": "Decorators",
+        "explanation": "Decorators add cross-cutting behavior around functions while keeping the function call interface.",
+        "key_takeaways": [
+          "decorators",
+          "function decorators",
+          "practical uses"
+        ],
+        "practical_example": "@timed can record function duration without changing business logic.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can recognize framework patterns like route decorators.",
+        "diagram": {
+          "type": "flow",
+          "title": "Decorators",
+          "nodes": [
+            {
+              "label": "Decorators"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-oop-q12",
+      "type": "scenario_choice",
+      "prompt": "What does a context manager guarantee?",
+      "options": [
+        "Setup and cleanup around a block",
+        "Only faster loops",
+        "Automatic sharding",
+        "Password hashing"
+      ],
+      "answer": "Setup and cleanup around a block",
+      "explanation": "`with` calls `__enter__` and `__exit__`, making cleanup reliable even if an exception occurs.",
+      "difficulty": 3,
+      "tags": [
+        "context managers",
+        "with",
+        "__enter__",
+        "__exit__"
+      ],
+      "concept_panel": {
+        "title": "Context Managers",
+        "explanation": "`with` calls `__enter__` and `__exit__`, making cleanup reliable even if an exception occurs.",
+        "key_takeaways": [
+          "context managers",
+          "with",
+          "__enter__",
+          "__exit__"
+        ],
+        "practical_example": "Use `with open(path) as f:` so files close automatically.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand resource management.",
+        "diagram": {
+          "type": "flow",
+          "title": "Context Managers",
+          "nodes": [
+            {
+              "label": "Context Managers"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "epam-python-oop-classify-status",
+      "title": "EPAM Python OOP status classifier",
+      "instructions": "Implement classify_status_code(code: int) -> str. Return success for 200-299, redirect for 300-399, client_error for 400-499, server_error for 500-599, and unknown otherwise.",
+      "starter_code": "def classify_status_code(code: int) -> str:\n    pass\n",
+      "function_signature": "def classify_status_code(code: int) -> str",
+      "visible_tests": [
+        {
+          "name": "created",
+          "call": "classify_status_code(201)",
+          "expected": "success"
+        },
+        {
+          "name": "not found",
+          "call": "classify_status_code(404)",
+          "expected": "client_error"
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "service unavailable",
+          "call": "classify_status_code(503)",
+          "expected": "server_error"
+        },
+        {
+          "name": "redirect",
+          "call": "classify_status_code(302)",
+          "expected": "redirect"
+        },
+        {
+          "name": "unknown",
+          "call": "classify_status_code(99)",
+          "expected": "unknown"
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The challenge reinforces deterministic branching, status-code categories, and local test execution.",
+      "difficulty": 1,
+      "tags": [
+        "python",
+        "oop",
+        "dataclasses"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "epam-python-oop-boss",
+    "title": "EPAM Python OOP boss battle",
+    "question_ids": [
+      "epam-python-oop-q01",
+      "epam-python-oop-q02",
+      "epam-python-oop-q03",
+      "epam-python-oop-q04",
+      "epam-python-oop-q05",
+      "epam-python-oop-q06",
+      "epam-python-oop-q07",
+      "epam-python-oop-q08",
+      "epam-python-oop-q09",
+      "epam-python-oop-q10",
+      "epam-python-oop-q11",
+      "epam-python-oop-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

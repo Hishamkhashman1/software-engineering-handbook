@@ -110,506 +110,646 @@
   "questions": [
     {
       "id": "ai-integration-q01",
-      "type": "scenario_choice",
-      "prompt": "A profile endpoint receives only a new email field. What should the API prefer?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "ai",
-        "rag",
-        "partial update",
-        "api"
-      ],
-      "options": [
-        "PATCH the selected field",
-        "PUT an empty profile",
-        "GET with a body",
-        "DELETE and recreate"
-      ],
-      "answer": "PATCH the selected field"
-    },
-    {
-      "id": "ai-integration-q02",
-      "type": "multi_select",
-      "prompt": "Pick the operations that are usually safe to retry.",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "ai",
-        "rag",
-        "idempotency",
-        "retry"
-      ],
-      "options": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5",
-        "POST /users"
-      ],
-      "answer": [
-        "GET /users",
-        "DELETE /users/5",
-        "PUT /users/5"
-      ]
-    },
-    {
-      "id": "ai-integration-q03",
-      "type": "ordering",
-      "prompt": "Arrange the request path.",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 1,
-      "tags": [
-        "ai",
-        "rag",
-        "request",
-        "validation"
-      ],
-      "options": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
-      ],
-      "answer": [
-        "Client sends request",
-        "Server validates input",
-        "Business logic runs",
-        "Response is returned"
-      ]
-    },
-    {
-      "id": "ai-integration-q04",
       "type": "matching",
-      "prompt": "Match each signal to its meaning.",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "prompt": "Match AI integration terms.",
+      "explanation": "RAG usually combines embeddings, vector search, and a generation step grounded in retrieved context.",
       "difficulty": 1,
       "tags": [
-        "ai",
-        "rag",
-        "status code",
-        "http"
+        "embedding",
+        "vector search",
+        "rag"
       ],
       "pairs": [
         {
-          "left": "401",
-          "right": "Authentication required"
+          "left": "Embedding",
+          "right": "Vector representation of meaning"
         },
         {
-          "left": "403",
-          "right": "Authenticated but forbidden"
+          "left": "Vector search",
+          "right": "Finds semantically similar items"
         },
         {
-          "left": "503",
-          "right": "Service unavailable"
+          "left": "RAG",
+          "right": "Retrieves context before generation"
         }
       ],
       "answer": {
-        "401": "Authentication required",
-        "403": "Authenticated but forbidden",
-        "503": "Service unavailable"
+        "Embedding": "Vector representation of meaning",
+        "Vector search": "Finds semantically similar items",
+        "RAG": "Retrieves context before generation"
+      },
+      "concept_panel": {
+        "title": "Retrieval-Augmented Generation",
+        "explanation": "RAG retrieves relevant source material before asking a model to answer. Embeddings turn text into vectors so semantic search can find related chunks. RAG is useful when facts change or must be grounded in private documents. Low retrieval confidence should trigger clarification or fallback rather than invented answers.",
+        "key_takeaways": [
+          "Embeddings power semantic retrieval.",
+          "Retrieved context grounds the model answer.",
+          "Low confidence needs fallback behavior."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand AI correctness, freshness, and hallucination control.",
+        "practical_example": "Retrieve the latest refund policy before generating a customer-support answer.",
+        "diagram": {
+          "type": "flow",
+          "title": "RAG pipeline",
+          "nodes": [
+            {
+              "label": "Embed query"
+            },
+            {
+              "label": "Vector search"
+            },
+            {
+              "label": "Retrieve chunks"
+            },
+            {
+              "label": "Grounded prompt"
+            },
+            {
+              "label": "Validated answer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ai-integration-q02",
+      "type": "scenario_choice",
+      "prompt": "A support assistant invents refund rules not present in policy docs. What is the risk?",
+      "explanation": "LLMs can produce plausible unsupported claims. Retrieval, citations, refusals, and evals reduce that risk.",
+      "difficulty": 1,
+      "tags": [
+        "hallucination",
+        "risk"
+      ],
+      "options": [
+        "Hallucination",
+        "Read amplification",
+        "CORS preflight",
+        "Index write cost"
+      ],
+      "answer": "Hallucination",
+      "concept_panel": {
+        "title": "Retrieval-Augmented Generation",
+        "explanation": "RAG retrieves relevant source material before asking a model to answer. Embeddings turn text into vectors so semantic search can find related chunks. RAG is useful when facts change or must be grounded in private documents. Low retrieval confidence should trigger clarification or fallback rather than invented answers.",
+        "key_takeaways": [
+          "Embeddings power semantic retrieval.",
+          "Retrieved context grounds the model answer.",
+          "Low confidence needs fallback behavior."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand AI correctness, freshness, and hallucination control.",
+        "practical_example": "Retrieve the latest refund policy before generating a customer-support answer.",
+        "diagram": {
+          "type": "flow",
+          "title": "RAG pipeline",
+          "nodes": [
+            {
+              "label": "Embed query"
+            },
+            {
+              "label": "Vector search"
+            },
+            {
+              "label": "Retrieve chunks"
+            },
+            {
+              "label": "Grounded prompt"
+            },
+            {
+              "label": "Validated answer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ai-integration-q03",
+      "type": "scenario_choice",
+      "prompt": "A model needs company policy facts that change weekly. What architecture is usually better than fine-tuning first?",
+      "explanation": "RAG keeps changing knowledge in retrievable data, avoiding retraining for every content update.",
+      "difficulty": 2,
+      "tags": [
+        "rag",
+        "freshness"
+      ],
+      "options": [
+        "RAG over current policy documents",
+        "Hardcode policy into UI",
+        "Ignore retrieval",
+        "Use only temperature changes"
+      ],
+      "answer": "RAG over current policy documents",
+      "concept_panel": {
+        "title": "Retrieval-Augmented Generation",
+        "explanation": "RAG retrieves relevant source material before asking a model to answer. Embeddings turn text into vectors so semantic search can find related chunks. RAG is useful when facts change or must be grounded in private documents. Low retrieval confidence should trigger clarification or fallback rather than invented answers.",
+        "key_takeaways": [
+          "Embeddings power semantic retrieval.",
+          "Retrieved context grounds the model answer.",
+          "Low confidence needs fallback behavior."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand AI correctness, freshness, and hallucination control.",
+        "practical_example": "Retrieve the latest refund policy before generating a customer-support answer.",
+        "diagram": {
+          "type": "flow",
+          "title": "RAG pipeline",
+          "nodes": [
+            {
+              "label": "Embed query"
+            },
+            {
+              "label": "Vector search"
+            },
+            {
+              "label": "Retrieve chunks"
+            },
+            {
+              "label": "Grounded prompt"
+            },
+            {
+              "label": "Validated answer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ai-integration-q04",
+      "type": "multi_select",
+      "prompt": "Which logs are useful for AI quality review without exposing unnecessary private data?",
+      "explanation": "AI observability should capture enough provenance to debug quality while minimizing sensitive data retention.",
+      "difficulty": 2,
+      "tags": [
+        "response logging",
+        "privacy"
+      ],
+      "options": [
+        "Prompt template/version",
+        "Retrieved document IDs",
+        "Model response outcome",
+        "Raw secrets and passwords"
+      ],
+      "answer": [
+        "Prompt template/version",
+        "Retrieved document IDs",
+        "Model response outcome"
+      ],
+      "concept_panel": {
+        "title": "Production AI Integration",
+        "explanation": "AI features are product systems, not just prompts. They need data handling, retrieval when facts matter, evaluation, latency/cost controls, privacy decisions, and fallback behavior. LLMs can hallucinate, so systems should ground answers in sources and measure quality repeatedly. The right architecture depends on risk and freshness requirements.",
+        "key_takeaways": [
+          "RAG helps with changing factual knowledge.",
+          "Evals catch quality regressions.",
+          "Privacy and observability must be designed up front."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can design AI features as reliable software systems.",
+        "practical_example": "A support assistant retrieves policy chunks, builds a grounded prompt, validates the answer, and logs document IDs for review.",
+        "diagram": {
+          "type": "flow",
+          "title": "AI request path",
+          "nodes": [
+            {
+              "label": "User query"
+            },
+            {
+              "label": "Retrieve context"
+            },
+            {
+              "label": "Prompt model"
+            },
+            {
+              "label": "Validate"
+            },
+            {
+              "label": "Answer"
+            }
+          ]
+        }
       }
     },
     {
       "id": "ai-integration-q05",
-      "type": "code_fill",
-      "prompt": "Fill the branch that classifies server errors.",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "matching",
+      "prompt": "Match AI controls to the problem.",
+      "explanation": "Production AI needs behavior controls and measurement, not just a prompt that works once.",
       "difficulty": 2,
       "tags": [
-        "ai",
-        "rag",
-        "code",
-        "status code"
+        "guardrails",
+        "evals"
       ],
-      "options": [
-        "\"server_error\"",
-        "\"client_error\"",
-        "\"success\"",
-        "\"redirect\""
+      "pairs": [
+        {
+          "left": "Guardrail",
+          "right": "Blocks or redirects unsafe output"
+        },
+        {
+          "left": "Evaluation",
+          "right": "Measures quality on test cases"
+        },
+        {
+          "left": "Fallback",
+          "right": "Handles low confidence or failure"
+        }
       ],
-      "code": "def classify(code):\n    if 500 <= code < 600:\n        return ____",
-      "answer": "\"server_error\""
+      "answer": {
+        "Guardrail": "Blocks or redirects unsafe output",
+        "Evaluation": "Measures quality on test cases",
+        "Fallback": "Handles low confidence or failure"
+      },
+      "concept_panel": {
+        "title": "Retrieval-Augmented Generation",
+        "explanation": "RAG retrieves relevant source material before asking a model to answer. Embeddings turn text into vectors so semantic search can find related chunks. RAG is useful when facts change or must be grounded in private documents. Low retrieval confidence should trigger clarification or fallback rather than invented answers.",
+        "key_takeaways": [
+          "Embeddings power semantic retrieval.",
+          "Retrieved context grounds the model answer.",
+          "Low confidence needs fallback behavior."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand AI correctness, freshness, and hallucination control.",
+        "practical_example": "Retrieve the latest refund policy before generating a customer-support answer.",
+        "diagram": {
+          "type": "flow",
+          "title": "RAG pipeline",
+          "nodes": [
+            {
+              "label": "Embed query"
+            },
+            {
+              "label": "Vector search"
+            },
+            {
+              "label": "Retrieve chunks"
+            },
+            {
+              "label": "Grounded prompt"
+            },
+            {
+              "label": "Validated answer"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "ai-integration-q06",
-      "type": "bug_hunt",
-      "prompt": "Production duplicated records after a timeout. What is the bug?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
+      "type": "scenario_choice",
+      "prompt": "Latency and cost are too high for a summarization feature. Which trade-off might help?",
+      "explanation": "Quantization or smaller models can reduce cost and latency, but may reduce accuracy. Evals decide whether the trade-off is acceptable.",
+      "difficulty": 3,
       "tags": [
-        "ai",
-        "rag",
-        "duplicate",
-        "retry"
+        "quantization",
+        "latency",
+        "cost"
       ],
       "options": [
-        "Retrying POST without an idempotency key",
-        "Using HTTPS",
-        "Returning 201 after create",
-        "Sorting by created_at"
+        "Use a smaller or quantized model and evaluate quality",
+        "Increase max tokens forever",
+        "Log all private inputs",
+        "Remove tests"
       ],
-      "answer": "Retrying POST without an idempotency key"
+      "answer": "Use a smaller or quantized model and evaluate quality",
+      "concept_panel": {
+        "title": "Model Quantization Trade-off",
+        "explanation": "Quantization reduces the precision of model weights or activations so the model uses less memory and may run faster. The trade-off is that quality can drop, especially on harder tasks. Production teams should evaluate accuracy, latency, and cost together before choosing a quantized model. It is an engineering trade-off, not a universal upgrade.",
+        "key_takeaways": [
+          "Quantization can reduce memory and latency.",
+          "Quality may decrease.",
+          "Evals decide whether the trade-off is acceptable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can reason about AI system performance trade-offs.",
+        "practical_example": "A smaller quantized summarizer may meet latency targets but needs evaluation against full-precision output.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-off",
+          "columns": [
+            {
+              "title": "Full precision",
+              "items": [
+                "Higher quality",
+                "More memory",
+                "Higher cost"
+              ]
+            },
+            {
+              "title": "Quantized",
+              "items": [
+                "Lower memory",
+                "Lower latency",
+                "Possible quality loss"
+              ]
+            }
+          ]
+        }
+      }
     },
     {
       "id": "ai-integration-q07",
-      "type": "code_output",
-      "prompt": "What does classify_status_code(404) return?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "bug_hunt",
+      "prompt": "A team ships an AI feature after trying five happy-path prompts manually. What is missing?",
+      "explanation": "Manual prompt trials do not show regression risk. Evals provide repeatable quality checks across realistic cases.",
       "difficulty": 2,
       "tags": [
-        "ai",
-        "rag",
-        "code output",
-        "status code"
+        "evals",
+        "quality"
       ],
       "options": [
-        "client_error",
-        "server_error",
-        "success",
-        "unknown"
+        "A repeatable evaluation set",
+        "A larger logo",
+        "A read replica",
+        "A Docker layer"
       ],
-      "answer": "client_error"
+      "answer": "A repeatable evaluation set",
+      "concept_panel": {
+        "title": "Production AI Integration",
+        "explanation": "AI features are product systems, not just prompts. They need data handling, retrieval when facts matter, evaluation, latency/cost controls, privacy decisions, and fallback behavior. LLMs can hallucinate, so systems should ground answers in sources and measure quality repeatedly. The right architecture depends on risk and freshness requirements.",
+        "key_takeaways": [
+          "RAG helps with changing factual knowledge.",
+          "Evals catch quality regressions.",
+          "Privacy and observability must be designed up front."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can design AI features as reliable software systems.",
+        "practical_example": "A support assistant retrieves policy chunks, builds a grounded prompt, validates the answer, and logs document IDs for review.",
+        "diagram": {
+          "type": "flow",
+          "title": "AI request path",
+          "nodes": [
+            {
+              "label": "User query"
+            },
+            {
+              "label": "Retrieve context"
+            },
+            {
+              "label": "Prompt model"
+            },
+            {
+              "label": "Validate"
+            },
+            {
+              "label": "Answer"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "ai-integration-q08",
       "type": "scenario_choice",
-      "prompt": "A changing feed skips items with page numbers. What pagination style fits better?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 2,
+      "prompt": "A user asks the assistant to reveal hidden system instructions. Which control should respond?",
+      "explanation": "AI systems should treat user text and retrieved text as untrusted input and enforce boundaries.",
+      "difficulty": 3,
       "tags": [
-        "ai",
-        "rag",
-        "pagination",
-        "cursor"
+        "guardrails",
+        "prompt injection"
       ],
       "options": [
-        "Cursor pagination",
+        "Prompt-injection guardrail and refusal behavior",
         "Offset pagination",
-        "Return everything",
-        "Sort in the browser"
+        "Joined eager loading",
+        "CSS reset"
       ],
-      "answer": "Cursor pagination"
+      "answer": "Prompt-injection guardrail and refusal behavior",
+      "concept_panel": {
+        "title": "Retrieval-Augmented Generation",
+        "explanation": "RAG retrieves relevant source material before asking a model to answer. Embeddings turn text into vectors so semantic search can find related chunks. RAG is useful when facts change or must be grounded in private documents. Low retrieval confidence should trigger clarification or fallback rather than invented answers.",
+        "key_takeaways": [
+          "Embeddings power semantic retrieval.",
+          "Retrieved context grounds the model answer.",
+          "Low confidence needs fallback behavior."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand AI correctness, freshness, and hallucination control.",
+        "practical_example": "Retrieve the latest refund policy before generating a customer-support answer.",
+        "diagram": {
+          "type": "flow",
+          "title": "RAG pipeline",
+          "nodes": [
+            {
+              "label": "Embed query"
+            },
+            {
+              "label": "Vector search"
+            },
+            {
+              "label": "Retrieve chunks"
+            },
+            {
+              "label": "Grounded prompt"
+            },
+            {
+              "label": "Validated answer"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "ai-integration-q09",
-      "type": "multiple_choice",
-      "prompt": "Which change best preserves existing clients when a response shape breaks compatibility?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "ordering",
+      "prompt": "Order a basic RAG request path.",
+      "explanation": "RAG first finds relevant context, then asks the model to answer from that context with validation around the result.",
       "difficulty": 2,
       "tags": [
-        "ai",
         "rag",
-        "versioning",
-        "contract"
+        "embeddings"
       ],
       "options": [
-        "Add /v2",
-        "Silently change /v1",
-        "Remove old fields",
-        "Document it after deploy"
+        "Embed the query",
+        "Retrieve relevant chunks",
+        "Build grounded prompt",
+        "Generate and validate answer"
       ],
-      "answer": "Add /v2"
+      "answer": [
+        "Embed the query",
+        "Retrieve relevant chunks",
+        "Build grounded prompt",
+        "Generate and validate answer"
+      ],
+      "concept_panel": {
+        "title": "Retrieval-Augmented Generation",
+        "explanation": "RAG retrieves relevant source material before asking a model to answer. Embeddings turn text into vectors so semantic search can find related chunks. RAG is useful when facts change or must be grounded in private documents. Low retrieval confidence should trigger clarification or fallback rather than invented answers.",
+        "key_takeaways": [
+          "Embeddings power semantic retrieval.",
+          "Retrieved context grounds the model answer.",
+          "Low confidence needs fallback behavior."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand AI correctness, freshness, and hallucination control.",
+        "practical_example": "Retrieve the latest refund policy before generating a customer-support answer.",
+        "diagram": {
+          "type": "flow",
+          "title": "RAG pipeline",
+          "nodes": [
+            {
+              "label": "Embed query"
+            },
+            {
+              "label": "Vector search"
+            },
+            {
+              "label": "Retrieve chunks"
+            },
+            {
+              "label": "Grounded prompt"
+            },
+            {
+              "label": "Validated answer"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "ai-integration-q10",
-      "type": "multi_select",
-      "prompt": "Select the reasons to validate input before business logic.",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "code_fill",
+      "prompt": "Fill the retrieval similarity check.",
+      "explanation": "Low retrieval confidence should trigger clarification or fallback, not fabricated answers.",
       "difficulty": 2,
       "tags": [
-        "ai",
-        "rag",
-        "validation",
-        "security"
+        "vector search",
+        "fallback"
       ],
       "options": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk",
-        "Make CPU work parallel"
+        "\"ask_for_clarification\"",
+        "\"invent_answer\"",
+        "\"ignore_sources\"",
+        "\"delete_index\""
       ],
-      "answer": [
-        "Reject invalid data early",
-        "Improve predictable errors",
-        "Reduce security risk"
-      ]
+      "code": "if top_match.score < threshold:\n    return ____",
+      "answer": "\"ask_for_clarification\"",
+      "concept_panel": {
+        "title": "Retrieval-Augmented Generation",
+        "explanation": "RAG retrieves relevant source material before asking a model to answer. Embeddings turn text into vectors so semantic search can find related chunks. RAG is useful when facts change or must be grounded in private documents. Low retrieval confidence should trigger clarification or fallback rather than invented answers.",
+        "key_takeaways": [
+          "Embeddings power semantic retrieval.",
+          "Retrieved context grounds the model answer.",
+          "Low confidence needs fallback behavior."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand AI correctness, freshness, and hallucination control.",
+        "practical_example": "Retrieve the latest refund policy before generating a customer-support answer.",
+        "diagram": {
+          "type": "flow",
+          "title": "RAG pipeline",
+          "nodes": [
+            {
+              "label": "Embed query"
+            },
+            {
+              "label": "Vector search"
+            },
+            {
+              "label": "Retrieve chunks"
+            },
+            {
+              "label": "Grounded prompt"
+            },
+            {
+              "label": "Validated answer"
+            }
+          ]
+        }
+      }
     },
     {
       "id": "ai-integration-q11",
-      "type": "matching",
-      "prompt": "Match the scaling tool to the bottleneck.",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
+      "type": "scenario_choice",
+      "prompt": "A feature sends customer medical notes to a third-party model without review. What is the primary issue?",
+      "explanation": "Sensitive data needs clear consent, minimization, retention policy, and vendor controls before model use.",
       "difficulty": 3,
       "tags": [
-        "ai",
-        "rag",
-        "performance",
-        "scaling"
+        "privacy",
+        "governance"
       ],
-      "pairs": [
-        {
-          "left": "Cache",
-          "right": "Repeated reads"
-        },
-        {
-          "left": "Queue",
-          "right": "Bursty writes"
-        },
-        {
-          "left": "Read replica",
-          "right": "Read-heavy database load"
+      "options": [
+        "Privacy and data-governance risk",
+        "Better throughput",
+        "Normal caching",
+        "A harmless prompt detail"
+      ],
+      "answer": "Privacy and data-governance risk",
+      "concept_panel": {
+        "title": "Responsible Data Use",
+        "explanation": "Data is both value and risk. Responsible systems define why data is collected, how long it is retained, who can access it, and how access is audited. Privacy, consent, deletion, and security requirements should be part of design rather than afterthoughts. Keeping everything forever because storage is cheap creates legal and human risk.",
+        "key_takeaways": [
+          "Collect only data needed for a defined purpose.",
+          "Retention and deletion policies limit risk.",
+          "Auditability and access control make use accountable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ethics, privacy, and governance in data systems.",
+        "practical_example": "Sensitive production data access should require permission, logging, and a clear business purpose.",
+        "diagram": {
+          "type": "flow",
+          "title": "Data responsibility path",
+          "nodes": [
+            {
+              "label": "Purpose"
+            },
+            {
+              "label": "Minimize"
+            },
+            {
+              "label": "Protect"
+            },
+            {
+              "label": "Audit"
+            },
+            {
+              "label": "Delete"
+            }
+          ]
         }
-      ],
-      "answer": {
-        "Cache": "Repeated reads",
-        "Queue": "Bursty writes",
-        "Read replica": "Read-heavy database load"
       }
     },
     {
       "id": "ai-integration-q12",
-      "type": "bug_hunt",
-      "prompt": "An endpoint loads 100 users, then reads user.orders in a loop. What is happening?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "ai",
-        "rag",
-        "n+1",
-        "sqlalchemy"
-      ],
-      "options": [
-        "N+1 queries",
-        "A CORS preflight",
-        "A DNS failure",
-        "A cache hit"
-      ],
-      "answer": "N+1 queries"
-    },
-    {
-      "id": "ai-integration-q13",
       "type": "multi_select",
-      "prompt": "Pick two fixes for the N+1 query pattern.",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
+      "prompt": "Which metrics matter for AI integration readiness?",
+      "explanation": "AI product quality is a trade-off among usefulness, speed, cost, and risk.",
+      "difficulty": 2,
       "tags": [
-        "ai",
-        "rag",
-        "selectinload",
-        "joinedload"
+        "evaluation",
+        "latency",
+        "cost"
       ],
       "options": [
-        "selectinload",
-        "joinedload",
-        "Unlimited retries",
-        "Client-side filtering"
+        "Answer accuracy on evals",
+        "Latency",
+        "Cost per request",
+        "Number of gradients in UI"
       ],
       "answer": [
-        "selectinload",
-        "joinedload"
-      ]
-    },
-    {
-      "id": "ai-integration-q14",
-      "type": "scenario_choice",
-      "prompt": "A downstream service is failing and your app keeps retrying instantly. What should you add first?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "ai",
-        "rag",
-        "timeout",
-        "backoff"
+        "Answer accuracy on evals",
+        "Latency",
+        "Cost per request"
       ],
-      "options": [
-        "Timeouts and exponential backoff",
-        "More unlimited retries",
-        "A larger JSON payload",
-        "A second frontend"
-      ],
-      "answer": "Timeouts and exponential backoff"
-    },
-    {
-      "id": "ai-integration-q15",
-      "type": "ordering",
-      "prompt": "Order the transaction flow.",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "ai",
-        "rag",
-        "transaction",
-        "acid"
-      ],
-      "options": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ],
-      "answer": [
-        "Begin transaction",
-        "Apply all writes",
-        "Commit if all succeed",
-        "Roll back on failure"
-      ]
-    },
-    {
-      "id": "ai-integration-q16",
-      "type": "matching",
-      "prompt": "Match data shape to storage fit.",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "ai",
-        "rag",
-        "sql",
-        "nosql"
-      ],
-      "pairs": [
-        {
-          "left": "Strong relationships",
-          "right": "SQL"
-        },
-        {
-          "left": "Flexible documents",
-          "right": "NoSQL"
-        },
-        {
-          "left": "Hot session cache",
-          "right": "Redis"
+      "concept_panel": {
+        "title": "Model Quantization Trade-off",
+        "explanation": "Quantization reduces the precision of model weights or activations so the model uses less memory and may run faster. The trade-off is that quality can drop, especially on harder tasks. Production teams should evaluate accuracy, latency, and cost together before choosing a quantized model. It is an engineering trade-off, not a universal upgrade.",
+        "key_takeaways": [
+          "Quantization can reduce memory and latency.",
+          "Quality may decrease.",
+          "Evals decide whether the trade-off is acceptable."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can reason about AI system performance trade-offs.",
+        "practical_example": "A smaller quantized summarizer may meet latency targets but needs evaluation against full-precision output.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-off",
+          "columns": [
+            {
+              "title": "Full precision",
+              "items": [
+                "Higher quality",
+                "More memory",
+                "Higher cost"
+              ]
+            },
+            {
+              "title": "Quantized",
+              "items": [
+                "Lower memory",
+                "Lower latency",
+                "Possible quality loss"
+              ]
+            }
+          ]
         }
-      ],
-      "answer": {
-        "Strong relationships": "SQL",
-        "Flexible documents": "NoSQL",
-        "Hot session cache": "Redis"
       }
-    },
-    {
-      "id": "ai-integration-q17",
-      "type": "code_fill",
-      "prompt": "Fill the safer SQLAlchemy loading option for a collection.",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "ai",
-        "rag",
-        "sqlalchemy",
-        "loading"
-      ],
-      "options": [
-        "selectinload",
-        "time.sleep",
-        "requests.get",
-        "os.system"
-      ],
-      "code": "stmt = select(User).options(____(User.orders))",
-      "answer": "selectinload"
-    },
-    {
-      "id": "ai-integration-q18",
-      "type": "multiple_choice",
-      "prompt": "CPU-heavy image processing is slowing requests. Which model helps most?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "ai",
-        "rag",
-        "parallelism",
-        "cpu"
-      ],
-      "options": [
-        "Parallelism",
-        "Async await only",
-        "More CORS headers",
-        "Offset pagination"
-      ],
-      "answer": "Parallelism"
-    },
-    {
-      "id": "ai-integration-q19",
-      "type": "scenario_choice",
-      "prompt": "A product page needs recommendations, but the recommender is down. What behavior is best?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "ai",
-        "rag",
-        "degradation",
-        "reliability"
-      ],
-      "options": [
-        "Serve the page without recommendations",
-        "Fail the entire page",
-        "Retry forever",
-        "Delete the cache"
-      ],
-      "answer": "Serve the page without recommendations"
-    },
-    {
-      "id": "ai-integration-q20",
-      "type": "multi_select",
-      "prompt": "Which signals make an API easier for clients to use?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "ai",
-        "rag",
-        "contract",
-        "openapi"
-      ],
-      "options": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema",
-        "Random response fields"
-      ],
-      "answer": [
-        "Stable contract",
-        "Clear status codes",
-        "Documented schema"
-      ]
-    },
-    {
-      "id": "ai-integration-q21",
-      "type": "bug_hunt",
-      "prompt": "A response model includes password_hash. What is the bug?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "ai",
-        "rag",
-        "response model",
-        "security"
-      ],
-      "options": [
-        "Leaking sensitive data",
-        "Using a router",
-        "Returning JSON",
-        "Using a status code"
-      ],
-      "answer": "Leaking sensitive data"
-    },
-    {
-      "id": "ai-integration-q22",
-      "type": "scenario_choice",
-      "prompt": "A social like count appears five seconds late. When is that acceptable?",
-      "explanation": "Key idea: apply AI Integration by choosing the option that protects correctness, clarity, reliability, or maintainability in a real interview scenario.",
-      "difficulty": 3,
-      "tags": [
-        "ai",
-        "rag",
-        "eventual consistency",
-        "trade-off"
-      ],
-      "options": [
-        "When eventual consistency is acceptable",
-        "When money is transferred",
-        "When validating passwords",
-        "When committing inventory"
-      ],
-      "answer": "When eventual consistency is acceptable"
     }
   ],
   "coding_challenges": [

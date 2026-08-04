@@ -1,0 +1,933 @@
+{
+  "id": "ddia-data-models",
+  "title": "DDIA: Data Models and Query Languages",
+  "description": "Relational, document, graph, denormalization, joins, and query expressiveness.",
+  "order": 13,
+  "tags": [
+    "ddia",
+    "data-model",
+    "query"
+  ],
+  "lessons": [
+    {
+      "id": "ddia-data-models-core-model",
+      "title": "Core Mental Model",
+      "summary": "Relational, document, graph, denormalization, joins, and query expressiveness.",
+      "explanation": "Relational, document, graph, denormalization, joins, and query expressiveness. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "ddia",
+        "data-model",
+        "query"
+      ],
+      "examples": [
+        "Use DDIA: Data Models and Query Languages concepts to name the workload, guarantee, and failure mode before choosing a tool."
+      ],
+      "interview_questions": [
+        "When would you apply core mental model?",
+        "What failure mode appears when core mental model is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "ddia",
+        "data-model",
+        "query"
+      ]
+    },
+    {
+      "id": "ddia-data-models-failure-mode",
+      "title": "Failure Mode Drill",
+      "summary": "Most data-system mistakes come from hidden assumptions about time, ordering, durability, or coordination.",
+      "explanation": "Most data-system mistakes come from hidden assumptions about time, ordering, durability, or coordination. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "failure",
+        "assumption",
+        "trade-off"
+      ],
+      "examples": [
+        "Ask what can be stale, duplicated, delayed, reordered, or partially applied."
+      ],
+      "interview_questions": [
+        "When would you apply failure mode drill?",
+        "What failure mode appears when failure mode drill is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "failure",
+        "assumption",
+        "trade-off"
+      ]
+    },
+    {
+      "id": "ddia-data-models-design-choice",
+      "title": "Design Choice",
+      "summary": "Good architecture explains what it optimizes and what it makes harder.",
+      "explanation": "Good architecture explains what it optimizes and what it makes harder. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "design",
+        "trade-off",
+        "constraint"
+      ],
+      "examples": [
+        "A read replica improves read capacity but can show stale data."
+      ],
+      "interview_questions": [
+        "When would you apply design choice?",
+        "What failure mode appears when design choice is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "design",
+        "trade-off",
+        "constraint"
+      ]
+    },
+    {
+      "id": "ddia-data-models-interview-synthesis",
+      "title": "Interview Synthesis",
+      "summary": "Strong answers connect symptoms to guarantees, then propose a measured mitigation.",
+      "explanation": "Strong answers connect symptoms to guarantees, then propose a measured mitigation. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "interview",
+        "diagnosis",
+        "mitigation"
+      ],
+      "examples": [
+        "Name the invariant, pick the weakest guarantee that protects it, and explain the cost."
+      ],
+      "interview_questions": [
+        "When would you apply interview synthesis?",
+        "What failure mode appears when interview synthesis is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "interview",
+        "diagnosis",
+        "mitigation"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "ddia-data-models-q01",
+      "type": "scenario_choice",
+      "prompt": "A product has many cross-cutting relationships and ad hoc reporting needs.",
+      "explanation": "Use a relational model with joins or a graph model when relationships dominate. In DDIA: Data Models and Query Languages, the first move is to protect the system's real guarantee: model around access patterns.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "Use a relational model with joins or a graph model when relationships dominate",
+        "Store one giant JSON blob",
+        "Duplicate everything blindly",
+        "Avoid query requirements"
+      ],
+      "answer": "Use a relational model with joins or a graph model when relationships dominate",
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q02",
+      "type": "multi_select",
+      "prompt": "Which concepts belong in a DDIA: Data Models and Query Languages design discussion?",
+      "explanation": "These concepts are central to ddia: data models and query languages. The unrelated option may matter in frontend work, but it does not diagnose this data-system problem.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "Relational joins",
+        "Document locality",
+        "Graph traversal",
+        "CSS color choice"
+      ],
+      "answer": [
+        "Relational joins",
+        "Document locality",
+        "Graph traversal"
+      ],
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q03",
+      "type": "matching",
+      "prompt": "Match the DDIA: Data Models and Query Languages concepts.",
+      "explanation": "The mapping links each term to the operational behavior you should listen for in interviews and incidents.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "pairs": [
+        {
+          "left": "Relational joins",
+          "right": "Combines normalized records through relationships"
+        },
+        {
+          "left": "Document locality",
+          "right": "Keeps nested data together for one access pattern"
+        },
+        {
+          "left": "Graph traversal",
+          "right": "Follows many-to-many relationships efficiently"
+        }
+      ],
+      "answer": {
+        "Relational joins": "Combines normalized records through relationships",
+        "Document locality": "Keeps nested data together for one access pattern",
+        "Graph traversal": "Follows many-to-many relationships efficiently"
+      },
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q04",
+      "type": "ordering",
+      "prompt": "Order the DDIA: Data Models and Query Languages design move.",
+      "explanation": "This order keeps the reasoning grounded: observe the requirement, choose the guarantee, then validate it with the system behavior.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "List access patterns",
+        "Choose data shape",
+        "Plan indexes",
+        "Handle evolution"
+      ],
+      "answer": [
+        "List access patterns",
+        "Choose data shape",
+        "Plan indexes",
+        "Handle evolution"
+      ],
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q05",
+      "type": "bug_hunt",
+      "prompt": "A document store repeats user profile data in millions of orders.",
+      "explanation": "The symptom is best explained by Uncontrolled denormalization. A strong answer names the anomaly and then proposes a mitigation.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "Uncontrolled denormalization",
+        "Normalized joins",
+        "Indexes",
+        "Foreign keys"
+      ],
+      "answer": "Uncontrolled denormalization",
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q06",
+      "type": "multiple_choice",
+      "prompt": "What trade-off should you say out loud for DDIA: Data Models and Query Languages?",
+      "explanation": "Data models trade locality and flexibility against consistency, duplication, and query power.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "Data models trade locality and flexibility against consistency, duplication, and query power.",
+        "Every tool gives the same guarantees",
+        "Latency and correctness are unrelated",
+        "Adding replicas always removes complexity"
+      ],
+      "answer": "Data models trade locality and flexibility against consistency, duplication, and query power.",
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q07",
+      "type": "scenario_choice",
+      "prompt": "During design review, what question best tests the DDIA: Data Models and Query Languages choice?",
+      "explanation": "Data-system design should start from invariants and failure behavior. Tool choice follows from the guarantee you need.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "What guarantee must hold during failure?",
+        "Which logo color is final?",
+        "Can we skip metrics?",
+        "Can clients guess the schema?"
+      ],
+      "answer": "What guarantee must hold during failure?",
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q08",
+      "type": "multi_select",
+      "prompt": "Pick interview moves that make a DDIA: Data Models and Query Languages answer sound senior.",
+      "explanation": "Strong answers are conditional: they describe load, data shape, failure mode, and cost instead of pretending one tool is always best.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "Name the workload",
+        "Name the failure mode",
+        "State the trade-off",
+        "Claim there is one perfect database"
+      ],
+      "answer": [
+        "Name the workload",
+        "Name the failure mode",
+        "State the trade-off"
+      ],
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q09",
+      "type": "matching",
+      "prompt": "Match outcome to design pressure in DDIA: Data Models and Query Languages.",
+      "explanation": "Reversing the mapping trains recognition from symptoms back to the concept, which is how incidents and interviews usually present the problem.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "pairs": [
+        {
+          "left": "Allows records to vary in shape over time",
+          "right": "Schema flexibility"
+        },
+        {
+          "left": "Expresses how data should be retrieved or transformed",
+          "right": "Query language"
+        },
+        {
+          "left": "Duplicates data to speed reads at consistency cost",
+          "right": "Denormalization"
+        }
+      ],
+      "answer": {
+        "Allows records to vary in shape over time": "Schema flexibility",
+        "Expresses how data should be retrieved or transformed": "Query language",
+        "Duplicates data to speed reads at consistency cost": "Denormalization"
+      },
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q10",
+      "type": "code_fill",
+      "prompt": "Fill the guard that prevents an unsafe operation from continuing.",
+      "explanation": "When a guarantee is uncertain, the safe path is to retry with idempotency or reconcile state. Assuming success hides data loss or duplication.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "\"retry_or_reconcile\"",
+        "\"ignore\"",
+        "\"delete_history\"",
+        "\"assume_success\""
+      ],
+      "code": "if not guarantee_holds(event):\n    return ____",
+      "answer": "\"retry_or_reconcile\"",
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q11",
+      "type": "bug_hunt",
+      "prompt": "A team adds DDIA: Data Models and Query Languages machinery but cannot explain the invariant it protects. What is the real issue?",
+      "explanation": "Advanced data tools are justified by guarantees. Without a stated invariant, the team cannot tell whether complexity is buying anything.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "Architecture without a stated guarantee",
+        "Too many unit tests",
+        "Correct schema evolution",
+        "Clear observability"
+      ],
+      "answer": "Architecture without a stated guarantee",
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q12",
+      "type": "scenario_choice",
+      "prompt": "What is the safest first response when DDIA: Data Models and Query Languages behavior surprises production?",
+      "explanation": "Data-system failures are often timing or workload dependent. Evidence lets you distinguish stale reads, duplicate work, hot keys, lock waits, and real data loss.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "Capture evidence with logs, metrics, and traces",
+        "Delete the database",
+        "Retry all writes forever",
+        "Disable validation"
+      ],
+      "answer": "Capture evidence with logs, metrics, and traces",
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q13",
+      "type": "ordering",
+      "prompt": "Order the incident explanation for DDIA: Data Models and Query Languages.",
+      "explanation": "This structure turns a vague answer into an engineering argument: symptom, cause, fix, and cost.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "Observed symptom",
+        "Likely invariant violation",
+        "Concrete mitigation",
+        "Trade-off introduced"
+      ],
+      "answer": [
+        "Observed symptom",
+        "Likely invariant violation",
+        "Concrete mitigation",
+        "Trade-off introduced"
+      ],
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-data-models-q14",
+      "type": "multi_select",
+      "prompt": "Which answers are honest about DDIA: Data Models and Query Languages trade-offs?",
+      "explanation": "DDIA-style reasoning is explicit about workload and guarantees. Average-only or absolute claims usually hide the real trade-off.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "data-model"
+      ],
+      "options": [
+        "It depends on workload",
+        "Measure tail behavior",
+        "State consistency needs",
+        "Always optimize averages only"
+      ],
+      "answer": [
+        "It depends on workload",
+        "Measure tail behavior",
+        "State consistency needs"
+      ],
+      "concept_panel": {
+        "title": "Data Models and Query Languages",
+        "explanation": "Data models shape how information is stored, related, and queried. Relational models are strong for normalized data, joins, constraints, and ad hoc querying. Document models keep related data together for one access pattern but can introduce duplication. Graph models fit dense relationships and traversals. The right model follows access patterns and consistency needs.",
+        "key_takeaways": [
+          "Relational models favor joins and constraints.",
+          "Document models favor locality and flexible shape.",
+          "Denormalization speeds reads but creates consistency work."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can model data around access patterns and invariants.",
+        "practical_example": "A product catalog with flexible attributes may fit documents, while orders, users, and payments often need relational constraints.",
+        "diagram": {
+          "type": "compare",
+          "title": "Model trade-offs",
+          "columns": [
+            {
+              "title": "Relational",
+              "items": [
+                "Joins",
+                "Constraints",
+                "Ad hoc queries"
+              ]
+            },
+            {
+              "title": "Document/Graph",
+              "items": [
+                "Locality or traversal",
+                "Flexible shape",
+                "Duplication trade-offs"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "ddia-data-models-route-partition",
+      "title": "DDIA: Data Models and Query Languages partition router",
+      "instructions": "Implement route_partition(key: str, partitions: int) -> int. Return a stable partition from 0 to partitions - 1. Raise ValueError when partitions is less than 1.",
+      "starter_code": "def route_partition(key: str, partitions: int) -> int:\n    pass\n",
+      "function_signature": "def route_partition(key: str, partitions: int) -> int",
+      "visible_tests": [
+        {
+          "name": "range",
+          "call": "0 <= route_partition('user-7', 8) < 8",
+          "expected": true
+        },
+        {
+          "name": "stable",
+          "call": "route_partition('tenant-a', 16) == route_partition('tenant-a', 16)",
+          "expected": true
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "single partition",
+          "call": "route_partition('anything', 1)",
+          "expected": 0
+        },
+        {
+          "name": "different size still range",
+          "call": "0 <= route_partition('order-9', 3) < 3",
+          "expected": true
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Stable routing is a core primitive behind partitioning. This exercise checks deterministic mapping and input validation.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "data-model",
+        "query"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "ddia-data-models-boss",
+    "title": "DDIA: Data Models and Query Languages boss battle",
+    "question_ids": [
+      "ddia-data-models-q01",
+      "ddia-data-models-q02",
+      "ddia-data-models-q03",
+      "ddia-data-models-q04",
+      "ddia-data-models-q05",
+      "ddia-data-models-q06",
+      "ddia-data-models-q07",
+      "ddia-data-models-q08",
+      "ddia-data-models-q09",
+      "ddia-data-models-q10",
+      "ddia-data-models-q11",
+      "ddia-data-models-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

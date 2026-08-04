@@ -1,0 +1,1033 @@
+{
+  "id": "ddia-stream",
+  "title": "DDIA: Stream Processing",
+  "description": "Event logs, consumers, windows, watermarks, delivery semantics, backpressure, and stateful processing.",
+  "order": 22,
+  "tags": [
+    "ddia",
+    "streaming",
+    "events"
+  ],
+  "lessons": [
+    {
+      "id": "ddia-stream-core-model",
+      "title": "Core Mental Model",
+      "summary": "Event logs, consumers, windows, watermarks, delivery semantics, backpressure, and stateful processing.",
+      "explanation": "Event logs, consumers, windows, watermarks, delivery semantics, backpressure, and stateful processing. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "ddia",
+        "streaming",
+        "events"
+      ],
+      "examples": [
+        "Use DDIA: Stream Processing concepts to name the workload, guarantee, and failure mode before choosing a tool."
+      ],
+      "interview_questions": [
+        "When would you apply core mental model?",
+        "What failure mode appears when core mental model is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "ddia",
+        "streaming",
+        "events"
+      ]
+    },
+    {
+      "id": "ddia-stream-failure-mode",
+      "title": "Failure Mode Drill",
+      "summary": "Most data-system mistakes come from hidden assumptions about time, ordering, durability, or coordination.",
+      "explanation": "Most data-system mistakes come from hidden assumptions about time, ordering, durability, or coordination. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "failure",
+        "assumption",
+        "trade-off"
+      ],
+      "examples": [
+        "Ask what can be stale, duplicated, delayed, reordered, or partially applied."
+      ],
+      "interview_questions": [
+        "When would you apply failure mode drill?",
+        "What failure mode appears when failure mode drill is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "failure",
+        "assumption",
+        "trade-off"
+      ]
+    },
+    {
+      "id": "ddia-stream-design-choice",
+      "title": "Design Choice",
+      "summary": "Good architecture explains what it optimizes and what it makes harder.",
+      "explanation": "Good architecture explains what it optimizes and what it makes harder. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "design",
+        "trade-off",
+        "constraint"
+      ],
+      "examples": [
+        "A read replica improves read capacity but can show stale data."
+      ],
+      "interview_questions": [
+        "When would you apply design choice?",
+        "What failure mode appears when design choice is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "design",
+        "trade-off",
+        "constraint"
+      ]
+    },
+    {
+      "id": "ddia-stream-interview-synthesis",
+      "title": "Interview Synthesis",
+      "summary": "Strong answers connect symptoms to guarantees, then propose a measured mitigation.",
+      "explanation": "Strong answers connect symptoms to guarantees, then propose a measured mitigation. In interviews, explain the concept, when it applies, and the trade-off it introduces. Use concrete examples from the provided material instead of definitions alone.",
+      "key_points": [
+        "interview",
+        "diagnosis",
+        "mitigation"
+      ],
+      "examples": [
+        "Name the invariant, pick the weakest guarantee that protects it, and explain the cost."
+      ],
+      "interview_questions": [
+        "When would you apply interview synthesis?",
+        "What failure mode appears when interview synthesis is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "interview",
+        "diagnosis",
+        "mitigation"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "ddia-stream-q01",
+      "type": "scenario_choice",
+      "prompt": "A consumer is slower than producers and lag keeps growing.",
+      "explanation": "Apply backpressure, scale consumers, or reduce per-event work. In DDIA: Stream Processing, the first move is to protect the system's real guarantee: process events continuously.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "Apply backpressure, scale consumers, or reduce per-event work",
+        "Ignore lag",
+        "Retry instantly",
+        "Drop offsets randomly"
+      ],
+      "answer": "Apply backpressure, scale consumers, or reduce per-event work",
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q02",
+      "type": "multi_select",
+      "prompt": "Which concepts belong in a DDIA: Stream Processing design discussion?",
+      "explanation": "These concepts are central to ddia: stream processing. The unrelated option may matter in frontend work, but it does not diagnose this data-system problem.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "Event log",
+        "Consumer offset",
+        "Backpressure",
+        "CSS color choice"
+      ],
+      "answer": [
+        "Event log",
+        "Consumer offset",
+        "Backpressure"
+      ],
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q03",
+      "type": "matching",
+      "prompt": "Match the DDIA: Stream Processing concepts.",
+      "explanation": "The mapping links each term to the operational behavior you should listen for in interviews and incidents.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "pairs": [
+        {
+          "left": "Event log",
+          "right": "Append-only ordered stream of events"
+        },
+        {
+          "left": "Consumer offset",
+          "right": "Position a consumer has processed"
+        },
+        {
+          "left": "Backpressure",
+          "right": "Slows producers or work intake when consumers cannot keep up"
+        }
+      ],
+      "answer": {
+        "Event log": "Append-only ordered stream of events",
+        "Consumer offset": "Position a consumer has processed",
+        "Backpressure": "Slows producers or work intake when consumers cannot keep up"
+      },
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q04",
+      "type": "ordering",
+      "prompt": "Order the DDIA: Stream Processing design move.",
+      "explanation": "This order keeps the reasoning grounded: observe the requirement, choose the guarantee, then validate it with the system behavior.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "Ingest event",
+        "Process with state",
+        "Commit offset",
+        "Emit result"
+      ],
+      "answer": [
+        "Ingest event",
+        "Process with state",
+        "Commit offset",
+        "Emit result"
+      ],
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q05",
+      "type": "bug_hunt",
+      "prompt": "A consumer crashes after side effects but before committing its offset.",
+      "explanation": "The symptom is best explained by Duplicate processing risk. A strong answer names the anomaly and then proposes a mitigation.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "Duplicate processing risk",
+        "B-tree",
+        "DNS",
+        "OpenAPI"
+      ],
+      "answer": "Duplicate processing risk",
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q06",
+      "type": "multiple_choice",
+      "prompt": "What trade-off should you say out loud for DDIA: Stream Processing?",
+      "explanation": "Streaming reduces latency for derived data, but demands careful handling of ordering, duplicates, and state.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "Streaming reduces latency for derived data, but demands careful handling of ordering, duplicates, and state.",
+        "Every tool gives the same guarantees",
+        "Latency and correctness are unrelated",
+        "Adding replicas always removes complexity"
+      ],
+      "answer": "Streaming reduces latency for derived data, but demands careful handling of ordering, duplicates, and state.",
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q07",
+      "type": "scenario_choice",
+      "prompt": "During design review, what question best tests the DDIA: Stream Processing choice?",
+      "explanation": "Data-system design should start from invariants and failure behavior. Tool choice follows from the guarantee you need.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "What guarantee must hold during failure?",
+        "Which logo color is final?",
+        "Can we skip metrics?",
+        "Can clients guess the schema?"
+      ],
+      "answer": "What guarantee must hold during failure?",
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q08",
+      "type": "multi_select",
+      "prompt": "Pick interview moves that make a DDIA: Stream Processing answer sound senior.",
+      "explanation": "Strong answers are conditional: they describe load, data shape, failure mode, and cost instead of pretending one tool is always best.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "Name the workload",
+        "Name the failure mode",
+        "State the trade-off",
+        "Claim there is one perfect database"
+      ],
+      "answer": [
+        "Name the workload",
+        "Name the failure mode",
+        "State the trade-off"
+      ],
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q09",
+      "type": "matching",
+      "prompt": "Match outcome to design pressure in DDIA: Stream Processing.",
+      "explanation": "Reversing the mapping trains recognition from symptoms back to the concept, which is how incidents and interviews usually present the problem.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "pairs": [
+        {
+          "left": "Groups events by time or count for aggregation",
+          "right": "Window"
+        },
+        {
+          "left": "Estimate of how complete event-time input is",
+          "right": "Watermark"
+        },
+        {
+          "left": "End result is correct despite retries or duplicates",
+          "right": "Exactly-once effect"
+        }
+      ],
+      "answer": {
+        "Groups events by time or count for aggregation": "Window",
+        "Estimate of how complete event-time input is": "Watermark",
+        "End result is correct despite retries or duplicates": "Exactly-once effect"
+      },
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q10",
+      "type": "code_fill",
+      "prompt": "Fill the guard that prevents an unsafe operation from continuing.",
+      "explanation": "When a guarantee is uncertain, the safe path is to retry with idempotency or reconcile state. Assuming success hides data loss or duplication.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "\"retry_or_reconcile\"",
+        "\"ignore\"",
+        "\"delete_history\"",
+        "\"assume_success\""
+      ],
+      "code": "if not guarantee_holds(event):\n    return ____",
+      "answer": "\"retry_or_reconcile\"",
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q11",
+      "type": "bug_hunt",
+      "prompt": "A team adds DDIA: Stream Processing machinery but cannot explain the invariant it protects. What is the real issue?",
+      "explanation": "Advanced data tools are justified by guarantees. Without a stated invariant, the team cannot tell whether complexity is buying anything.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "Architecture without a stated guarantee",
+        "Too many unit tests",
+        "Correct schema evolution",
+        "Clear observability"
+      ],
+      "answer": "Architecture without a stated guarantee",
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q12",
+      "type": "scenario_choice",
+      "prompt": "What is the safest first response when DDIA: Stream Processing behavior surprises production?",
+      "explanation": "Data-system failures are often timing or workload dependent. Evidence lets you distinguish stale reads, duplicate work, hot keys, lock waits, and real data loss.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "Capture evidence with logs, metrics, and traces",
+        "Delete the database",
+        "Retry all writes forever",
+        "Disable validation"
+      ],
+      "answer": "Capture evidence with logs, metrics, and traces",
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q13",
+      "type": "ordering",
+      "prompt": "Order the incident explanation for DDIA: Stream Processing.",
+      "explanation": "This structure turns a vague answer into an engineering argument: symptom, cause, fix, and cost.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "Observed symptom",
+        "Likely invariant violation",
+        "Concrete mitigation",
+        "Trade-off introduced"
+      ],
+      "answer": [
+        "Observed symptom",
+        "Likely invariant violation",
+        "Concrete mitigation",
+        "Trade-off introduced"
+      ],
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q14",
+      "type": "multi_select",
+      "prompt": "Which answers are honest about DDIA: Stream Processing trade-offs?",
+      "explanation": "DDIA-style reasoning is explicit about workload and guarantees. Average-only or absolute claims usually hide the real trade-off.",
+      "difficulty": 3,
+      "tags": [
+        "ddia",
+        "streaming"
+      ],
+      "options": [
+        "It depends on workload",
+        "Measure tail behavior",
+        "State consistency needs",
+        "Always optimize averages only"
+      ],
+      "answer": [
+        "It depends on workload",
+        "Measure tail behavior",
+        "State consistency needs"
+      ],
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q15",
+      "type": "matching",
+      "prompt": "Match stream-processing guarantees.",
+      "explanation": "Delivery semantics define what can happen around failures. Stateful processing adds recovery and duplicate-handling concerns.",
+      "difficulty": 3,
+      "tags": [
+        "delivery semantics",
+        "stateful processing",
+        "duplicate processing"
+      ],
+      "pairs": [
+        {
+          "left": "At-least-once",
+          "right": "Duplicates are possible"
+        },
+        {
+          "left": "At-most-once",
+          "right": "Loss is possible"
+        },
+        {
+          "left": "Stateful processing",
+          "right": "Maintains state across events"
+        }
+      ],
+      "answer": {
+        "At-least-once": "Duplicates are possible",
+        "At-most-once": "Loss is possible",
+        "Stateful processing": "Maintains state across events"
+      },
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ddia-stream-q16",
+      "type": "scenario_choice",
+      "prompt": "A stream aggregate counts events by event time, but late events arrive after the window seems done. What concept handles progress?",
+      "explanation": "Watermarks estimate how complete event-time input is so stream processors can close or update windows.",
+      "difficulty": 3,
+      "tags": [
+        "watermark",
+        "window",
+        "event time"
+      ],
+      "options": [
+        "Watermark",
+        "B-tree",
+        "CORS",
+        "Swagger"
+      ],
+      "answer": "Watermark",
+      "concept_panel": {
+        "title": "Stream Processing",
+        "explanation": "Stream processing handles events continuously instead of waiting for a bounded batch. Consumers track offsets, maintain state, and handle duplicates or late events. Windows group events over time, and watermarks estimate when event-time input is complete enough to emit results. Delivery semantics define whether duplicates or loss are possible.",
+        "key_takeaways": [
+          "Offsets track consumer progress.",
+          "Windows and watermarks handle time-based aggregation.",
+          "Delivery semantics determine duplicate/loss risk."
+        ],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand continuous data processing correctness.",
+        "practical_example": "A clickstream job counts clicks per minute while accepting that late events may update the window.",
+        "diagram": {
+          "type": "flow",
+          "title": "Streaming pipeline",
+          "nodes": [
+            {
+              "label": "Event log"
+            },
+            {
+              "label": "Consumer"
+            },
+            {
+              "label": "State/window"
+            },
+            {
+              "label": "Commit offset"
+            },
+            {
+              "label": "Derived result"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "ddia-stream-route-partition",
+      "title": "DDIA: Stream Processing partition router",
+      "instructions": "Implement route_partition(key: str, partitions: int) -> int. Return a stable partition from 0 to partitions - 1. Raise ValueError when partitions is less than 1.",
+      "starter_code": "def route_partition(key: str, partitions: int) -> int:\n    pass\n",
+      "function_signature": "def route_partition(key: str, partitions: int) -> int",
+      "visible_tests": [
+        {
+          "name": "range",
+          "call": "0 <= route_partition('user-7', 8) < 8",
+          "expected": true
+        },
+        {
+          "name": "stable",
+          "call": "route_partition('tenant-a', 16) == route_partition('tenant-a', 16)",
+          "expected": true
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "single partition",
+          "call": "route_partition('anything', 1)",
+          "expected": 0
+        },
+        {
+          "name": "different size still range",
+          "call": "0 <= route_partition('order-9', 3) < 3",
+          "expected": true
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Stable routing is a core primitive behind partitioning. This exercise checks deterministic mapping and input validation.",
+      "difficulty": 2,
+      "tags": [
+        "ddia",
+        "streaming",
+        "events"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "ddia-stream-boss",
+    "title": "DDIA: Stream Processing boss battle",
+    "question_ids": [
+      "ddia-stream-q01",
+      "ddia-stream-q02",
+      "ddia-stream-q03",
+      "ddia-stream-q04",
+      "ddia-stream-q05",
+      "ddia-stream-q06",
+      "ddia-stream-q07",
+      "ddia-stream-q08",
+      "ddia-stream-q09",
+      "ddia-stream-q10",
+      "ddia-stream-q11",
+      "ddia-stream-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}

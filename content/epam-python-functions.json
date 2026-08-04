@@ -1,0 +1,736 @@
+{
+  "id": "epam-python-functions",
+  "title": "EPAM Python Functions and Modules",
+  "description": "Function signatures, args/kwargs, defaults, lambdas, comprehensions, exceptions, imports, packages, modules, and virtual environments.",
+  "order": 26,
+  "tags": [
+    "python",
+    "functions",
+    "imports",
+    "exceptions"
+  ],
+  "lessons": [
+    {
+      "id": "epam-python-functions-lesson-1",
+      "title": "Function Signatures",
+      "summary": "EPAM interview drill for function signatures.",
+      "explanation": "Explain function signatures through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "functions",
+        "args",
+        "kwargs",
+        "positional-only",
+        "keyword-only"
+      ],
+      "examples": [
+        "Use function signatures to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain function signatures in an interview?",
+        "What common bug appears when function signatures is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "functions",
+        "args",
+        "kwargs",
+        "positional-only",
+        "keyword-only"
+      ]
+    },
+    {
+      "id": "epam-python-functions-lesson-2",
+      "title": "Defaults, Lambdas, and Comprehensions",
+      "summary": "EPAM interview drill for defaults, lambdas, and comprehensions.",
+      "explanation": "Explain defaults, lambdas, and comprehensions through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "default arguments",
+        "lambda",
+        "list comprehension",
+        "generator expression"
+      ],
+      "examples": [
+        "Use defaults, lambdas, and comprehensions to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain defaults, lambdas, and comprehensions in an interview?",
+        "What common bug appears when defaults, lambdas, and comprehensions is misunderstood?"
+      ],
+      "difficulty": 1,
+      "tags": [
+        "default arguments",
+        "lambda",
+        "list comprehension",
+        "generator expression"
+      ]
+    },
+    {
+      "id": "epam-python-functions-lesson-3",
+      "title": "Exceptions and Best Practices",
+      "summary": "EPAM interview drill for exceptions and best practices.",
+      "explanation": "Explain exceptions and best practices through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "try",
+        "except",
+        "finally",
+        "custom exceptions"
+      ],
+      "examples": [
+        "Use exceptions and best practices to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain exceptions and best practices in an interview?",
+        "What common bug appears when exceptions and best practices is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "try",
+        "except",
+        "finally",
+        "custom exceptions"
+      ]
+    },
+    {
+      "id": "epam-python-functions-lesson-4",
+      "title": "Imports, Packages, and Environments",
+      "summary": "EPAM interview drill for imports, packages, and environments.",
+      "explanation": "Explain imports, packages, and environments through behavior, trade-offs, examples, and failure modes. Connect syntax to production code instead of reciting definitions.",
+      "key_points": [
+        "imports",
+        "modules",
+        "packages",
+        "__init__.py",
+        "venv"
+      ],
+      "examples": [
+        "Use imports, packages, and environments to reason through a concrete backend or data-system scenario."
+      ],
+      "interview_questions": [
+        "How would you explain imports, packages, and environments in an interview?",
+        "What common bug appears when imports, packages, and environments is misunderstood?"
+      ],
+      "difficulty": 2,
+      "tags": [
+        "imports",
+        "modules",
+        "packages",
+        "__init__.py",
+        "venv"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "epam-python-functions-q01",
+      "type": "scenario_choice",
+      "prompt": "What does `*args` capture in a Python function?",
+      "options": [
+        "Extra positional arguments as a tuple",
+        "Extra keyword arguments as a dict",
+        "Only required parameters",
+        "Environment variables"
+      ],
+      "answer": "Extra positional arguments as a tuple",
+      "explanation": "`*args` gathers extra positional arguments into a tuple. It is useful for wrappers and flexible APIs.",
+      "difficulty": 1,
+      "tags": [
+        "functions",
+        "*args",
+        "positional arguments"
+      ],
+      "concept_panel": {
+        "title": "*args",
+        "explanation": "`*args` gathers extra positional arguments into a tuple. It is useful for wrappers and flexible APIs.",
+        "key_takeaways": [
+          "functions",
+          "*args",
+          "positional arguments"
+        ],
+        "practical_example": "def f(*args): return args",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand Python call binding.",
+        "diagram": {
+          "type": "flow",
+          "title": "*args",
+          "nodes": [
+            {
+              "label": "*args"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q02",
+      "type": "scenario_choice",
+      "prompt": "What does `**kwargs` capture?",
+      "options": [
+        "Extra keyword arguments as a dictionary",
+        "Extra positional arguments",
+        "Only default values",
+        "Imported modules"
+      ],
+      "answer": "Extra keyword arguments as a dictionary",
+      "explanation": "`**kwargs` gathers extra keyword arguments into a dictionary. It is common in decorators and API adapters.",
+      "difficulty": 1,
+      "tags": [
+        "functions",
+        "**kwargs",
+        "keyword arguments"
+      ],
+      "concept_panel": {
+        "title": "**kwargs",
+        "explanation": "`**kwargs` gathers extra keyword arguments into a dictionary. It is common in decorators and API adapters.",
+        "key_takeaways": [
+          "functions",
+          "**kwargs",
+          "keyword arguments"
+        ],
+        "practical_example": "def f(**kwargs): return kwargs['limit']",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand flexible function APIs.",
+        "diagram": {
+          "type": "flow",
+          "title": "**kwargs",
+          "nodes": [
+            {
+              "label": "**kwargs"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q03",
+      "type": "scenario_choice",
+      "prompt": "Why use positional-only parameters?",
+      "options": [
+        "To prevent callers from depending on parameter names",
+        "To make arguments mutable",
+        "To disable type hints",
+        "To create threads"
+      ],
+      "answer": "To prevent callers from depending on parameter names",
+      "explanation": "Positional-only parameters let API authors change internal parameter names without breaking callers.",
+      "difficulty": 1,
+      "tags": [
+        "positional-only",
+        "function signatures"
+      ],
+      "concept_panel": {
+        "title": "Positional-only Args",
+        "explanation": "Positional-only parameters let API authors change internal parameter names without breaking callers.",
+        "key_takeaways": [
+          "positional-only",
+          "function signatures",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "def distance(x, y, /): ...",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand public API compatibility.",
+        "diagram": {
+          "type": "flow",
+          "title": "Positional-only Args",
+          "nodes": [
+            {
+              "label": "Positional-only Args"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q04",
+      "type": "scenario_choice",
+      "prompt": "Why make an argument keyword-only?",
+      "options": [
+        "To force clarity at call sites",
+        "To make it global",
+        "To skip validation",
+        "To speed up loops"
+      ],
+      "answer": "To force clarity at call sites",
+      "explanation": "Keyword-only arguments are useful for flags and options where positional calls would be ambiguous.",
+      "difficulty": 1,
+      "tags": [
+        "keyword-only",
+        "function signatures"
+      ],
+      "concept_panel": {
+        "title": "Keyword-only Args",
+        "explanation": "Keyword-only arguments are useful for flags and options where positional calls would be ambiguous.",
+        "key_takeaways": [
+          "keyword-only",
+          "function signatures",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "def connect(url, *, timeout=5): ...",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can design readable function interfaces.",
+        "diagram": {
+          "type": "flow",
+          "title": "Keyword-only Args",
+          "nodes": [
+            {
+              "label": "Keyword-only Args"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q05",
+      "type": "scenario_choice",
+      "prompt": "What is wrong with `def add_item(item, bucket=[]): bucket.append(item)`?",
+      "options": [
+        "The same list is reused across calls",
+        "The list is copied every call",
+        "append returns a new list",
+        "Default arguments are evaluated at return time"
+      ],
+      "answer": "The same list is reused across calls",
+      "explanation": "Default argument values are evaluated once when the function is defined. Mutable defaults can accidentally share state.",
+      "difficulty": 2,
+      "tags": [
+        "default arguments",
+        "mutable",
+        "pitfall"
+      ],
+      "concept_panel": {
+        "title": "Default Argument Pitfall",
+        "explanation": "Default argument values are evaluated once when the function is defined. Mutable defaults can accidentally share state.",
+        "key_takeaways": [
+          "default arguments",
+          "mutable",
+          "pitfall"
+        ],
+        "practical_example": "Use `bucket=None` and create a new list inside.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you know one of Python's most common production bugs.",
+        "diagram": {
+          "type": "flow",
+          "title": "Default Argument Pitfall",
+          "nodes": [
+            {
+              "label": "Default Argument Pitfall"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q06",
+      "type": "scenario_choice",
+      "prompt": "When is a lambda appropriate?",
+      "options": [
+        "A small single-expression callback",
+        "Complex business logic",
+        "A replacement for every named function",
+        "Exception handling blocks"
+      ],
+      "answer": "A small single-expression callback",
+      "explanation": "Lambdas are anonymous single-expression functions. They are useful when concise and harmful when they reduce readability.",
+      "difficulty": 2,
+      "tags": [
+        "lambda",
+        "functions",
+        "readability"
+      ],
+      "concept_panel": {
+        "title": "Lambda Functions",
+        "explanation": "Lambdas are anonymous single-expression functions. They are useful when concise and harmful when they reduce readability.",
+        "key_takeaways": [
+          "lambda",
+          "functions",
+          "readability"
+        ],
+        "practical_example": "sorted(users, key=lambda user: user.last_login)",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you balance Pythonic syntax with maintainability.",
+        "diagram": {
+          "type": "flow",
+          "title": "Lambda Functions",
+          "nodes": [
+            {
+              "label": "Lambda Functions"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q07",
+      "type": "scenario_choice",
+      "prompt": "What does `[x * x for x in nums if x > 0]` create?",
+      "options": [
+        "A new list eagerly",
+        "A lazy iterator",
+        "A dictionary",
+        "A set"
+      ],
+      "answer": "A new list eagerly",
+      "explanation": "List comprehensions build a list immediately. They are concise but still allocate the full result.",
+      "difficulty": 2,
+      "tags": [
+        "list comprehension",
+        "eager evaluation"
+      ],
+      "concept_panel": {
+        "title": "List Comprehension",
+        "explanation": "List comprehensions build a list immediately. They are concise but still allocate the full result.",
+        "key_takeaways": [
+          "list comprehension",
+          "eager evaluation",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "squares = [n*n for n in nums]",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you know comprehension behavior and memory cost.",
+        "diagram": {
+          "type": "flow",
+          "title": "List Comprehension",
+          "nodes": [
+            {
+              "label": "List Comprehension"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q08",
+      "type": "scenario_choice",
+      "prompt": "Which expression builds a lookup by user id?",
+      "options": [
+        "{user.id: user for user in users}",
+        "[user.id for user in users]",
+        "(user.id for user in users)",
+        "{user.id for user in users}"
+      ],
+      "answer": "{user.id: user for user in users}",
+      "explanation": "Dict comprehensions create key-value mappings. They are useful for fast lookup by ID.",
+      "difficulty": 2,
+      "tags": [
+        "dict comprehension",
+        "dictionary"
+      ],
+      "concept_panel": {
+        "title": "Dict Comprehension",
+        "explanation": "Dict comprehensions create key-value mappings. They are useful for fast lookup by ID.",
+        "key_takeaways": [
+          "dict comprehension",
+          "dictionary",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "users_by_id = {u.id: u for u in users}",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can transform data into useful access structures.",
+        "diagram": {
+          "type": "flow",
+          "title": "Dict Comprehension",
+          "nodes": [
+            {
+              "label": "Dict Comprehension"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q09",
+      "type": "scenario_choice",
+      "prompt": "Which expression builds unique countries?",
+      "options": [
+        "{user.country for user in users}",
+        "[user.country: user]",
+        "(user.country = users)",
+        "{user.country: users}"
+      ],
+      "answer": "{user.country for user in users}",
+      "explanation": "Set comprehensions produce unique values. They are useful for deduplication.",
+      "difficulty": 2,
+      "tags": [
+        "set comprehension",
+        "unique values"
+      ],
+      "concept_panel": {
+        "title": "Set Comprehension",
+        "explanation": "Set comprehensions produce unique values. They are useful for deduplication.",
+        "key_takeaways": [
+          "set comprehension",
+          "unique values",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "countries = {row.country for row in rows}",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you know collection-specific comprehensions.",
+        "diagram": {
+          "type": "flow",
+          "title": "Set Comprehension",
+          "nodes": [
+            {
+              "label": "Set Comprehension"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q10",
+      "type": "scenario_choice",
+      "prompt": "Why use `(row.id for row in rows)`?",
+      "options": [
+        "It produces IDs lazily",
+        "It sorts rows",
+        "It creates a reusable list",
+        "It catches exceptions"
+      ],
+      "answer": "It produces IDs lazily",
+      "explanation": "Generator expressions produce one value at a time and can reduce memory pressure.",
+      "difficulty": 3,
+      "tags": [
+        "generator expression",
+        "lazy evaluation"
+      ],
+      "concept_panel": {
+        "title": "Generator Expressions",
+        "explanation": "Generator expressions produce one value at a time and can reduce memory pressure.",
+        "key_takeaways": [
+          "generator expression",
+          "lazy evaluation",
+          "interview reasoning",
+          "practical trade-off"
+        ],
+        "practical_example": "sum(row.amount for row in transactions)",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand lazy iteration.",
+        "diagram": {
+          "type": "flow",
+          "title": "Generator Expressions",
+          "nodes": [
+            {
+              "label": "Generator Expressions"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q11",
+      "type": "scenario_choice",
+      "prompt": "Which exception handler is best practice?",
+      "options": [
+        "Catch the specific exception you can handle",
+        "Catch all exceptions and ignore them",
+        "Use finally instead of except",
+        "Return None for every error"
+      ],
+      "answer": "Catch the specific exception you can handle",
+      "explanation": "Specific exception handling keeps unexpected bugs visible while handling known failures cleanly.",
+      "difficulty": 3,
+      "tags": [
+        "try",
+        "except",
+        "finally",
+        "custom exceptions"
+      ],
+      "concept_panel": {
+        "title": "Exceptions",
+        "explanation": "Specific exception handling keeps unexpected bugs visible while handling known failures cleanly.",
+        "key_takeaways": [
+          "try",
+          "except",
+          "finally",
+          "custom exceptions"
+        ],
+        "practical_example": "except InvalidTokenError: return 401",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you handle errors intentionally.",
+        "diagram": {
+          "type": "flow",
+          "title": "Exceptions",
+          "nodes": [
+            {
+              "label": "Exceptions"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "epam-python-functions-q12",
+      "type": "scenario_choice",
+      "prompt": "What is the role of a virtual environment?",
+      "options": [
+        "Isolate project dependencies",
+        "Compile Python to Java",
+        "Replace imports",
+        "Create database indexes"
+      ],
+      "answer": "Isolate project dependencies",
+      "explanation": "Virtual environments keep dependencies per project. Packages and modules organize code, and `__init__.py` initializes package namespaces.",
+      "difficulty": 3,
+      "tags": [
+        "imports",
+        "modules",
+        "packages",
+        "__init__.py",
+        "virtual environments"
+      ],
+      "concept_panel": {
+        "title": "Packages and Virtual Environments",
+        "explanation": "Virtual environments keep dependencies per project. Packages and modules organize code, and `__init__.py` initializes package namespaces.",
+        "key_takeaways": [
+          "imports",
+          "modules",
+          "packages",
+          "__init__.py",
+          "virtual environments"
+        ],
+        "practical_example": "Use `.venv` so FastAPI dependencies do not conflict with another project.",
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can structure and run Python projects reliably.",
+        "diagram": {
+          "type": "flow",
+          "title": "Packages and Virtual Environments",
+          "nodes": [
+            {
+              "label": "Packages and Virtual Environments"
+            },
+            {
+              "label": "Interview signal"
+            },
+            {
+              "label": "Production use"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "epam-python-functions-classify-status",
+      "title": "EPAM Python Functions and Modules status classifier",
+      "instructions": "Implement classify_status_code(code: int) -> str. Return success for 200-299, redirect for 300-399, client_error for 400-499, server_error for 500-599, and unknown otherwise.",
+      "starter_code": "def classify_status_code(code: int) -> str:\n    pass\n",
+      "function_signature": "def classify_status_code(code: int) -> str",
+      "visible_tests": [
+        {
+          "name": "created",
+          "call": "classify_status_code(201)",
+          "expected": "success"
+        },
+        {
+          "name": "not found",
+          "call": "classify_status_code(404)",
+          "expected": "client_error"
+        }
+      ],
+      "hidden_tests": [
+        {
+          "name": "service unavailable",
+          "call": "classify_status_code(503)",
+          "expected": "server_error"
+        },
+        {
+          "name": "redirect",
+          "call": "classify_status_code(302)",
+          "expected": "redirect"
+        },
+        {
+          "name": "unknown",
+          "call": "classify_status_code(99)",
+          "expected": "unknown"
+        }
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The challenge reinforces deterministic branching, status-code categories, and local test execution.",
+      "difficulty": 1,
+      "tags": [
+        "python",
+        "functions",
+        "imports"
+      ]
+    }
+  ],
+  "boss_battle": {
+    "id": "epam-python-functions-boss",
+    "title": "EPAM Python Functions and Modules boss battle",
+    "question_ids": [
+      "epam-python-functions-q01",
+      "epam-python-functions-q02",
+      "epam-python-functions-q03",
+      "epam-python-functions-q04",
+      "epam-python-functions-q05",
+      "epam-python-functions-q06",
+      "epam-python-functions-q07",
+      "epam-python-functions-q08",
+      "epam-python-functions-q09",
+      "epam-python-functions-q10",
+      "epam-python-functions-q11",
+      "epam-python-functions-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}
