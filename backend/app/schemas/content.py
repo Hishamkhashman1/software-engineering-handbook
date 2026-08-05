@@ -100,6 +100,8 @@ class CodingTest(BaseModel):
 class CodingChallenge(BaseModel):
     id: str
     title: str
+    category: str = "General"
+    company_style: list[str] = Field(default_factory=list)
     instructions: str
     starter_code: str
     function_signature: str

@@ -109,8 +109,16 @@ def run_coding(payload: CodingRunRequest, db: Session = Depends(get_db)) -> dict
         raise HTTPException(status_code=404, detail="Challenge not found")
     module_id, challenge = found
     result = run_python_challenge(challenge, payload.code)
-    record_coding_attempt(db, module_id, payload.challenge_id, payload.code, result)
+    record_coding_attempt(db, payload.module_id or module_id, payload.challenge_id, payload.code, result)
     return result
+
+
+@router.get("/coding/challenges")
+def list_coding_challenges() -> dict:
+    challenges = content_repo.coding_challenges
+    if not challenges:
+        challenges = [challenge for module in content_repo.modules for challenge in module.coding_challenges]
+    return {"challenges": [challenge.model_dump() for challenge in challenges]}
 
 
 @router.get("/interview/session")

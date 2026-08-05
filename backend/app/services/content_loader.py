@@ -21,6 +21,7 @@ class ContentRepository:
         self.question_by_id: dict[str, tuple[str, Question]] = {}
         self.lesson_to_module: dict[str, str] = {}
         self.challenge_by_id: dict[str, tuple[str, CodingChallenge]] = {}
+        self.coding_challenges: list[CodingChallenge] = []
 
     def load(self) -> None:
         manifest_path = self.content_dir / "manifest.json"
@@ -60,7 +61,9 @@ class ContentRepository:
                 raise ContentError(f"{path}: boss battle references unknown questions {missing}")
             modules.append(module)
 
+        coding_challenges = self._load_coding_challenge_bank(seen)
         self.modules = sorted(modules, key=lambda item: item.order)
+        self.coding_challenges = coding_challenges
         self.module_by_id = {module.id: module for module in self.modules}
         self.question_by_id = {
             question.id: (module.id, question)
@@ -75,11 +78,34 @@ class ContentRepository:
             for module in self.modules
             for challenge in module.coding_challenges
         }
+        self.challenge_by_id.update({
+            challenge.id: ("coding-bank", challenge)
+            for challenge in self.coding_challenges
+        })
 
     def _remember_id(self, seen: dict[str, str], item_id: str, source: str) -> None:
         if item_id in seen:
             raise ContentError(f"Duplicate content id '{item_id}' in {source}; first seen in {seen[item_id]}")
         seen[item_id] = source
+
+    def _load_coding_challenge_bank(self, seen: dict[str, str]) -> list[CodingChallenge]:
+        path = self.content_dir / "coding-challenges.json"
+        if not path.exists():
+            return []
+        try:
+            raw = json.loads(path.read_text(encoding="utf-8"))
+            items = raw.get("challenges")
+            if not isinstance(items, list):
+                raise ContentError(f"{path}: expected a challenges list")
+            challenges = [CodingChallenge.model_validate(item) for item in items]
+        except json.JSONDecodeError as exc:
+            raise ContentError(f"Invalid JSON in {path}: {exc}") from exc
+        except ValidationError as exc:
+            raise ContentError(f"Invalid content in {path}: {exc}") from exc
+
+        for challenge in challenges:
+            self._remember_id(seen, challenge.id, str(path))
+        return challenges
 
 
 content_repo = ContentRepository()

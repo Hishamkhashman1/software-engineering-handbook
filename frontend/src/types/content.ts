@@ -46,6 +46,8 @@ export interface Question {
 export interface CodingChallenge {
   id: string;
   title: string;
+  category: string;
+  company_style: string[];
   instructions: string;
   starter_code: string;
   function_signature: string;

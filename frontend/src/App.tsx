@@ -46,7 +46,7 @@ export function App() {
       {view === 'run' && <ChallengeRun kind={activeModule ? 'module' : 'daily'} moduleId={activeModule} onDone={async () => { setActiveModule(null); await refresh(); setView('home'); }} play={play} />}
       {view === 'weak' && <ChallengeRun kind="weak" moduleId={null} onDone={async () => { await refresh(); setView('home'); }} play={play} />}
       {view === 'boss' && activeModule && <BossBattle moduleId={activeModule} onDone={async () => { await refresh(); setView('home'); }} play={play} />}
-      {view === 'coding' && <CodingBattle modules={modules.filter((module) => isUnlocked(module, progress))} progress={progress} play={play} refreshProgress={refresh} />}
+      {view === 'coding' && <CodingBattle progress={progress} play={play} refreshProgress={refresh} />}
       {view === 'settings' && <SettingsStage soundEnabled={soundEnabled} setSoundEnabled={setSoundEnabled} />}
     </div>
   );
@@ -453,31 +453,44 @@ function Combatant({ title, hp }: { title: string; hp: number }) {
   return <div className="combatant"><span>{title}</span><div className="hp"><span style={{ width: `${hp}%` }} /></div><strong>{hp} HP</strong></div>;
 }
 
-function CodingBattle({ modules, progress, play, refreshProgress }: { modules: ModuleSummary[]; progress: Progress | null; play: (kind: SoundKind) => void; refreshProgress: () => Promise<void> }) {
-  const [moduleId, setModuleId] = useState(modules[0]?.id ?? '');
-  const [detail, setDetail] = useState<ModuleDetail | null>(null);
+function CodingBattle({ progress, play, refreshProgress }: { progress: Progress | null; play: (kind: SoundKind) => void; refreshProgress: () => Promise<void> }) {
+  const [challenges, setChallenges] = useState<CodingChallenge[]>([]);
+  const [category, setCategory] = useState('All');
+  const [challengeId, setChallengeId] = useState('');
   const [code, setCode] = useState('');
   const [result, setResult] = useState<{ passed: boolean; tests: unknown[]; stderr?: string; error?: string; timeout?: boolean } | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [runError, setRunError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (modules.length > 0 && !moduleId) setModuleId(modules[0].id);
-  }, [modules, moduleId]);
+    api.codingChallenges().then((data) => {
+      setChallenges(data.challenges);
+      setChallengeId((current) => current || data.challenges[0]?.id || '');
+    });
+  }, []);
+
+  const categories = useMemo(() => ['All', ...Array.from(new Set(challenges.map((challenge) => challenge.category)))], [challenges]);
+  const visibleChallenges = useMemo(
+    () => category === 'All' ? challenges : challenges.filter((challenge) => challenge.category === category),
+    [category, challenges]
+  );
 
   useEffect(() => {
-    if (!moduleId) return;
-    api.module(moduleId).then((data) => {
-      const nextChallenge = data.coding_challenges[0];
-      const saved = progress?.coding_progress.find((item) => item.module_id === data.id && item.challenge_id === nextChallenge?.id);
-      setDetail(data);
-      setCode(saved?.code ?? nextChallenge?.starter_code ?? '');
-      setResult(saved?.result ?? null);
-      setRunError(null);
-    });
-  }, [moduleId, progress]);
+    if (visibleChallenges.length > 0 && !visibleChallenges.some((challenge) => challenge.id === challengeId)) {
+      setChallengeId(visibleChallenges[0].id);
+    }
+  }, [challengeId, visibleChallenges]);
 
-  const challenge: CodingChallenge | undefined = detail?.coding_challenges[0];
+  const challenge = challenges.find((item) => item.id === challengeId);
+
+  useEffect(() => {
+    if (!challenge) return;
+    const saved = progress?.coding_progress.find((item) => item.challenge_id === challenge.id);
+    setCode(saved?.code ?? challenge.starter_code);
+    setResult(saved?.result ?? null);
+    setRunError(null);
+  }, [challenge, progress]);
+
   const solved = result?.passed ?? false;
 
   async function runTests() {
@@ -485,7 +498,7 @@ function CodingBattle({ modules, progress, play, refreshProgress }: { modules: M
     setIsRunning(true);
     setRunError(null);
     try {
-      const output = await api.runCode(moduleId, challenge.id, code);
+      const output = await api.runCode('coding-bank', challenge.id, code);
       setResult(output);
       play(output.passed ? 'correct' : 'wrong');
       await refreshProgress();
@@ -499,16 +512,22 @@ function CodingBattle({ modules, progress, play, refreshProgress }: { modules: M
   return (
     <main className="coding-stage">
       <div className="mission-bar">
-        <strong>Bug Report</strong>
-        <select value={moduleId} onChange={(event) => setModuleId(event.target.value)}>
-          {modules.map((module) => <option key={module.id} value={module.id}>{module.title}</option>)}
-        </select>
+        <strong>Live Code Interview Bank</strong>
+        <div className="coding-selectors">
+          <select value={category} onChange={(event) => setCategory(event.target.value)}>
+            {categories.map((item) => <option key={item} value={item}>{item}</option>)}
+          </select>
+          <select value={challengeId} onChange={(event) => setChallengeId(event.target.value)}>
+            {visibleChallenges.map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}
+          </select>
+        </div>
       </div>
       {challenge && (
         <section className="code-mission">
           <aside>
-            <p className="kicker">Production API is failing</p>
+            <p className="kicker">{challenge.category}</p>
             <h1>{challenge.title}</h1>
+            {challenge.company_style.length > 0 && <div className="company-tags">{challenge.company_style.map((item) => <span key={item}>{item}</span>)}</div>}
             <p>{challenge.instructions}</p>
             <div className="test-list">{challenge.visible_tests.map((test) => <span key={test.name} className={solved ? 'passed' : ''}>{solved ? 'Passing' : 'Failing'}: {test.name}</span>)}</div>
           </aside>

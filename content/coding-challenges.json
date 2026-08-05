@@ -1,0 +1,844 @@
+{
+  "challenges": [
+    {
+      "id": "normalize-email",
+      "title": "Normalize Email",
+      "category": "Python Core",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement normalize_email(email: str) -> str. Trim surrounding whitespace and lowercase only the domain part. Return an empty string for an empty or whitespace-only input.",
+      "starter_code": "def normalize_email(email: str) -> str:\n    pass\n",
+      "function_signature": "def normalize_email(email: str) -> str",
+      "visible_tests": [
+        {"name": "domain lowercase", "call": "normalize_email('User@EXAMPLE.COM')", "expected": "User@example.com"},
+        {"name": "trim spaces", "call": "normalize_email('  admin@Company.ORG  ')", "expected": "admin@company.org"}
+      ],
+      "hidden_tests": [
+        {"name": "empty", "call": "normalize_email('   ')", "expected": ""},
+        {"name": "no at symbol", "call": "normalize_email('LOCAL')", "expected": "LOCAL"}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This tests careful string handling and preserving data you were not asked to change.",
+      "difficulty": 1,
+      "tags": ["strings", "normalization", "edge cases"]
+    },
+    {
+      "id": "dedupe-preserve-order",
+      "title": "Dedupe While Preserving Order",
+      "category": "Lists, Dicts, Sets",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement dedupe_preserve_order(items: list[str]) -> list[str]. Remove duplicates while keeping the first occurrence order.",
+      "starter_code": "def dedupe_preserve_order(items: list[str]) -> list[str]:\n    pass\n",
+      "function_signature": "def dedupe_preserve_order(items: list[str]) -> list[str]",
+      "visible_tests": [
+        {"name": "basic duplicates", "call": "dedupe_preserve_order(['a', 'b', 'a', 'c', 'b'])", "expected": ["a", "b", "c"]},
+        {"name": "already unique", "call": "dedupe_preserve_order(['x', 'y'])", "expected": ["x", "y"]}
+      ],
+      "hidden_tests": [
+        {"name": "empty", "call": "dedupe_preserve_order([])", "expected": []},
+        {"name": "all same", "call": "dedupe_preserve_order(['id', 'id', 'id'])", "expected": ["id"]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Use a set for membership and a list for stable output order.",
+      "difficulty": 1,
+      "tags": ["lists", "sets", "order"]
+    },
+    {
+      "id": "count-statuses",
+      "title": "Count Statuses",
+      "category": "Backend/API",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement count_statuses(rows: list[dict]) -> dict[str, int]. Count each row's status value. Missing or empty statuses count as unknown.",
+      "starter_code": "def count_statuses(rows: list[dict]) -> dict[str, int]:\n    pass\n",
+      "function_signature": "def count_statuses(rows: list[dict]) -> dict[str, int]",
+      "visible_tests": [
+        {"name": "counts values", "call": "count_statuses([{'status': 'open'}, {'status': 'closed'}, {'status': 'open'}])", "expected": {"open": 2, "closed": 1}},
+        {"name": "missing status", "call": "count_statuses([{}, {'status': ''}])", "expected": {"unknown": 2}}
+      ],
+      "hidden_tests": [
+        {"name": "mixed", "call": "count_statuses([{'status': 'open'}, {}, {'status': 'open'}, {'status': 'pending'}])", "expected": {"open": 2, "unknown": 1, "pending": 1}},
+        {"name": "empty", "call": "count_statuses([])", "expected": {}}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This checks dictionary accumulation and defensive handling of incomplete records.",
+      "difficulty": 1,
+      "tags": ["dict", "aggregation", "api"]
+    },
+    {
+      "id": "parse-query-string",
+      "title": "Parse Query String",
+      "category": "Strings and Parsing",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement parse_query_string(query: str) -> dict[str, str]. Parse key=value pairs separated by &. Ignore empty parts and parts without =. Later values overwrite earlier ones.",
+      "starter_code": "def parse_query_string(query: str) -> dict[str, str]:\n    pass\n",
+      "function_signature": "def parse_query_string(query: str) -> dict[str, str]",
+      "visible_tests": [
+        {"name": "two params", "call": "parse_query_string('page=2&size=20')", "expected": {"page": "2", "size": "20"}},
+        {"name": "leading question mark", "call": "parse_query_string('?q=python&sort=asc')", "expected": {"q": "python", "sort": "asc"}}
+      ],
+      "hidden_tests": [
+        {"name": "duplicate key", "call": "parse_query_string('a=1&a=2')", "expected": {"a": "2"}},
+        {"name": "ignore invalid", "call": "parse_query_string('a=1&&broken&b=')", "expected": {"a": "1", "b": ""}}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Interviewers use small parsers to test loops, conditionals, and edge cases.",
+      "difficulty": 1,
+      "tags": ["strings", "parsing", "http"]
+    },
+    {
+      "id": "validate-pagination",
+      "title": "Validate Pagination",
+      "category": "Backend/API",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement validate_pagination(page: int, size: int) -> tuple[int, int]. Page must be at least 1. Size must be between 1 and 100. Clamp invalid values into that range.",
+      "starter_code": "def validate_pagination(page: int, size: int) -> tuple[int, int]:\n    pass\n",
+      "function_signature": "def validate_pagination(page: int, size: int) -> tuple[int, int]",
+      "visible_tests": [
+        {"name": "valid", "call": "list(validate_pagination(2, 25))", "expected": [2, 25]},
+        {"name": "small values", "call": "list(validate_pagination(0, 0))", "expected": [1, 1]}
+      ],
+      "hidden_tests": [
+        {"name": "large size", "call": "list(validate_pagination(3, 500))", "expected": [3, 100]},
+        {"name": "negative", "call": "list(validate_pagination(-10, -2))", "expected": [1, 1]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This is a common backend live-code task because it tests constraints without much syntax overhead.",
+      "difficulty": 1,
+      "tags": ["api", "validation", "edge cases"]
+    },
+    {
+      "id": "mask-email",
+      "title": "Mask Email",
+      "category": "Strings and Parsing",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement mask_email(email: str) -> str. For a valid email, keep the first character of the local part and replace the rest with ***. Keep the domain unchanged. Return invalid for strings without @ or with an empty local/domain part.",
+      "starter_code": "def mask_email(email: str) -> str:\n    pass\n",
+      "function_signature": "def mask_email(email: str) -> str",
+      "visible_tests": [
+        {"name": "normal", "call": "mask_email('alice@example.com')", "expected": "a***@example.com"},
+        {"name": "one letter", "call": "mask_email('a@example.com')", "expected": "a***@example.com"}
+      ],
+      "hidden_tests": [
+        {"name": "invalid missing at", "call": "mask_email('alice')", "expected": "invalid"},
+        {"name": "invalid empty local", "call": "mask_email('@example.com')", "expected": "invalid"}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The task checks string splitting, validation, and exact output formatting.",
+      "difficulty": 1,
+      "tags": ["strings", "privacy", "validation"]
+    },
+    {
+      "id": "top-k-frequent",
+      "title": "Top K Frequent",
+      "category": "Lists, Dicts, Sets",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement top_k_frequent(items: list[str], k: int) -> list[str]. Return the k most frequent values. Break ties alphabetically.",
+      "starter_code": "def top_k_frequent(items: list[str], k: int) -> list[str]:\n    pass\n",
+      "function_signature": "def top_k_frequent(items: list[str], k: int) -> list[str]",
+      "visible_tests": [
+        {"name": "basic", "call": "top_k_frequent(['b', 'a', 'b', 'c', 'a', 'b'], 2)", "expected": ["b", "a"]},
+        {"name": "tie alphabetical", "call": "top_k_frequent(['b', 'a'], 2)", "expected": ["a", "b"]}
+      ],
+      "hidden_tests": [
+        {"name": "k larger than unique", "call": "top_k_frequent(['x', 'x', 'y'], 5)", "expected": ["x", "y"]},
+        {"name": "zero k", "call": "top_k_frequent(['x'], 0)", "expected": []}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This tests counting plus deterministic sorting, a frequent interview pattern.",
+      "difficulty": 2,
+      "tags": ["dict", "sorting", "frequency"]
+    },
+    {
+      "id": "merge-user-updates",
+      "title": "Merge User Updates",
+      "category": "Backend/API",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement merge_user_updates(existing: dict, patch: dict) -> dict. Return a new dict with patch values applied, but ignore patch keys whose value is None.",
+      "starter_code": "def merge_user_updates(existing: dict, patch: dict) -> dict:\n    pass\n",
+      "function_signature": "def merge_user_updates(existing: dict, patch: dict) -> dict",
+      "visible_tests": [
+        {"name": "apply patch", "call": "merge_user_updates({'name': 'A', 'role': 'dev'}, {'role': 'lead'})", "expected": {"name": "A", "role": "lead"}},
+        {"name": "ignore none", "call": "merge_user_updates({'email': 'a@x.com'}, {'email': None})", "expected": {"email": "a@x.com"}}
+      ],
+      "hidden_tests": [
+        {"name": "new key", "call": "merge_user_updates({'id': 1}, {'active': True})", "expected": {"id": 1, "active": true}},
+        {"name": "does not mutate", "call": "(lambda d: (merge_user_updates(d, {'x': 2}), d))({'x': 1})", "expected": [{"x": 2}, {"x": 1}]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This mirrors PATCH-style backend logic and checks that the original input is not mutated.",
+      "difficulty": 2,
+      "tags": ["dict", "api", "immutability"]
+    },
+    {
+      "id": "balanced-parentheses",
+      "title": "Balanced Parentheses",
+      "category": "Algorithms",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement is_balanced_parentheses(text: str) -> bool. Support (), [], and {}. Ignore all other characters.",
+      "starter_code": "def is_balanced_parentheses(text: str) -> bool:\n    pass\n",
+      "function_signature": "def is_balanced_parentheses(text: str) -> bool",
+      "visible_tests": [
+        {"name": "balanced", "call": "is_balanced_parentheses('([]){}')", "expected": true},
+        {"name": "wrong order", "call": "is_balanced_parentheses('([)]')", "expected": false}
+      ],
+      "hidden_tests": [
+        {"name": "ignore text", "call": "is_balanced_parentheses('if (x[0] == {1: 2})')", "expected": true},
+        {"name": "extra closing", "call": "is_balanced_parentheses('())')", "expected": false}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "A stack solution is the standard approach for nested delimiter validation.",
+      "difficulty": 2,
+      "tags": ["stack", "strings", "algorithms"]
+    },
+    {
+      "id": "retry-decision",
+      "title": "Retry Decision",
+      "category": "Backend/API",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement retry_decision(status_code: int, method: str) -> str. Return retry for 429 or 5xx responses when the method is GET, PUT, or DELETE. Return do_not_retry otherwise. Method matching is case-insensitive.",
+      "starter_code": "def retry_decision(status_code: int, method: str) -> str:\n    pass\n",
+      "function_signature": "def retry_decision(status_code: int, method: str) -> str",
+      "visible_tests": [
+        {"name": "get 503", "call": "retry_decision(503, 'GET')", "expected": "retry"},
+        {"name": "post 503", "call": "retry_decision(503, 'POST')", "expected": "do_not_retry"}
+      ],
+      "hidden_tests": [
+        {"name": "rate limit", "call": "retry_decision(429, 'put')", "expected": "retry"},
+        {"name": "client error", "call": "retry_decision(404, 'GET')", "expected": "do_not_retry"}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This combines HTTP semantics with precise branching and normalization.",
+      "difficulty": 2,
+      "tags": ["http", "retries", "idempotency"]
+    },
+    {
+      "id": "chunk-list",
+      "title": "Chunk List",
+      "category": "Python Core",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement chunk_list(items: list, size: int) -> list[list]. Split items into chunks of size. Return an empty list when size is less than 1.",
+      "starter_code": "def chunk_list(items: list, size: int) -> list[list]:\n    pass\n",
+      "function_signature": "def chunk_list(items: list, size: int) -> list[list]",
+      "visible_tests": [
+        {"name": "even-ish", "call": "chunk_list([1, 2, 3, 4, 5], 2)", "expected": [[1, 2], [3, 4], [5]]},
+        {"name": "size larger", "call": "chunk_list([1, 2], 5)", "expected": [[1, 2]]}
+      ],
+      "hidden_tests": [
+        {"name": "bad size", "call": "chunk_list([1, 2], 0)", "expected": []},
+        {"name": "empty", "call": "chunk_list([], 3)", "expected": []}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Chunking checks slicing, loop increments, and invalid argument behavior.",
+      "difficulty": 1,
+      "tags": ["lists", "slicing", "edge cases"]
+    },
+    {
+      "id": "flatten-once",
+      "title": "Flatten Once",
+      "category": "Python Core",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement flatten_once(items: list) -> list. Flatten only one level. Non-list values should stay as-is.",
+      "starter_code": "def flatten_once(items: list) -> list:\n    pass\n",
+      "function_signature": "def flatten_once(items: list) -> list",
+      "visible_tests": [
+        {"name": "one level", "call": "flatten_once([[1, 2], 3, [4]])", "expected": [1, 2, 3, 4]},
+        {"name": "keeps nested inner list", "call": "flatten_once([1, [2, [3]]])", "expected": [1, 2, [3]]}
+      ],
+      "hidden_tests": [
+        {"name": "empty", "call": "flatten_once([])", "expected": []},
+        {"name": "strings are values", "call": "flatten_once(['ab', ['cd']])", "expected": ["ab", "cd"]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The important detail is flattening lists only one level, not recursively and not by iterating every iterable.",
+      "difficulty": 1,
+      "tags": ["lists", "iteration", "edge cases"]
+    },
+    {
+      "id": "group-by-key",
+      "title": "Group By Key",
+      "category": "Data Handling",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement group_by_key(rows: list[dict], key: str) -> dict[str, list[dict]]. Group rows by the string value at key. Rows missing the key go under unknown.",
+      "starter_code": "def group_by_key(rows: list[dict], key: str) -> dict[str, list[dict]]:\n    pass\n",
+      "function_signature": "def group_by_key(rows: list[dict], key: str) -> dict[str, list[dict]]",
+      "visible_tests": [
+        {"name": "group departments", "call": "group_by_key([{'dept': 'eng', 'id': 1}, {'dept': 'ops', 'id': 2}, {'dept': 'eng', 'id': 3}], 'dept')", "expected": {"eng": [{"dept": "eng", "id": 1}, {"dept": "eng", "id": 3}], "ops": [{"dept": "ops", "id": 2}]}},
+        {"name": "missing", "call": "group_by_key([{'id': 1}], 'dept')", "expected": {"unknown": [{"id": 1}]}}
+      ],
+      "hidden_tests": [
+        {"name": "empty", "call": "group_by_key([], 'dept')", "expected": {}},
+        {"name": "none value", "call": "group_by_key([{'dept': None}], 'dept')", "expected": {"unknown": [{"dept": null}]}}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Grouping records is common in backend and data-processing interviews.",
+      "difficulty": 2,
+      "tags": ["dict", "grouping", "data"]
+    },
+    {
+      "id": "join-users-orders",
+      "title": "Join Users and Orders",
+      "category": "Data Handling",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement attach_order_counts(users: list[dict], orders: list[dict]) -> list[dict]. Return new user dicts with order_count added. Match orders by user_id.",
+      "starter_code": "def attach_order_counts(users: list[dict], orders: list[dict]) -> list[dict]:\n    pass\n",
+      "function_signature": "def attach_order_counts(users: list[dict], orders: list[dict]) -> list[dict]",
+      "visible_tests": [
+        {"name": "counts orders", "call": "attach_order_counts([{'id': 1}, {'id': 2}], [{'user_id': 1}, {'user_id': 1}])", "expected": [{"id": 1, "order_count": 2}, {"id": 2, "order_count": 0}]},
+        {"name": "empty orders", "call": "attach_order_counts([{'id': 1}], [])", "expected": [{"id": 1, "order_count": 0}]}
+      ],
+      "hidden_tests": [
+        {"name": "unknown order user", "call": "attach_order_counts([{'id': 1}], [{'user_id': 2}])", "expected": [{"id": 1, "order_count": 0}]},
+        {"name": "preserves fields", "call": "attach_order_counts([{'id': 1, 'name': 'A'}], [{'user_id': 1}])", "expected": [{"id": 1, "name": "A", "order_count": 1}]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Build a lookup rather than scanning orders for every user.",
+      "difficulty": 2,
+      "tags": ["dict", "join", "performance"]
+    },
+    {
+      "id": "moving-average",
+      "title": "Moving Average",
+      "category": "Data Handling",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement moving_average(values: list[float], window: int) -> list[float]. Return each full-window average rounded to 2 decimals. Return an empty list for invalid windows or when there is not enough data.",
+      "starter_code": "def moving_average(values: list[float], window: int) -> list[float]:\n    pass\n",
+      "function_signature": "def moving_average(values: list[float], window: int) -> list[float]",
+      "visible_tests": [
+        {"name": "window two", "call": "moving_average([1, 2, 3, 4], 2)", "expected": [1.5, 2.5, 3.5]},
+        {"name": "rounding", "call": "moving_average([1, 2, 2], 3)", "expected": [1.67]}
+      ],
+      "hidden_tests": [
+        {"name": "too large", "call": "moving_average([1, 2], 3)", "expected": []},
+        {"name": "bad window", "call": "moving_average([1, 2], 0)", "expected": []}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This checks window logic, edge cases, and exact output formatting.",
+      "difficulty": 2,
+      "tags": ["lists", "data", "windows"]
+    },
+    {
+      "id": "fix-mutable-default",
+      "title": "Fix Mutable Default",
+      "category": "Debugging",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement add_item(item: str, bucket=None) -> list[str]. It should return a new one-item list when bucket is omitted, and append to the provided bucket when one is passed.",
+      "starter_code": "def add_item(item: str, bucket=None) -> list[str]:\n    pass\n",
+      "function_signature": "def add_item(item: str, bucket=None) -> list[str]",
+      "visible_tests": [
+        {"name": "first omitted", "call": "add_item('a')", "expected": ["a"]},
+        {"name": "provided bucket", "call": "add_item('b', ['a'])", "expected": ["a", "b"]}
+      ],
+      "hidden_tests": [
+        {"name": "no shared default", "call": "list((add_item('x'), add_item('y')))", "expected": [["x"], ["y"]]},
+        {"name": "mutates provided", "call": "(lambda b: list((add_item('z', b), b)))([])", "expected": [["z"], ["z"]]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This targets one of Python's most common interview and production bugs: shared mutable defaults.",
+      "difficulty": 1,
+      "tags": ["debugging", "defaults", "mutability"]
+    },
+    {
+      "id": "inventory-total",
+      "title": "Inventory Total",
+      "category": "OOP and Modeling",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement inventory_total(items: list[dict]) -> float. Each item has quantity and unit_price. Missing values count as 0. Return the total rounded to 2 decimals.",
+      "starter_code": "def inventory_total(items: list[dict]) -> float:\n    pass\n",
+      "function_signature": "def inventory_total(items: list[dict]) -> float",
+      "visible_tests": [
+        {"name": "basic total", "call": "inventory_total([{'quantity': 2, 'unit_price': 3.5}, {'quantity': 1, 'unit_price': 4}])", "expected": 11.0},
+        {"name": "round", "call": "inventory_total([{'quantity': 3, 'unit_price': 1.333}])", "expected": 4.0}
+      ],
+      "hidden_tests": [
+        {"name": "missing price", "call": "inventory_total([{'quantity': 2}])", "expected": 0},
+        {"name": "empty", "call": "inventory_total([])", "expected": 0}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Small domain calculations test record handling and business-rule precision.",
+      "difficulty": 1,
+      "tags": ["modeling", "dict", "calculation"]
+    },
+    {
+      "id": "rate-limit-allow",
+      "title": "Rate Limit Allow",
+      "category": "Backend/API",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement allow_request(history: dict[str, list[int]], user_id: str, now: int, limit: int, window: int) -> bool. Count timestamps greater than now - window. If under limit, append now and return True; otherwise return False.",
+      "starter_code": "def allow_request(history: dict[str, list[int]], user_id: str, now: int, limit: int, window: int) -> bool:\n    pass\n",
+      "function_signature": "def allow_request(history: dict[str, list[int]], user_id: str, now: int, limit: int, window: int) -> bool",
+      "visible_tests": [
+        {"name": "allows under limit", "call": "(lambda h: list((allow_request(h, 'u1', 100, 2, 60), h)))({})", "expected": [true, {"u1": [100]}]},
+        {"name": "blocks at limit", "call": "allow_request({'u1': [90, 99]}, 'u1', 100, 2, 60)", "expected": false}
+      ],
+      "hidden_tests": [
+        {"name": "drops old entries", "call": "(lambda h: list((allow_request(h, 'u1', 100, 2, 10), h)))({'u1': [1, 95]})", "expected": [true, {"u1": [95, 100]}]},
+        {"name": "separate users", "call": "allow_request({'u2': [99, 100]}, 'u1', 100, 1, 60)", "expected": true}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This is a compact version of a real backend rate-limiter problem.",
+      "difficulty": 3,
+      "tags": ["rate limit", "backend", "state"]
+    },
+    {
+      "id": "first-non-empty",
+      "title": "First Non-Empty",
+      "category": "Python Core",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement first_non_empty(values: list[str]) -> str | None. Return the first string that is not empty after trimming whitespace. Return None when there is no match.",
+      "starter_code": "def first_non_empty(values: list[str]) -> str | None:\n    pass\n",
+      "function_signature": "def first_non_empty(values: list[str]) -> str | None",
+      "visible_tests": [
+        {"name": "finds value", "call": "first_non_empty(['', '  ', ' ok '])", "expected": " ok "},
+        {"name": "none", "call": "first_non_empty(['', '   '])", "expected": null}
+      ],
+      "hidden_tests": [
+        {"name": "first already", "call": "first_non_empty(['a', 'b'])", "expected": "a"},
+        {"name": "empty list", "call": "first_non_empty([])", "expected": null}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This checks truthiness, trimming for validation, and preserving the original returned value.",
+      "difficulty": 1,
+      "tags": ["strings", "truthiness", "edge cases"]
+    },
+    {
+      "id": "merge-intervals",
+      "title": "Merge Intervals",
+      "category": "Algorithms",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement merge_intervals(intervals: list[list[int]]) -> list[list[int]]. Merge overlapping intervals. Return intervals sorted by start.",
+      "starter_code": "def merge_intervals(intervals: list[list[int]]) -> list[list[int]]:\n    pass\n",
+      "function_signature": "def merge_intervals(intervals: list[list[int]]) -> list[list[int]]",
+      "visible_tests": [
+        {"name": "overlap", "call": "merge_intervals([[1, 3], [2, 6], [8, 10]])", "expected": [[1, 6], [8, 10]]},
+        {"name": "touching", "call": "merge_intervals([[1, 2], [2, 3]])", "expected": [[1, 3]]}
+      ],
+      "hidden_tests": [
+        {"name": "unsorted", "call": "merge_intervals([[5, 7], [1, 2], [2, 4]])", "expected": [[1, 4], [5, 7]]},
+        {"name": "empty", "call": "merge_intervals([])", "expected": []}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Sort by start time, then merge into the last accepted interval.",
+      "difficulty": 3,
+      "tags": ["sorting", "intervals", "algorithms"]
+    },
+    {
+      "id": "parse-log-levels",
+      "title": "Parse Log Levels",
+      "category": "Strings and Parsing",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement count_log_levels(lines: list[str]) -> dict[str, int]. Each line may start with LEVEL:. Count INFO, WARN, and ERROR. Ignore other lines.",
+      "starter_code": "def count_log_levels(lines: list[str]) -> dict[str, int]:\n    pass\n",
+      "function_signature": "def count_log_levels(lines: list[str]) -> dict[str, int]",
+      "visible_tests": [
+        {"name": "counts known", "call": "count_log_levels(['INFO: started', 'ERROR: failed', 'INFO: done'])", "expected": {"INFO": 2, "ERROR": 1}},
+        {"name": "ignores unknown", "call": "count_log_levels(['DEBUG: x', 'plain text'])", "expected": {}}
+      ],
+      "hidden_tests": [
+        {"name": "warn", "call": "count_log_levels(['WARN: slow', 'WARN: retry'])", "expected": {"WARN": 2}},
+        {"name": "empty", "call": "count_log_levels([])", "expected": {}}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Log parsing is a realistic small task for support, backend, and platform interviews.",
+      "difficulty": 1,
+      "tags": ["strings", "logs", "dict"]
+    },
+    {
+      "id": "safe-int",
+      "title": "Safe Int",
+      "category": "Debugging",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement safe_int(value, default=0) -> int. Convert value to int. Return default when conversion fails or when value is None.",
+      "starter_code": "def safe_int(value, default=0) -> int:\n    pass\n",
+      "function_signature": "def safe_int(value, default=0) -> int",
+      "visible_tests": [
+        {"name": "string int", "call": "safe_int('42')", "expected": 42},
+        {"name": "bad value", "call": "safe_int('x', default=-1)", "expected": -1}
+      ],
+      "hidden_tests": [
+        {"name": "none", "call": "safe_int(None, default=7)", "expected": 7},
+        {"name": "float string", "call": "safe_int('3.5', default=0)", "expected": 0}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This checks narrow exception handling and predictable fallback behavior.",
+      "difficulty": 1,
+      "tags": ["exceptions", "conversion", "validation"]
+    },
+    {
+      "id": "valid-slug",
+      "title": "Valid Slug",
+      "category": "Strings and Parsing",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement is_valid_slug(slug: str) -> bool. A valid slug uses lowercase letters, digits, and single hyphens. It cannot start or end with a hyphen and cannot contain consecutive hyphens.",
+      "starter_code": "def is_valid_slug(slug: str) -> bool:\n    pass\n",
+      "function_signature": "def is_valid_slug(slug: str) -> bool",
+      "visible_tests": [
+        {"name": "valid", "call": "is_valid_slug('user-profile-2')", "expected": true},
+        {"name": "uppercase invalid", "call": "is_valid_slug('User-profile')", "expected": false}
+      ],
+      "hidden_tests": [
+        {"name": "double hyphen", "call": "is_valid_slug('user--profile')", "expected": false},
+        {"name": "edge hyphen", "call": "is_valid_slug('-user')", "expected": false}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Slug validation tests exact string rules and careful boundary handling.",
+      "difficulty": 1,
+      "tags": ["strings", "validation", "regex"]
+    },
+    {
+      "id": "reverse-words",
+      "title": "Reverse Words",
+      "category": "Python Core",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement reverse_words(text: str) -> str. Reverse the order of words and collapse repeated whitespace to single spaces.",
+      "starter_code": "def reverse_words(text: str) -> str:\n    pass\n",
+      "function_signature": "def reverse_words(text: str) -> str",
+      "visible_tests": [
+        {"name": "basic", "call": "reverse_words('hello world')", "expected": "world hello"},
+        {"name": "extra spaces", "call": "reverse_words('  python   interview  ')", "expected": "interview python"}
+      ],
+      "hidden_tests": [
+        {"name": "single", "call": "reverse_words('one')", "expected": "one"},
+        {"name": "empty", "call": "reverse_words('   ')", "expected": ""}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This checks built-in string splitting behavior and output normalization.",
+      "difficulty": 1,
+      "tags": ["strings", "lists", "whitespace"]
+    },
+    {
+      "id": "anagram-check",
+      "title": "Anagram Check",
+      "category": "Algorithms",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement are_anagrams(left: str, right: str) -> bool. Ignore spaces and case. Other characters count normally.",
+      "starter_code": "def are_anagrams(left: str, right: str) -> bool:\n    pass\n",
+      "function_signature": "def are_anagrams(left: str, right: str) -> bool",
+      "visible_tests": [
+        {"name": "simple", "call": "are_anagrams('listen', 'silent')", "expected": true},
+        {"name": "case spaces", "call": "are_anagrams('Dormitory', 'dirty room')", "expected": true}
+      ],
+      "hidden_tests": [
+        {"name": "not anagram", "call": "are_anagrams('abc', 'ab')", "expected": false},
+        {"name": "punctuation counts", "call": "are_anagrams('a!', '!a')", "expected": true}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Counting characters is usually clearer than trying to compare positions.",
+      "difficulty": 1,
+      "tags": ["strings", "frequency", "algorithms"]
+    },
+    {
+      "id": "sum-by-month",
+      "title": "Sum By Month",
+      "category": "Data Handling",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement sum_by_month(rows: list[dict]) -> dict[str, float]. Each row has date in YYYY-MM-DD and amount. Group totals by YYYY-MM and round totals to 2 decimals.",
+      "starter_code": "def sum_by_month(rows: list[dict]) -> dict[str, float]:\n    pass\n",
+      "function_signature": "def sum_by_month(rows: list[dict]) -> dict[str, float]",
+      "visible_tests": [
+        {"name": "two months", "call": "sum_by_month([{'date': '2026-01-01', 'amount': 10}, {'date': '2026-01-20', 'amount': 2.5}, {'date': '2026-02-01', 'amount': 1}])", "expected": {"2026-01": 12.5, "2026-02": 1}},
+        {"name": "empty", "call": "sum_by_month([])", "expected": {}}
+      ],
+      "hidden_tests": [
+        {"name": "rounding", "call": "sum_by_month([{'date': '2026-03-01', 'amount': 1.335}])", "expected": {"2026-03": 1.33}},
+        {"name": "missing amount", "call": "sum_by_month([{'date': '2026-04-01'}])", "expected": {"2026-04": 0}}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This models a common reporting task: derive a grouping key and accumulate numeric totals.",
+      "difficulty": 2,
+      "tags": ["aggregation", "dates", "dict"]
+    },
+    {
+      "id": "missing-ids",
+      "title": "Missing IDs",
+      "category": "Lists, Dicts, Sets",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement missing_ids(expected: list[int], actual: list[int]) -> list[int]. Return expected IDs that are not present in actual, preserving expected order.",
+      "starter_code": "def missing_ids(expected: list[int], actual: list[int]) -> list[int]:\n    pass\n",
+      "function_signature": "def missing_ids(expected: list[int], actual: list[int]) -> list[int]",
+      "visible_tests": [
+        {"name": "basic", "call": "missing_ids([1, 2, 3, 4], [2, 4])", "expected": [1, 3]},
+        {"name": "none missing", "call": "missing_ids([1, 2], [1, 2, 3])", "expected": []}
+      ],
+      "hidden_tests": [
+        {"name": "duplicates expected", "call": "missing_ids([1, 1, 2], [2])", "expected": [1, 1]},
+        {"name": "empty actual", "call": "missing_ids([5], [])", "expected": [5]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Using a set for actual IDs avoids repeated linear scans.",
+      "difficulty": 1,
+      "tags": ["sets", "lists", "performance"]
+    },
+    {
+      "id": "redact-token",
+      "title": "Redact Token",
+      "category": "Backend/API",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement redact_token(headers: dict[str, str]) -> dict[str, str]. Return a new headers dict. If Authorization exists, replace its value with REDACTED. Do not mutate the input.",
+      "starter_code": "def redact_token(headers: dict[str, str]) -> dict[str, str]:\n    pass\n",
+      "function_signature": "def redact_token(headers: dict[str, str]) -> dict[str, str]",
+      "visible_tests": [
+        {"name": "redacts", "call": "redact_token({'Authorization': 'Bearer abc', 'X': '1'})", "expected": {"Authorization": "REDACTED", "X": "1"}},
+        {"name": "no auth", "call": "redact_token({'X': '1'})", "expected": {"X": "1"}}
+      ],
+      "hidden_tests": [
+        {"name": "does not mutate", "call": "(lambda h: list((redact_token(h), h)))({'Authorization': 'secret'})", "expected": [{"Authorization": "REDACTED"}, {"Authorization": "secret"}]},
+        {"name": "empty", "call": "redact_token({})", "expected": {}}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This tests safe copying and sensitive-data handling in API-adjacent code.",
+      "difficulty": 1,
+      "tags": ["security", "dict", "immutability"]
+    },
+    {
+      "id": "compact-ranges",
+      "title": "Compact Ranges",
+      "category": "Algorithms",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement compact_ranges(nums: list[int]) -> list[str]. Convert sorted unique integers into range strings like 1-3, or a single number like 5.",
+      "starter_code": "def compact_ranges(nums: list[int]) -> list[str]:\n    pass\n",
+      "function_signature": "def compact_ranges(nums: list[int]) -> list[str]",
+      "visible_tests": [
+        {"name": "mixed", "call": "compact_ranges([1, 2, 3, 5, 7, 8])", "expected": ["1-3", "5", "7-8"]},
+        {"name": "single", "call": "compact_ranges([4])", "expected": ["4"]}
+      ],
+      "hidden_tests": [
+        {"name": "empty", "call": "compact_ranges([])", "expected": []},
+        {"name": "negative", "call": "compact_ranges([-2, -1, 0, 2])", "expected": ["-2-0", "2"]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This checks loop state, boundaries, and final flush logic.",
+      "difficulty": 2,
+      "tags": ["ranges", "lists", "algorithms"]
+    },
+    {
+      "id": "password-rules",
+      "title": "Password Rules",
+      "category": "Validation",
+      "company_style": ["EPAM", "HPE"],
+      "instructions": "Implement validate_password(password: str) -> list[str]. Return missing rule names from: length, digit, uppercase. length means at least 8 characters. Return an empty list when all rules pass.",
+      "starter_code": "def validate_password(password: str) -> list[str]:\n    pass\n",
+      "function_signature": "def validate_password(password: str) -> list[str]",
+      "visible_tests": [
+        {"name": "valid", "call": "validate_password('Strong123')", "expected": []},
+        {"name": "missing digit", "call": "validate_password('StrongPwd')", "expected": ["digit"]}
+      ],
+      "hidden_tests": [
+        {"name": "many missing", "call": "validate_password('abc')", "expected": ["length", "digit", "uppercase"]},
+        {"name": "missing uppercase", "call": "validate_password('strong123')", "expected": ["uppercase"]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Validation tasks reward clear rules, deterministic ordering, and readable conditionals.",
+      "difficulty": 1,
+      "tags": ["validation", "strings", "security"]
+    },
+    {
+      "id": "epam-word-frequency",
+      "title": "Word Frequency Map",
+      "category": "EPAM livecode Recommendation",
+      "company_style": ["EPAM"],
+      "instructions": "Implement word_frequency(text: str) -> dict[str, int]. Count words split by whitespace. Matching is case-insensitive and punctuation at the start or end of each word should be ignored.",
+      "starter_code": "def word_frequency(text: str) -> dict[str, int]:\n    pass\n",
+      "function_signature": "def word_frequency(text: str) -> dict[str, int]",
+      "visible_tests": [
+        {"name": "repeated words", "call": "word_frequency('This is is name name')", "expected": {"this": 1, "is": 2, "name": 2}},
+        {"name": "case punctuation", "call": "word_frequency('Hello, hello! World')", "expected": {"hello": 2, "world": 1}}
+      ],
+      "hidden_tests": [
+        {"name": "empty", "call": "word_frequency('   ')", "expected": {}},
+        {"name": "mixed punctuation", "call": "word_frequency('one. two, one')", "expected": {"one": 2, "two": 1}}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "EPAM candidate reports mention word-frequency map tasks; this version emphasizes clean normalization and dictionary counting.",
+      "difficulty": 1,
+      "tags": ["epam", "strings", "hash map", "frequency"]
+    },
+    {
+      "id": "epam-isomorphic-strings",
+      "title": "Isomorphic Strings",
+      "category": "EPAM livecode Recommendation",
+      "company_style": ["EPAM"],
+      "instructions": "Implement is_isomorphic(left: str, right: str) -> bool. Two strings are isomorphic when each character in left maps to exactly one character in right, and no two left characters map to the same right character.",
+      "starter_code": "def is_isomorphic(left: str, right: str) -> bool:\n    pass\n",
+      "function_signature": "def is_isomorphic(left: str, right: str) -> bool",
+      "visible_tests": [
+        {"name": "paper title", "call": "is_isomorphic('paper', 'title')", "expected": true},
+        {"name": "bad duplicate target", "call": "is_isomorphic('foo', 'bar')", "expected": false}
+      ],
+      "hidden_tests": [
+        {"name": "length mismatch", "call": "is_isomorphic('ab', 'abc')", "expected": false},
+        {"name": "same target conflict", "call": "is_isomorphic('ab', 'cc')", "expected": false}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "This mirrors reported EPAM string/hash-map live-code questions and checks bidirectional mapping.",
+      "difficulty": 2,
+      "tags": ["epam", "strings", "hash map"]
+    },
+    {
+      "id": "epam-first-index-binary-search",
+      "title": "First Index Binary Search",
+      "category": "EPAM livecode Recommendation",
+      "company_style": ["EPAM"],
+      "instructions": "Implement first_index(nums: list[int], target: int) -> int. nums is sorted in non-decreasing order. Return the first index of target, or -1 if target is missing. Use binary-search style logic.",
+      "starter_code": "def first_index(nums: list[int], target: int) -> int:\n    pass\n",
+      "function_signature": "def first_index(nums: list[int], target: int) -> int",
+      "visible_tests": [
+        {"name": "first duplicate", "call": "first_index([-2, -1, 3, 3, 3, 10, 10, 10, 23], 10)", "expected": 5},
+        {"name": "missing", "call": "first_index([1, 2, 4], 3)", "expected": -1}
+      ],
+      "hidden_tests": [
+        {"name": "first element", "call": "first_index([2, 2, 2], 2)", "expected": 0},
+        {"name": "empty", "call": "first_index([], 7)", "expected": -1}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Candidate reports call out finding the first target index in a sorted array with logarithmic complexity.",
+      "difficulty": 2,
+      "tags": ["epam", "binary search", "arrays"]
+    },
+    {
+      "id": "epam-longest-substring-no-repeat",
+      "title": "Longest Substring Without Repeats",
+      "category": "EPAM livecode Recommendation",
+      "company_style": ["EPAM"],
+      "instructions": "Implement longest_unique_substring(text: str) -> int. Return the length of the longest substring without repeating characters.",
+      "starter_code": "def longest_unique_substring(text: str) -> int:\n    pass\n",
+      "function_signature": "def longest_unique_substring(text: str) -> int",
+      "visible_tests": [
+        {"name": "abcabcbb", "call": "longest_unique_substring('abcabcbb')", "expected": 3},
+        {"name": "all same", "call": "longest_unique_substring('bbbbb')", "expected": 1}
+      ],
+      "hidden_tests": [
+        {"name": "with repeat later", "call": "longest_unique_substring('pwwkew')", "expected": 3},
+        {"name": "empty", "call": "longest_unique_substring('')", "expected": 0}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Recent EPAM Python interview reports mention this exact sliding-window style problem.",
+      "difficulty": 2,
+      "tags": ["epam", "sliding window", "strings"]
+    },
+    {
+      "id": "epam-has-repeat-character",
+      "title": "Detect Repeated Character",
+      "category": "EPAM livecode Recommendation",
+      "company_style": ["EPAM"],
+      "instructions": "Implement has_repeat_character(text: str) -> bool. Return True if any character appears more than once. Treat characters exactly as given.",
+      "starter_code": "def has_repeat_character(text: str) -> bool:\n    pass\n",
+      "function_signature": "def has_repeat_character(text: str) -> bool",
+      "visible_tests": [
+        {"name": "has repeat", "call": "has_repeat_character('abca')", "expected": true},
+        {"name": "unique", "call": "has_repeat_character('abcd')", "expected": false}
+      ],
+      "hidden_tests": [
+        {"name": "empty", "call": "has_repeat_character('')", "expected": false},
+        {"name": "case sensitive", "call": "has_repeat_character('Aa')", "expected": false}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Glassdoor reports include repeated-character string checks; a set gives a simple linear solution.",
+      "difficulty": 1,
+      "tags": ["epam", "strings", "sets"]
+    },
+    {
+      "id": "epam-window-sums",
+      "title": "Window Prefix Sums",
+      "category": "EPAM livecode Recommendation",
+      "company_style": ["EPAM"],
+      "instructions": "Implement window_sums(nums: list[int], k: int) -> list[int]. For each index i, return the sum from max(0, i-k+1) through i. Return an empty list when k is less than 1.",
+      "starter_code": "def window_sums(nums: list[int], k: int) -> list[int]:\n    pass\n",
+      "function_signature": "def window_sums(nums: list[int], k: int) -> list[int]",
+      "visible_tests": [
+        {"name": "window three", "call": "window_sums([1, 2, 3, 4, 5], 3)", "expected": [1, 3, 6, 9, 12]},
+        {"name": "window one", "call": "window_sums([4, 5], 1)", "expected": [4, 5]}
+      ],
+      "hidden_tests": [
+        {"name": "bad k", "call": "window_sums([1, 2], 0)", "expected": []},
+        {"name": "k larger", "call": "window_sums([2, 2, 2], 10)", "expected": [2, 4, 6]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "A recent EPAM senior interview write-up describes this style of running window-sum array problem.",
+      "difficulty": 2,
+      "tags": ["epam", "arrays", "sliding window"]
+    },
+    {
+      "id": "epam-squares-sorted-array",
+      "title": "Squares of a Sorted Array",
+      "category": "EPAM livecode Recommendation",
+      "company_style": ["EPAM"],
+      "instructions": "Implement sorted_squares(nums: list[int]) -> list[int]. nums is sorted. Return the squares sorted in non-decreasing order.",
+      "starter_code": "def sorted_squares(nums: list[int]) -> list[int]:\n    pass\n",
+      "function_signature": "def sorted_squares(nums: list[int]) -> list[int]",
+      "visible_tests": [
+        {"name": "mixed signs", "call": "sorted_squares([-4, -1, 0, 3, 10])", "expected": [0, 1, 9, 16, 100]},
+        {"name": "negative only", "call": "sorted_squares([-3, -2, -1])", "expected": [1, 4, 9]}
+      ],
+      "hidden_tests": [
+        {"name": "empty", "call": "sorted_squares([])", "expected": []},
+        {"name": "already positive", "call": "sorted_squares([1, 2, 3])", "expected": [1, 4, 9]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Reported junior EPAM rounds include sorted-array square tasks; the optimized approach uses two pointers.",
+      "difficulty": 1,
+      "tags": ["epam", "arrays", "two pointers"]
+    },
+    {
+      "id": "epam-move-zeroes",
+      "title": "Move Zeroes",
+      "category": "EPAM livecode Recommendation",
+      "company_style": ["EPAM"],
+      "instructions": "Implement move_zeroes(nums: list[int]) -> list[int]. Return a new list with all non-zero values in original order followed by zeroes.",
+      "starter_code": "def move_zeroes(nums: list[int]) -> list[int]:\n    pass\n",
+      "function_signature": "def move_zeroes(nums: list[int]) -> list[int]",
+      "visible_tests": [
+        {"name": "basic", "call": "move_zeroes([0, 1, 0, 3, 12])", "expected": [1, 3, 12, 0, 0]},
+        {"name": "no zeroes", "call": "move_zeroes([1, 2])", "expected": [1, 2]}
+      ],
+      "hidden_tests": [
+        {"name": "all zeroes", "call": "move_zeroes([0, 0])", "expected": [0, 0]},
+        {"name": "empty", "call": "move_zeroes([])", "expected": []}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "EPAM preparation lists often emphasize array/two-pointer tasks; this is a common clean-code warmup.",
+      "difficulty": 1,
+      "tags": ["epam", "arrays", "two pointers"]
+    },
+    {
+      "id": "epam-two-sum",
+      "title": "Two Sum Indices",
+      "category": "EPAM livecode Recommendation",
+      "company_style": ["EPAM"],
+      "instructions": "Implement two_sum(nums: list[int], target: int) -> list[int]. Return indices of the first pair that sums to target while scanning left to right. Return an empty list when no pair exists.",
+      "starter_code": "def two_sum(nums: list[int], target: int) -> list[int]:\n    pass\n",
+      "function_signature": "def two_sum(nums: list[int], target: int) -> list[int]",
+      "visible_tests": [
+        {"name": "basic", "call": "two_sum([2, 7, 11, 15], 9)", "expected": [0, 1]},
+        {"name": "duplicates", "call": "two_sum([3, 3], 6)", "expected": [0, 1]}
+      ],
+      "hidden_tests": [
+        {"name": "first scan pair", "call": "two_sum([1, 4, 2, 3], 5)", "expected": [0, 1]},
+        {"name": "missing", "call": "two_sum([1, 2], 10)", "expected": []}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "EPAM-focused DSA prep consistently lists arrays and hash tables as core patterns.",
+      "difficulty": 1,
+      "tags": ["epam", "arrays", "hash map"]
+    },
+    {
+      "id": "epam-group-anagrams",
+      "title": "Group Anagrams",
+      "category": "EPAM livecode Recommendation",
+      "company_style": ["EPAM"],
+      "instructions": "Implement group_anagrams(words: list[str]) -> list[list[str]]. Group anagrams together. Return groups ordered by the first word's appearance, and keep words in each group in input order.",
+      "starter_code": "def group_anagrams(words: list[str]) -> list[list[str]]:\n    pass\n",
+      "function_signature": "def group_anagrams(words: list[str]) -> list[list[str]]",
+      "visible_tests": [
+        {"name": "basic", "call": "group_anagrams(['eat', 'tea', 'tan', 'ate', 'nat', 'bat'])", "expected": [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]},
+        {"name": "single", "call": "group_anagrams(['abc'])", "expected": [["abc"]]}
+      ],
+      "hidden_tests": [
+        {"name": "empty", "call": "group_anagrams([])", "expected": []},
+        {"name": "duplicates", "call": "group_anagrams(['ab', 'ba', 'ab'])", "expected": [["ab", "ba", "ab"]]}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "Group-anagram tasks combine strings, hashing, sorting keys, and stable output contracts.",
+      "difficulty": 2,
+      "tags": ["epam", "strings", "hash map", "sorting"]
+    }
+  ]
+}

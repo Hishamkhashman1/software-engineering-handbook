@@ -16,7 +16,7 @@ class LessonCompletion(BaseModel):
 
 
 class CodingRunRequest(BaseModel):
-    module_id: str
+    module_id: str | None = None
     challenge_id: str
     code: str
 

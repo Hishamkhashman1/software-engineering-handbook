@@ -964,6 +964,17 @@ textarea, select, input {
   max-width: 320px;
 }
 
+.coding-selectors {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.coding-selectors select {
+  min-width: 190px;
+}
+
 .code-mission {
   display: grid;
   grid-template-columns: 360px minmax(0, 1fr);
@@ -973,6 +984,22 @@ textarea, select, input {
 
 .code-mission aside {
   padding: 18px;
+}
+
+.company-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -4px 0 14px;
+}
+
+.company-tags span {
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  color: #d9e3ea;
+  font-size: 12px;
+  font-weight: 900;
 }
 
 .test-list {
