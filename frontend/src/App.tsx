@@ -1,4 +1,4 @@
-import { ChevronRight, Code2, Lock, Settings, Swords, Trophy } from 'lucide-react';
+import { CheckCircle2, ChevronRight, Code2, Lock, Settings, Swords, Trophy } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { api } from './api/client';
 import { ConceptPanel } from './components/ConceptPanel';
@@ -138,17 +138,31 @@ function Roadmap({ modules, progress, startModule, startBoss }: { modules: Modul
       <div className="module-path">
         {modules.map((module) => {
           const unlocked = isUnlocked(module, progress);
-          const complete = progress?.completed_modules.includes(module.id);
+          const moduleProgress = progress?.module_progress.find((item) => item.module_id === module.id);
+          const trainingPercent = moduleProgress?.training_percent ?? 0;
+          const bossComplete = moduleProgress?.boss_completed ?? progress?.completed_modules.includes(module.id) ?? false;
+          const complete = bossComplete;
           return (
             <article key={module.id} className={`path-node ${unlocked ? '' : 'locked'} ${complete ? 'complete' : ''}`}>
               <span className="node-index">{complete ? <Trophy size={18} /> : unlocked ? module.order : <Lock size={18} />}</span>
               <div>
                 <h2>{module.title}</h2>
                 <p>{unlocked ? module.description : unlockCopy(module)}</p>
+                <div className="node-progress" aria-label={`${module.title} progress`}>
+                  <div>
+                    <span>Training</span>
+                    <strong>{trainingPercent}%</strong>
+                  </div>
+                  <div className="mini-track"><span style={{ width: `${trainingPercent}%` }} /></div>
+                  <div className={bossComplete ? 'status-pill done' : 'status-pill'}>
+                    {bossComplete ? <CheckCircle2 size={14} /> : <Swords size={14} />}
+                    {bossComplete ? 'Boss cleared' : 'Boss open'}
+                  </div>
+                </div>
               </div>
               <div className="node-actions">
-                <button disabled={!unlocked} onClick={() => startModule(module.id)}>Train</button>
-                <button disabled={!unlocked} onClick={() => startBoss(module.id)}><Swords size={16} /> Boss</button>
+                <button disabled={!unlocked} onClick={() => startModule(module.id)}>{trainingPercent > 0 ? 'Continue' : 'Train'}</button>
+                <button className={bossComplete ? 'cleared' : ''} disabled={!unlocked} onClick={() => startBoss(module.id)}><Swords size={16} /> {bossComplete ? 'Replay' : 'Boss'}</button>
               </div>
             </article>
           );
@@ -226,7 +240,7 @@ function ChallengeRun({ kind, moduleId, onDone, play }: { kind: RunKind; moduleI
   );
 }
 
-function OneQuestion({ question, feedback, submitError, isSubmitting, onAnswer, onNext }: { question: Question; feedback: Feedback | null; submitError: string | null; isSubmitting: boolean; onAnswer: (value: unknown) => void; onNext: () => void }) {
+function OneQuestion({ question, feedback, submitError, isSubmitting, onAnswer, onNext, nextLabel = 'Next challenge' }: { question: Question; feedback: Feedback | null; submitError: string | null; isSubmitting: boolean; onAnswer: (value: unknown) => void; onNext: () => void; nextLabel?: string }) {
   const locked = feedback !== null || isSubmitting;
   return (
     <section className={`challenge-layout ${feedback ? (feedback.correct ? 'is-correct' : 'is-wrong') : ''}`}>
@@ -261,7 +275,7 @@ function OneQuestion({ question, feedback, submitError, isSubmitting, onAnswer, 
               <span>{feedback.correct ? 'Why this is right' : 'Why that answer wins'}</span>
               <p>{feedback.explanation}</p>
             </div>
-            <button className="action-button" onClick={onNext}>Next challenge <ChevronRight size={22} /></button>
+            <button className="action-button" onClick={onNext}>{nextLabel} <ChevronRight size={22} /></button>
           </div>
         )}
       </div>
@@ -385,6 +399,7 @@ function BossBattle({ moduleId, onDone, play }: { moduleId: string; onDone: () =
   useEffect(() => { api.module(moduleId).then(setModule); }, [moduleId]);
   const questions = useMemo(() => module ? module.questions.filter((q) => module.boss_battle.question_ids.includes(q.id)) : [], [module]);
   const question = questions[index];
+  const battleEnding = bossHp <= 0 || playerHp <= 0 || index + 1 >= questions.length;
 
   async function answer(value: unknown) {
     if (!question || feedback || isSubmitting) return;
@@ -410,9 +425,9 @@ function BossBattle({ moduleId, onDone, play }: { moduleId: string; onDone: () =
 
   async function next() {
     if (bossHp <= 0 || playerHp <= 0 || index + 1 >= questions.length) {
-      const payload = questions.map((q) => ({ module_id: moduleId, question_id: q.id, answer: answers[q.id], response_time_ms: 0 }));
+      const payload = Object.entries(answers).map(([questionId, answer]) => ({ module_id: moduleId, question_id: questionId, answer, response_time_ms: 0 }));
       const result = await api.submitBoss(moduleId, payload);
-      setDone(result.passed ? 'Boss defeated. Badge unlocked.' : 'Battle lost. Train one weak skill and return.');
+      setDone(result.passed ? `Boss defeated. Badge unlocked. ${Math.round(result.score * 100)}%.` : `Battle lost. ${Math.round(result.score * 100)}%. Train one weak skill and return.`);
       return;
     }
     setIndex(index + 1);
@@ -428,7 +443,7 @@ function BossBattle({ moduleId, onDone, play }: { moduleId: string; onDone: () =
         <Combatant title="Senior Backend Engineer" hp={bossHp} />
         <Combatant title="You" hp={playerHp} />
       </div>
-      <OneQuestion question={question} feedback={feedback} submitError={submitError} isSubmitting={isSubmitting} onAnswer={answer} onNext={next} />
+      <OneQuestion question={question} feedback={feedback} submitError={submitError} isSubmitting={isSubmitting} onAnswer={answer} onNext={next} nextLabel={battleEnding ? 'Finish battle' : 'Next challenge'} />
     </main>
   );
 }

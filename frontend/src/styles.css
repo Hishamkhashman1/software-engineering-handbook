@@ -423,6 +423,56 @@ textarea, select, input {
   color: #aeb8c2;
 }
 
+.node-progress {
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.node-progress > div:first-child {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 104px;
+}
+
+.node-progress span {
+  color: #98a6b3;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.node-progress strong {
+  color: #f3f6f8;
+  font-size: 13px;
+}
+
+.status-pill {
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 999px;
+  padding: 0 10px;
+  color: #c9d2dc;
+  background: #20262d;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.status-pill.done {
+  border-color: rgba(98, 215, 200, .5);
+  color: #92eee3;
+  background: rgba(98, 215, 200, .1);
+}
+
 .node-actions {
   display: flex;
   gap: 8px;
@@ -442,6 +492,11 @@ textarea, select, input {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+}
+
+.node-actions button.cleared {
+  border-color: rgba(98, 215, 200, .38);
+  color: #92eee3;
 }
 
 .challenge-stage, .boss-stage {
@@ -1022,6 +1077,19 @@ textarea, select, input {
 
   .daily-card, .focus-grid, .path-node, .code-mission, .boss-board, .answer-grid {
     grid-template-columns: 1fr;
+  }
+
+  .node-progress {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .node-progress > div:first-child {
+    justify-content: space-between;
+  }
+
+  .status-pill {
+    justify-self: start;
   }
 
   .daily-card {

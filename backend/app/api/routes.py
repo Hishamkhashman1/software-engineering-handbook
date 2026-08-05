@@ -1,3 +1,4 @@
+from math import ceil
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -148,19 +149,24 @@ def submit_boss_battle(module_id: str, payload: InterviewSubmitRequest, db: Sess
     module = content_repo.module_by_id.get(module_id)
     if module is None:
         raise HTTPException(status_code=404, detail="Module not found")
-    wanted = set(module.boss_battle.question_ids)
     by_id = {answer.question_id: answer for answer in payload.answers}
     results = []
-    for question in module.questions:
-        if question.id not in wanted:
+    for question_id, submission in by_id.items():
+        if submission.answer is None:
             continue
-        submission = by_id.get(question.id)
-        grade = grade_question(question, submission.answer if submission else None)
-        if submission:
-            record_question_attempt(db, module_id, question, submission.answer, submission.response_time_ms)
+        if question_id not in module.boss_battle.question_ids:
+            continue
+        question = next((item for item in module.questions if item.id == question_id), None)
+        if question is None:
+            continue
+        grade = grade_question(question, submission.answer)
         results.append({"question_id": question.id, "correct": grade.correct, "score": grade.score, "explanation": grade.explanation})
-    score = sum(1 for item in results if item["correct"]) / len(results)
-    passed = score >= module.boss_battle.passing_threshold
+    if not results:
+        raise HTTPException(status_code=400, detail="Boss battle needs at least one answer")
+    correct_count = sum(1 for item in results if item["correct"])
+    required_correct = min(len(module.boss_battle.question_ids), ceil(100 / 18))
+    score = min(1, correct_count / required_correct)
+    passed = correct_count >= required_correct
     record_boss_result(db, module_id, score, passed)
     return {"score": score, "passed": passed, "results": results}
 

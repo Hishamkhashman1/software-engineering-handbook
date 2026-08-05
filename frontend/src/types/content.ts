@@ -83,7 +83,18 @@ export interface Progress {
   average_response_time_ms: number;
   completed_lessons: string[];
   completed_modules: string[];
-  module_progress: { module_id: string; title: string; completed_lessons: number; total_lessons: number; completed: boolean }[];
+  module_progress: {
+    module_id: string;
+    title: string;
+    completed_lessons: number;
+    total_lessons: number;
+    attempted_questions: number;
+    total_questions: number;
+    training_percent: number;
+    boss_completed: boolean;
+    boss_score: number;
+    completed: boolean;
+  }[];
   weakest_topics: { topic: string; mastery: number; module_id: string }[];
   due_reviews: number;
   recent_activity: { question_id: string; module_id: string; correct: boolean; score: number }[];

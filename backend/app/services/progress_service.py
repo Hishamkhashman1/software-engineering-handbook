@@ -110,8 +110,17 @@ def progress_snapshot(db: Session, modules: list[Module]) -> dict[str, Any]:
     lesson_rows = db.scalars(select(CompletedLesson)).all()
     completed_lessons = {row.lesson_id for row in lesson_rows}
     completions = {row.module_id for row in db.scalars(select(ModuleCompletion)).all()}
+    boss_results = db.scalars(select(BossBattleResult)).all()
+    boss_passed = {row.module_id for row in boss_results if row.passed}
+    boss_scores: dict[str, float] = {}
+    for row in boss_results:
+        boss_scores[row.module_id] = max(boss_scores.get(row.module_id, 0), row.score)
     mastery = db.scalars(select(TopicMastery).order_by(TopicMastery.mastery.asc())).all()
     attempts = db.scalars(select(QuestionAttempt).order_by(QuestionAttempt.created_at.desc()).limit(8)).all()
+    question_attempt_rows = db.execute(select(QuestionAttempt.module_id, QuestionAttempt.question_id)).all()
+    attempted_questions: dict[str, set[str]] = {}
+    for module_id, question_id in question_attempt_rows:
+        attempted_questions.setdefault(module_id, set()).add(question_id)
     due_count = db.scalar(select(func.count()).select_from(TopicMastery).where(TopicMastery.next_review <= datetime.utcnow())) or 0
     return {
         "total_xp": progress.total_xp,
@@ -128,6 +137,11 @@ def progress_snapshot(db: Session, modules: list[Module]) -> dict[str, Any]:
                 "title": module.title,
                 "completed_lessons": sum(1 for lesson in module.lessons if lesson.id in completed_lessons),
                 "total_lessons": len(module.lessons),
+                "attempted_questions": len(attempted_questions.get(module.id, set())),
+                "total_questions": len(module.questions),
+                "training_percent": round((len(attempted_questions.get(module.id, set())) / len(module.questions)) * 100) if module.questions else 0,
+                "boss_completed": module.id in boss_passed,
+                "boss_score": round(boss_scores.get(module.id, 0), 3),
                 "completed": module.id in completions,
             }
             for module in modules

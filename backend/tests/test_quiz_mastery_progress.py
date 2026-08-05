@@ -5,7 +5,7 @@ from app.database.session import Base
 from app.models import TopicMastery
 from app.schemas.content import Module, Question
 from app.services.mastery_engine import level_for_xp, update_mastery_value, xp_for_question
-from app.services.progress_service import ensure_progress, progress_snapshot, record_question_attempt
+from app.services.progress_service import ensure_progress, progress_snapshot, record_boss_result, record_question_attempt
 from app.services.quiz_engine import grade_question, select_quiz_questions
 from app.services.review_scheduler import select_weak_review
 
@@ -73,3 +73,29 @@ def test_progress_persistence_and_review_selection():
         db.commit()
         module = type("ModuleLike", (), {"questions": [question]})()
         assert select_weak_review(db, [module], 1)[0].id == "q1"
+
+
+def test_progress_snapshot_includes_training_and_boss_status():
+    engine = create_engine("sqlite:///:memory:")
+    Base.metadata.create_all(engine)
+    with Session(engine) as db:
+        module = Module.model_validate({
+            "id": "m",
+            "title": "M",
+            "description": "D",
+            "order": 1,
+            "tags": [],
+            "lessons": [{"id": "l1", "title": "L", "summary": "S", "explanation": "E", "key_points": ["k"], "examples": [], "interview_questions": [], "difficulty": 1, "tags": []}],
+            "questions": [q(id=f"q{i}").model_dump() for i in range(4)],
+            "coding_challenges": [],
+            "boss_battle": {"id": "b", "title": "B", "question_ids": ["q0", "q1"], "passing_threshold": 0.7, "reward_xp": 100},
+        })
+        record_question_attempt(db, "m", module.questions[0], "A", 100)
+        record_boss_result(db, "m", 1, True)
+
+        snapshot = progress_snapshot(db, [module])
+        module_progress = snapshot["module_progress"][0]
+        assert module_progress["attempted_questions"] == 1
+        assert module_progress["training_percent"] == 25
+        assert module_progress["boss_completed"]
+        assert module_progress["boss_score"] == 1

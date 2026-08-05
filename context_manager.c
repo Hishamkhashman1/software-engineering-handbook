@@ -11,7 +11,7 @@ int main() {
 
 	// now becasue the file is not NULL so here comes the fun part 
 	// create a temporary storage (buffer) to hold each line of text
-	char buffer[256] // creating storage for 255 chars + 1
+	char buffer[256]; // creating storage for 255 chars + 1
 	
 	// this reads the file line by line fgets()  buffer and size of buffer in the file and not null then print it 
 	while (fgets(buffer, sizeof(buffer), f) != NULL) {
