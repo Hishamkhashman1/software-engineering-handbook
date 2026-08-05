@@ -117,6 +117,10 @@ def progress_snapshot(db: Session, modules: list[Module]) -> dict[str, Any]:
         boss_scores[row.module_id] = max(boss_scores.get(row.module_id, 0), row.score)
     mastery = db.scalars(select(TopicMastery).order_by(TopicMastery.mastery.asc())).all()
     attempts = db.scalars(select(QuestionAttempt).order_by(QuestionAttempt.created_at.desc()).limit(8)).all()
+    coding_attempt_rows = db.scalars(select(CodingAttempt).order_by(CodingAttempt.created_at.desc())).all()
+    latest_coding_attempts: dict[tuple[str, str], CodingAttempt] = {}
+    for row in coding_attempt_rows:
+        latest_coding_attempts.setdefault((row.module_id, row.challenge_id), row)
     question_attempt_rows = db.execute(select(QuestionAttempt.module_id, QuestionAttempt.question_id)).all()
     attempted_questions: dict[str, set[str]] = {}
     for module_id, question_id in question_attempt_rows:
@@ -148,6 +152,17 @@ def progress_snapshot(db: Session, modules: list[Module]) -> dict[str, Any]:
         ],
         "weakest_topics": [{"topic": row.topic, "mastery": round(row.mastery, 1), "module_id": row.module_id} for row in mastery[:8]],
         "due_reviews": due_count,
+        "coding_progress": [
+            {
+                "module_id": row.module_id,
+                "challenge_id": row.challenge_id,
+                "code": row.code,
+                "passed": row.passed,
+                "result": json.loads(row.results_json),
+                "submitted_at": row.created_at.isoformat(),
+            }
+            for row in latest_coding_attempts.values()
+        ],
         "recent_activity": [
             {"question_id": row.question_id, "module_id": row.module_id, "correct": row.correct, "score": row.score}
             for row in attempts

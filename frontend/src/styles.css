@@ -989,6 +989,11 @@ textarea, select, input {
   font-weight: 800;
 }
 
+.test-list span.passed {
+  background: rgba(98, 215, 200, .14);
+  color: #a6fff4;
+}
+
 .editor-card {
   display: grid;
   gap: 12px;

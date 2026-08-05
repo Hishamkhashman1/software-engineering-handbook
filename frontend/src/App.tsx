@@ -1,5 +1,6 @@
 import { CheckCircle2, ChevronRight, Code2, Lock, Settings, Swords, Trophy } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import type { KeyboardEvent } from 'react';
 import { api } from './api/client';
 import { ConceptPanel } from './components/ConceptPanel';
 import type { CodingChallenge, GradeResult, ModuleDetail, ModuleSummary, Progress, Question } from './types/content';
@@ -45,7 +46,7 @@ export function App() {
       {view === 'run' && <ChallengeRun kind={activeModule ? 'module' : 'daily'} moduleId={activeModule} onDone={async () => { setActiveModule(null); await refresh(); setView('home'); }} play={play} />}
       {view === 'weak' && <ChallengeRun kind="weak" moduleId={null} onDone={async () => { await refresh(); setView('home'); }} play={play} />}
       {view === 'boss' && activeModule && <BossBattle moduleId={activeModule} onDone={async () => { await refresh(); setView('home'); }} play={play} />}
-      {view === 'coding' && <CodingBattle modules={modules.filter((module) => isUnlocked(module, progress))} play={play} />}
+      {view === 'coding' && <CodingBattle modules={modules.filter((module) => isUnlocked(module, progress))} progress={progress} play={play} refreshProgress={refresh} />}
       {view === 'settings' && <SettingsStage soundEnabled={soundEnabled} setSoundEnabled={setSoundEnabled} />}
     </div>
   );
@@ -452,17 +453,49 @@ function Combatant({ title, hp }: { title: string; hp: number }) {
   return <div className="combatant"><span>{title}</span><div className="hp"><span style={{ width: `${hp}%` }} /></div><strong>{hp} HP</strong></div>;
 }
 
-function CodingBattle({ modules, play }: { modules: ModuleSummary[]; play: (kind: SoundKind) => void }) {
+function CodingBattle({ modules, progress, play, refreshProgress }: { modules: ModuleSummary[]; progress: Progress | null; play: (kind: SoundKind) => void; refreshProgress: () => Promise<void> }) {
   const [moduleId, setModuleId] = useState(modules[0]?.id ?? '');
   const [detail, setDetail] = useState<ModuleDetail | null>(null);
   const [code, setCode] = useState('');
   const [result, setResult] = useState<{ passed: boolean; tests: unknown[]; stderr?: string; error?: string; timeout?: boolean } | null>(null);
+  const [isRunning, setIsRunning] = useState(false);
+  const [runError, setRunError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (moduleId) api.module(moduleId).then((data) => { setDetail(data); setCode(data.coding_challenges[0]?.starter_code ?? ''); setResult(null); });
-  }, [moduleId]);
+    if (modules.length > 0 && !moduleId) setModuleId(modules[0].id);
+  }, [modules, moduleId]);
+
+  useEffect(() => {
+    if (!moduleId) return;
+    api.module(moduleId).then((data) => {
+      const nextChallenge = data.coding_challenges[0];
+      const saved = progress?.coding_progress.find((item) => item.module_id === data.id && item.challenge_id === nextChallenge?.id);
+      setDetail(data);
+      setCode(saved?.code ?? nextChallenge?.starter_code ?? '');
+      setResult(saved?.result ?? null);
+      setRunError(null);
+    });
+  }, [moduleId, progress]);
 
   const challenge: CodingChallenge | undefined = detail?.coding_challenges[0];
+  const solved = result?.passed ?? false;
+
+  async function runTests() {
+    if (!challenge || isRunning) return;
+    setIsRunning(true);
+    setRunError(null);
+    try {
+      const output = await api.runCode(moduleId, challenge.id, code);
+      setResult(output);
+      play(output.passed ? 'correct' : 'wrong');
+      await refreshProgress();
+    } catch (error) {
+      setRunError(error instanceof Error ? error.message : 'Could not run tests. Check that the backend is running.');
+    } finally {
+      setIsRunning(false);
+    }
+  }
+
   return (
     <main className="coding-stage">
       <div className="mission-bar">
@@ -477,17 +510,44 @@ function CodingBattle({ modules, play }: { modules: ModuleSummary[]; play: (kind
             <p className="kicker">Production API is failing</p>
             <h1>{challenge.title}</h1>
             <p>{challenge.instructions}</p>
-            <div className="test-list">{challenge.visible_tests.map((test) => <span key={test.name}>Failing: {test.name}</span>)}</div>
+            <div className="test-list">{challenge.visible_tests.map((test) => <span key={test.name} className={solved ? 'passed' : ''}>{solved ? 'Passing' : 'Failing'}: {test.name}</span>)}</div>
           </aside>
           <div className="editor-card">
-            <textarea value={code} onChange={(event) => setCode(event.target.value)} spellCheck={false} />
-            <button className="action-button" onClick={async () => { const output = await api.runCode(moduleId, challenge.id, code); setResult(output); play(output.passed ? 'correct' : 'wrong'); }}>Run tests <Code2 size={20} /></button>
+            <textarea value={code} onChange={(event) => setCode(event.target.value)} onKeyDown={(event) => handleCodeEditorKeyDown(event, setCode)} spellCheck={false} />
+            <button className="action-button" onClick={runTests} disabled={isRunning}>{isRunning ? 'Running...' : solved ? 'Run again' : 'Run tests'} <Code2 size={20} /></button>
+            {runError && <div className="submit-error" role="alert">{runError}</div>}
           </div>
           {result && <div className={`test-result ${result.passed ? 'passed' : 'failed'}`}><strong>{result.passed ? 'All tests green' : 'Still failing'}</strong><pre>{JSON.stringify(result, null, 2)}</pre></div>}
         </section>
       )}
     </main>
   );
+}
+
+function handleCodeEditorKeyDown(event: KeyboardEvent<HTMLTextAreaElement>, setCode: (value: string) => void) {
+  if (event.key !== 'Tab') return;
+  event.preventDefault();
+
+  const textarea = event.currentTarget;
+  const { selectionStart, selectionEnd, value } = textarea;
+  const indent = '    ';
+
+  if (event.shiftKey) {
+    const lineStart = value.lastIndexOf('\n', selectionStart - 1) + 1;
+    if (!value.slice(lineStart, lineStart + indent.length).startsWith(' ')) return;
+    const removeCount = value.slice(lineStart, lineStart + indent.length).match(/^ {1,4}/)?.[0].length ?? 0;
+    const nextValue = value.slice(0, lineStart) + value.slice(lineStart + removeCount);
+    setCode(nextValue);
+    requestAnimationFrame(() => {
+      textarea.setSelectionRange(Math.max(lineStart, selectionStart - removeCount), Math.max(lineStart, selectionEnd - removeCount));
+    });
+    return;
+  }
+
+  const nextValue = value.slice(0, selectionStart) + indent + value.slice(selectionEnd);
+  setCode(nextValue);
+  const nextCursor = selectionStart + indent.length;
+  requestAnimationFrame(() => textarea.setSelectionRange(nextCursor, nextCursor));
 }
 
 function SettingsStage({ soundEnabled, setSoundEnabled }: { soundEnabled: boolean; setSoundEnabled: (value: boolean) => void }) {

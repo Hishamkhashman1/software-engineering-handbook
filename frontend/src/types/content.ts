@@ -97,6 +97,14 @@ export interface Progress {
   }[];
   weakest_topics: { topic: string; mastery: number; module_id: string }[];
   due_reviews: number;
+  coding_progress: {
+    module_id: string;
+    challenge_id: string;
+    code: string;
+    passed: boolean;
+    result: { passed: boolean; tests: unknown[]; stderr?: string; error?: string; timeout?: boolean };
+    submitted_at: string;
+  }[];
   recent_activity: { question_id: string; module_id: string; correct: boolean; score: number }[];
 }
 
