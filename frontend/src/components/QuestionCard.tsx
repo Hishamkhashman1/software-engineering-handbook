@@ -1,7 +1,8 @@
 import { Check, X } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { GradeResult, Question } from '../types/content';
 import { ConceptPanel } from './ConceptPanel';
+import { shuffled } from '../utils/shuffle';
 
 export function QuestionCard({
   question,
@@ -15,6 +16,8 @@ export function QuestionCard({
   const [answer, setAnswer] = useState<unknown>(question.type === 'ordering' ? [...(question.options ?? [])] : '');
   const [feedback, setFeedback] = useState<GradeResult | null>(null);
   const [busy, setBusy] = useState(false);
+  const options = useMemo(() => shuffled(question.options ?? []), [question.id]);
+  const trueFalseOptions = useMemo(() => shuffled([true, false]), [question.id]);
 
   async function submit() {
     setBusy(true);
@@ -31,7 +34,7 @@ export function QuestionCard({
           <span>Difficulty {question.difficulty}</span>
         </div>
         <h3>{question.prompt}</h3>
-        {renderInput(question, answer, setAnswer)}
+        {renderInput(question, answer, setAnswer, options, trueFalseOptions)}
         <button className="primary" onClick={submit} disabled={busy}>
           Submit
         </button>
@@ -51,11 +54,11 @@ export function QuestionCard({
   );
 }
 
-function renderInput(question: Question, answer: unknown, setAnswer: (value: unknown) => void) {
+function renderInput(question: Question, answer: unknown, setAnswer: (value: unknown) => void, options: string[], trueFalseOptions: boolean[]) {
   if (question.type === 'multiple_choice' || question.type === 'code_output') {
     return (
       <div className="options">
-        {(question.options ?? []).map((option) => (
+        {options.map((option) => (
           <label key={option} className={answer === option ? 'selected' : ''}>
             <input type="radio" name={question.id} checked={answer === option} onChange={() => setAnswer(option)} />
             {option}
@@ -67,7 +70,7 @@ function renderInput(question: Question, answer: unknown, setAnswer: (value: unk
   if (question.type === 'true_false') {
     return (
       <div className="options two">
-        {[true, false].map((option) => (
+        {trueFalseOptions.map((option) => (
           <label key={String(option)} className={answer === option ? 'selected' : ''}>
             <input type="radio" name={question.id} checked={answer === option} onChange={() => setAnswer(option)} />
             {String(option)}

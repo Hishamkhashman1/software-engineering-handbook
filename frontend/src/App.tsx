@@ -4,6 +4,7 @@ import type { KeyboardEvent } from 'react';
 import { api } from './api/client';
 import { ConceptPanel } from './components/ConceptPanel';
 import type { CodingChallenge, GradeResult, ModuleDetail, ModuleSummary, Progress, Question } from './types/content';
+import { shuffled } from './utils/shuffle';
 
 export function App() {
   const [view, setView] = useState<View>('home');
@@ -243,6 +244,8 @@ function ChallengeRun({ kind, moduleId, onDone, play }: { kind: RunKind; moduleI
 
 function OneQuestion({ question, feedback, submitError, isSubmitting, onAnswer, onNext, nextLabel = 'Next challenge' }: { question: Question; feedback: Feedback | null; submitError: string | null; isSubmitting: boolean; onAnswer: (value: unknown) => void; onNext: () => void; nextLabel?: string }) {
   const locked = feedback !== null || isSubmitting;
+  const answerOptions = useMemo(() => shuffled(question.options ?? []), [question.id]);
+  const trueFalseOptions = useMemo(() => shuffled([true, false]), [question.id]);
   return (
     <section className={`challenge-layout ${feedback ? (feedback.correct ? 'is-correct' : 'is-wrong') : ''}`}>
       <div className="challenge-card">
@@ -257,10 +260,10 @@ function OneQuestion({ question, feedback, submitError, isSubmitting, onAnswer, 
           <CodeFillAnswer question={question} disabled={locked} submit={onAnswer} />
         ) : question.options && question.type !== 'ordering' ? (
           <div className="answer-grid">
-            {question.options.map((option) => <button key={option} disabled={locked} onClick={() => onAnswer(option)}>{option}</button>)}
+            {answerOptions.map((option) => <button key={option} disabled={locked} onClick={() => onAnswer(option)}>{option}</button>)}
           </div>
         ) : question.type === 'true_false' ? (
-          <div className="answer-grid two"><button disabled={locked} onClick={() => onAnswer(true)}>True</button><button disabled={locked} onClick={() => onAnswer(false)}>False</button></div>
+          <div className="answer-grid two">{trueFalseOptions.map((option) => <button key={String(option)} disabled={locked} onClick={() => onAnswer(option)}>{option ? 'True' : 'False'}</button>)}</div>
         ) : question.type === 'ordering' ? (
           <OrderingAnswer question={question} disabled={locked} submit={onAnswer} />
         ) : (
@@ -312,12 +315,13 @@ function formatAnswer(value: unknown): string {
 
 function MultiSelectAnswer({ question, disabled, submit }: { question: Question; disabled: boolean; submit: (value: unknown) => void }) {
   const [selected, setSelected] = useState<string[]>([]);
+  const options = useMemo(() => shuffled(question.options ?? []), [question.id]);
   function toggle(option: string) {
     setSelected((current) => current.includes(option) ? current.filter((item) => item !== option) : [...current, option]);
   }
   return (
     <div className="answer-grid">
-      {(question.options ?? []).map((option) => (
+      {options.map((option) => (
         <button key={option} className={selected.includes(option) ? 'picked' : ''} disabled={disabled} onClick={() => toggle(option)}>{option}</button>
       ))}
       <button className="lock-wide" disabled={disabled || selected.length === 0} onClick={() => submit(selected)}>Lock selection</button>
@@ -346,9 +350,10 @@ function MatchingAnswer({ question, disabled, submit }: { question: Question; di
 }
 
 function CodeFillAnswer({ question, disabled, submit }: { question: Question; disabled: boolean; submit: (value: unknown) => void }) {
+  const options = useMemo(() => shuffled(question.options ?? []), [question.id]);
   return (
     <div className="answer-grid">
-      {(question.options ?? []).map((option) => <button key={option} disabled={disabled} onClick={() => submit(option)}><code>{option}</code></button>)}
+      {options.map((option) => <button key={option} disabled={disabled} onClick={() => submit(option)}><code>{option}</code></button>)}
     </div>
   );
 }
