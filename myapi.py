@@ -92,5 +92,19 @@ def update_user(user_id:int,user:UserCreate, db:Session = Depends(get_db)):
     db.refresh(user_db)
     return user_db
 
+# delete a user
+
+@app.delete("user/{user_id}", response_model=UserResponse)
+def delete_user(user_id:int, db:Session = Depends(get_db)):
+    user_del = db.query(User).filter(User.id == user_id).first()
+    if not user_del:
+        raise HTTPException(status_code=404, detail="estimado cliente, el usuario que usted busca no se encuentra disponible, gracias")
+    
+    db.delete(user_del)
+    db.commit()
+    db.refresh(user_del)
+    return {"message":"successefully deleted the requested user"}
+
+
 
 
