@@ -79,7 +79,7 @@ def create_user(user: UserCreate, db:Session = Depends(get_db)):
 
 # endpoint to update user
 
-@app.put("/user/{user_id}", response_model=UserResponse)
+@app.put("/users/{user_id}", response_model=UserResponse)
 def update_user(user_id:int,user:UserCreate, db:Session = Depends(get_db)):
     user_db = db.query(User).filter(User.id == user_id).first()
     if not user_db:
@@ -94,7 +94,7 @@ def update_user(user_id:int,user:UserCreate, db:Session = Depends(get_db)):
 
 # delete a user
 
-@app.delete("user/{user_id}", response_model=UserResponse)
+@app.delete("users/{user_id}")
 def delete_user(user_id:int, db:Session = Depends(get_db)):
     user_del = db.query(User).filter(User.id == user_id).first()
     if not user_del:
@@ -102,7 +102,6 @@ def delete_user(user_id:int, db:Session = Depends(get_db)):
     
     db.delete(user_del)
     db.commit()
-    db.refresh(user_del)
     return {"message":"successefully deleted the requested user"}
 
 
