@@ -15,7 +15,7 @@ app = FastAPI(title = "integration with sql")
 # Database setup 
 # Create engine
 engine = create_engine("sqlite:///users.db", connect_args={"check_same_thread":False})
-session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 base = declarative_base()
 
 # database model
@@ -45,7 +45,7 @@ class UserResponse(BaseModel):
         from_attribute = True
 
 def get_db():
-    db = session_local()
+    db = SessionLocal()
 
     try:
         yield db
