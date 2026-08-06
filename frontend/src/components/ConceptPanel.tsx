@@ -16,14 +16,14 @@ export function ConceptPanel({ panel }: { panel?: ConceptPanelData }) {
           {panel.key_takeaways.map((item) => <li key={item}>{item}</li>)}
         </ul>
       </div>
-      <div className="concept-callout">
-        <span>Practical example</span>
+      <details className="concept-callout">
+        <summary>Practical example</summary>
         <p>{panel.practical_example}</p>
-      </div>
-      <div className="concept-interview">
-        <span>Interview insight</span>
+      </details>
+      <details className="concept-interview">
+        <summary>Interview insight</summary>
         <p>{panel.interview_insight}</p>
-      </div>
+      </details>
     </aside>
   );
 }

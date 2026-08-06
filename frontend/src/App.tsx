@@ -359,7 +359,7 @@ function CodeFillAnswer({ question, disabled, submit }: { question: Question; di
 }
 
 function OrderingAnswer({ question, disabled, submit }: { question: Question; disabled: boolean; submit: (value: unknown) => void }) {
-  const [items, setItems] = useState(() => [...(question.options ?? [])]);
+  const [items, setItems] = useState(() => shuffled(question.options ?? []));
   function move(index: number, delta: number) {
     const next = index + delta;
     const copy = [...items];

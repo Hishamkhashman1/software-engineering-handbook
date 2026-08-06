@@ -502,8 +502,9 @@ textarea, select, input {
 .challenge-stage, .boss-stage {
   min-height: calc(100vh - 74px);
   display: grid;
-  align-content: center;
-  gap: 18px;
+  align-content: start;
+  gap: 14px;
+  padding-top: clamp(20px, 4vh, 44px);
 }
 
 .run-hud {
@@ -512,7 +513,8 @@ textarea, select, input {
   align-items: center;
   gap: 14px;
   color: #dce6ef;
-  font-weight: 900;
+  font-size: 13px;
+  font-weight: 850;
 }
 
 .run-hud span {
@@ -521,20 +523,27 @@ textarea, select, input {
 
 .challenge-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr);
-  gap: 18px;
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+  gap: 16px;
+  align-items: start;
   animation: slide-in .26s ease both;
 }
 
 .challenge-card, .finish-card {
   position: relative;
-  min-height: 520px;
+  min-height: 0;
   display: grid;
-  align-content: center;
-  gap: 22px;
-  padding: clamp(24px, 5vw, 58px);
+  align-content: start;
+  gap: 18px;
+  padding: clamp(22px, 3.6vw, 42px);
   overflow: hidden;
+}
+
+.challenge-card h1 {
+  max-width: 840px;
+  font-size: clamp(30px, 4.2vw, 54px);
+  line-height: 1.12;
+  margin-bottom: 4px;
 }
 
 .challenge-layout.is-correct .challenge-card {
@@ -554,15 +563,15 @@ textarea, select, input {
 }
 
 .concept-panel {
-  min-height: 520px;
+  min-height: 0;
   display: grid;
-  align-content: center;
-  gap: 18px;
-  padding: clamp(22px, 2.8vw, 34px);
+  align-content: start;
+  gap: 14px;
+  padding: 22px;
   background: #11161b;
 }
 
-.concept-header span, .concept-section span, .concept-callout span, .concept-interview span {
+.concept-header span, .concept-section span, .concept-callout summary, .concept-interview summary {
   color: #62d7c8;
   text-transform: uppercase;
   font-size: 11px;
@@ -572,46 +581,60 @@ textarea, select, input {
 
 .concept-header h2 {
   margin: 6px 0 0;
-  font-size: clamp(22px, 2.1vw, 31px);
-  line-height: 1.05;
+  font-size: 24px;
+  line-height: 1.12;
 }
 
 .concept-panel p {
   margin: 0;
   color: #c6cdd6;
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .concept-section ul {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   padding-left: 18px;
   color: #e8eef4;
-  line-height: 1.45;
+  line-height: 1.4;
+  font-size: 14px;
 }
 
 .concept-section li + li {
-  margin-top: 7px;
+  margin-top: 5px;
 }
 
 .concept-callout, .concept-interview {
-  padding: 13px;
-  border-radius: 14px;
-  background: rgba(255,255,255,.035);
-  border: 1px solid rgba(255,255,255,.07);
+  padding: 0;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.08);
+  overflow: hidden;
+}
+
+.concept-callout summary, .concept-interview summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 11px 12px;
+  background: rgba(255,255,255,.03);
+}
+
+.concept-callout summary::-webkit-details-marker,
+.concept-interview summary::-webkit-details-marker {
+  display: none;
 }
 
 .concept-callout p, .concept-interview p {
-  margin-top: 7px;
+  padding: 0 12px 12px;
 }
 
 .concept-diagram {
   display: grid;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 16px;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 12px;
   background: #0b0f13;
-  border: 1px solid rgba(98, 215, 200, .22);
+  border: 1px solid rgba(255,255,255,.08);
 }
 
 .concept-diagram strong {
@@ -724,7 +747,7 @@ textarea, select, input {
 .question-kind {
   color: #62d7c8;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: .09em;
   font-weight: 900;
 }
@@ -732,26 +755,26 @@ textarea, select, input {
 .answer-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .answer-grid button {
-  min-height: 86px;
+  min-height: 68px;
   border: 1px solid rgba(255,255,255,.1);
-  border-radius: 16px;
-  padding: 18px;
-  background: #20262d;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #1d2329;
   color: #f3f6f8;
   text-align: left;
-  font-size: 18px;
-  font-weight: 850;
+  font-size: 16px;
+  font-weight: 800;
   transition: transform .12s ease, border-color .12s ease, background .12s ease;
 }
 
 .answer-grid button:hover:not(:disabled) {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   border-color: rgba(98, 215, 200, .62);
-  background: #26313a;
+  background: #222b33;
 }
 
 .answer-grid button.picked {

@@ -1,5 +1,5 @@
 import { Check, X } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { GradeResult, Question } from '../types/content';
 import { ConceptPanel } from './ConceptPanel';
 import { shuffled } from '../utils/shuffle';
@@ -13,11 +13,17 @@ export function QuestionCard({
   onSubmit: (answer: unknown) => Promise<GradeResult | void>;
   feedbackMode?: 'immediate' | 'deferred';
 }) {
-  const [answer, setAnswer] = useState<unknown>(question.type === 'ordering' ? [...(question.options ?? [])] : '');
+  const orderingOptions = useMemo(() => shuffled(question.options ?? []), [question.id]);
+  const [answer, setAnswer] = useState<unknown>(question.type === 'ordering' ? orderingOptions : '');
   const [feedback, setFeedback] = useState<GradeResult | null>(null);
   const [busy, setBusy] = useState(false);
   const options = useMemo(() => shuffled(question.options ?? []), [question.id]);
   const trueFalseOptions = useMemo(() => shuffled([true, false]), [question.id]);
+
+  useEffect(() => {
+    setAnswer(question.type === 'ordering' ? orderingOptions : '');
+    setFeedback(null);
+  }, [question.id, question.type, orderingOptions]);
 
   async function submit() {
     setBusy(true);
