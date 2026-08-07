@@ -2,8 +2,7 @@
 
 from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session, declarative_base
 
 
 from pydantic import BaseModel
@@ -14,12 +13,30 @@ app = FastAPI(title = "integration with sql")
 
 # Database setup 
 # Create engine
-engine = create_engine("sqlite:///users.db", connect_args={"check_same_thread":False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-base = declarative_base()
+engine = create_engine("sqlite:///users.db", connect_args={"check_same_thread":False}) 
+# Engine = the connection manager.
+# It knows HOW and WHERE to connect to the database.
+# The URL specifies the database.
+# connect_args are optional driver-specific options.
+
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine) 
+# SessionLocal = a factory that creates Session objects.
+# bind=engine tells every Session which Engine to use.
+# autocommit and autoflush are optional behavior settings.
+
+Base = declarative_base()
+# Base = the blueprint (parent class) for every ORM model.
+# Every table inherits from Base.
+# SQLAlchemy later inspects Base to discover all models.
+
+
+
+
+
 
 # database model
-class User(base):
+class User(Base):
     __tablename__ ="users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -27,7 +44,7 @@ class User(base):
     email = Column(String(100), nullable=False, unique=True)
     role = Column(String(100), nullable=False)
 
-base.metadata.create_all(engine)
+Base.metadata.create_all(engine)
 
 #Pydantic Models (Datacalss)
 class UserCreate(BaseModel):
