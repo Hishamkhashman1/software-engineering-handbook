@@ -29,15 +29,28 @@
 # -100 <= gain[i] <= 100
 gain = [-5,1,5,0,-7]
 
+# def solution(gain):
+#     coordinates_gain = []
+#
+#     for i in range(len(gain)-1):
+#         coordinates_gain.append((gain[i+1]-gain[i],i))
+#     print (coordinates_gain)
+#
+#     for pair in coordinates_gain:
+#         if max(pair[0] for pair in coordinates_gain):
+#             return pair[1] + 1
+#
+# print (solution(gain))
+
 def solution(gain):
-    coordinates_gain = []
+    altitude = [0]
 
-    for i in range(len(gain)-1):
-        coordinates_gain.append((gain[i+1]-gain[i],i))
-    print (coordinates_gain)
-
-    for pair in coordinates_gain:
-        if max(pair[0] for pair in coordinates_gain):
-            return pair[1] + 1
+    for i in range (len(gain)):
+        if i == 0:
+            altitude.append(gain[i] - 0)
+        else:
+            altitude.append((gain[i] + altitude[i]))
+    return max(altitude)
 
 print (solution(gain))
+
