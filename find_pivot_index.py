@@ -43,3 +43,38 @@
 # 1 <= nums.length <= 104
 # -1000 <= nums[i] <= 1000
 nums = [1,7,3,6,5,6]
+print (len(nums))
+
+def solution(nums):
+    right_sum = []
+    left_sum = []
+
+    for i in range (len(nums)):
+        if i == 0:
+            left_sum = 0
+            right_sum = sum(nums[i+1:len(nums)])
+            print (i,left_sum, right_sum)
+
+            if left_sum == right_sum:
+                return 0
+        else:
+            if i > 0:
+                right_sum = sum(nums[i+1:len(nums)])
+                left_sum = sum(nums[0:i])
+                print (i,left_sum, right_sum)
+
+                if right_sum == left_sum:
+                    return i
+                else:
+                    continue
+
+            if i == len(nums):
+                left_sum = sum(nums[0:len(nums)])
+                right_sum = 0
+                print (i,left_sum, right_sum)
+                if right_sum == left_sum:
+                    return i
+    return -1
+
+
+print (solution(nums))
