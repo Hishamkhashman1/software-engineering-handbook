@@ -449,7 +449,7 @@ function BossBattle({ moduleId, onDone, play }: { moduleId: string; onDone: () =
         <Combatant title="Senior Backend Engineer" hp={bossHp} />
         <Combatant title="You" hp={playerHp} />
       </div>
-      <OneQuestion question={question} feedback={feedback} submitError={submitError} isSubmitting={isSubmitting} onAnswer={answer} onNext={next} nextLabel={battleEnding ? 'Finish battle' : 'Next challenge'} />
+      <OneQuestion key={question.id} question={question} feedback={feedback} submitError={submitError} isSubmitting={isSubmitting} onAnswer={answer} onNext={next} nextLabel={battleEnding ? 'Finish battle' : 'Next challenge'} />
     </main>
   );
 }
