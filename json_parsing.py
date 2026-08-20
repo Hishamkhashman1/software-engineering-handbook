@@ -11,15 +11,18 @@ json_data = '''
 
 json_input = loads(json_data)
 
-print (json_input)
+# print (json_input)
 
 def solution(json_input):
   result = {}
   
+
+  result["user_id"] = json_input["id"]
+  result["username"] = json_input["name"]
   if json_input.get("active") == True:
-    result["user_id"] = json_input["id"]
-    result["username"] = json_input["name"]
-    result["status"] = json_input["active"]
+    result["status"] = "Active"
+  else:
+    result["status"] = "Inactive"
 
   return result
 
