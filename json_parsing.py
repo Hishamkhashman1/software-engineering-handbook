@@ -19,10 +19,13 @@ def solution(json_input):
 
   result["user_id"] = json_input["id"]
   result["username"] = json_input["name"]
-  if json_input.get("active") == True:
-    result["status"] = "Active"
+  if json_input.get("active"):
+    if json_input.get("active") == True:
+      result["status"] = "Active"
+    else:
+      result["status"] = "Inactive"
   else:
-    result["status"] = "Inactive"
+    result["status"] = "check json"
 
   return result
 
