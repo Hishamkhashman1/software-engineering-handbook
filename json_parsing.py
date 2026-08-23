@@ -31,5 +31,21 @@ def solution(json_input):
 
 
 
-print (solution(json_input))
+# print (solution(json_input))
 
+json_data_nested = '''
+{
+  "user": {
+    "id": 101,
+    "name": "Bob",
+    "location": {
+      "city": "Tokyo",
+      "country": "Japan"
+    }
+  },
+  "account": {
+    "plan": "premium",
+    "balance": 125.50
+  }
+}
+'''
