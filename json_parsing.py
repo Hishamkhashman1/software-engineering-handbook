@@ -9,7 +9,7 @@ json_data = '''
 }
 '''
 
-json_input = loads(json_data)
+# json_input = loads(json_data)
 
 # print (json_input)
 
@@ -49,3 +49,7 @@ json_data_nested = '''
   }
 }
 '''
+
+json_input_nested = loads(json_data_nested)
+
+
