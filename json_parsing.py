@@ -35,21 +35,15 @@ def solution(json_input):
 
 json_data_nested = '''
 {
-  "user": {
-    "id": 101,
-    "name": "Bob",
-    "location": {
-      "city": "Tokyo",
-      "country": "Japan"
-    }
-  },
-  "account": {
-    "plan": "premium",
-    "balance": 125.50
-  }
+  "user": {"id": 101,"name": "Bob","location": {"city": "Tokyo","country": "Japan"}},"account": {"plan": "premium","balance": 125.50}
 }
 '''
 
 json_input_nested = loads(json_data_nested)
+
+def solution_nested(json_input_nested):
+  return json_data_nested
+
+print (solution_nested(json_data_nested))
 
 
