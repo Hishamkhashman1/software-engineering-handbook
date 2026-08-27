@@ -1,4 +1,5 @@
 from json import loads
+from flatten_dict import flatten
 
 json_data = '''
 {
@@ -42,8 +43,10 @@ json_data_nested = '''
 json_input_nested = loads(json_data_nested)
 
 def solution_nested(json_input_nested):
-  return json_data_nested
+  flat_dict = flatten(json_input_nested)
+  result = flat_dict.get("user")
+  return result
 
-print (solution_nested(json_data_nested))
+print (solution_nested(json_input_nested))
 
 
