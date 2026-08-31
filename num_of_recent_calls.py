@@ -34,3 +34,7 @@
 # 1 <= t <= 109
 # Each test case will call ping with strictly increasing values of t.
 # At most 104 calls will be made to ping.
+
+def solution(input):
+    input_processed = []
+    return input_processed  
