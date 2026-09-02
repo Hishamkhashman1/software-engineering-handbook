@@ -26,7 +26,9 @@ def solution(nums1, nums2, m, n):
     for i in range (0,n):
         merged.append(nums2[i])
 
-    nums1 = merged
+    merged.sort()
+    
+    nums1[:] = merged
 
     return nums1
 
