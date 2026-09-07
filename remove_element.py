@@ -58,6 +58,7 @@ def solution(nums,val):
     for n in nums:
         if n != val:
             filterd_nums.append(n)
+    nums[:] = filterd_nums
     return len(filterd_nums)
 
 print (solution(nums,val))
