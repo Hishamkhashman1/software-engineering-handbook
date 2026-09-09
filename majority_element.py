@@ -32,6 +32,7 @@ nums = [3,2,3]
 
 def solution(nums):
     majority = -(-len(nums) // 2)
+    
 
     for n in nums:
         if nums.count(n) >= majority:
