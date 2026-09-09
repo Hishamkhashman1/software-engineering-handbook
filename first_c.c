@@ -11,6 +11,21 @@ int main() {
 
 	printf("%s", programmer_name);
 
+	long id_number = 1980003456;
+
+	printf("%ld", id_number);
+
+	float pi_var = 3.14159265358979;
+
+	printf("%f", pi_var);
+
+	char gender = 'M';
+
+	printf("%c", gender);
+
+	_Bool is_active_programmer = 1; // bool is obviously true or false from boolean .. but truthy and falsy are binary lol 0 false 1 true treated as %d
+
+	printf("%d", is_active_programmer);
 	return 0; /* making a multiliner
 		     comment */
 }
