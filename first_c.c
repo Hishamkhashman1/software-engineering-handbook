@@ -1,8 +1,11 @@
 #include <stdio.h>
 
+// this is a global variable
+int global_variable = 26;
+
 int main() {
 	printf("Hello, World!"); // making a one liner comment
-	int programmer_age = 39;
+	int programmer_age = 39; // loacl variable
 
 	printf("\n%d\n", programmer_age);
 
