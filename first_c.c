@@ -33,19 +33,23 @@
 // 	return 0; /* making a multiliner
 // 		     comment */
 // 	}
+// }
+// int main() {
+// 	 int nums[] = {1,1,1,2,4,2};
+// 	 // for loop basic structure for(intialization eg. i =0 ; condition i <6; update e.g i++) so what this does is like range(0,5) and its adding an i after each iteration.
+// 	 for (int i = 0; i < 6; i++) {
+// 		 printf("nums[%d] = %d\n",i, nums[i]);
+// 	 }
+// 	 return 0;
+//
+// }
 
-int main() {
-	 int nums[6];
-	 nums[0] = 1;
-	 nums[1] = 1;
-	 nums[2] = 1;
-	 nums[3] = 4;
-	 nums[4] = 2;
-	 nums[5] = 2;
+int main()
+{
+	int n = 0;
+	printf("Enter your PIN: \n");
+	scanf("%d", &n);
+	printf("your PIN is: %d\n", n);
 
-	 for (int i = 0; i < 6; i++) {
-		 printf("nums[%d] = %d\n",i, nums[i]);
-	 }
-	 return 0;
-
+	return 0;
 }
