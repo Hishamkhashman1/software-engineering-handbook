@@ -46,10 +46,10 @@
 
 int main()
 {
-	int n = 0;
-	printf("Enter your PIN: \n");
-	scanf("%d", &n);
-	printf("your PIN is: %d\n", n);
+	char s[50];
+	printf("Enter your Name: \n");
+	scanf("%s", s);
+	printf("Your name is: %s\n", s);
 
 	return 0;
 }
