@@ -64,7 +64,7 @@ int main() {
 		}
 	}
 
-	 for (int i = 0; i < 6; i++) {
+	 for (int i = 0; i < k; i++) {
 	 	printf("nums[%d] = %d\n",i, nums[i]);
 		}
 	return 0;
