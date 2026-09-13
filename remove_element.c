@@ -63,7 +63,6 @@ int main() {
 			k++;
 		}
 	}
-
 	 for (int i = 0; i < k; i++) {
 	 	printf("nums[%d] = %d\n",i, nums[i]);
 		}
