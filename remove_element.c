@@ -50,9 +50,23 @@
 
 int main() {
 	int nums[] = {3,2,2,3};
-	int val = 3;
 
-	for (i = 0; i < 4, i++) {
+	int val = 3;
+	int size = 4; // looks nicer than having the condition in the loop as i < 4
+
+	int k = 0; //two pointer solution with k acting as a both the pointer and the count of valid elements
+
+	// looping through the array using i as a read pointer of index in the range
+	for (int i = 0; i < size; i++) {
+		if (nums[i] != val) {
+			nums[k] = nums[i];
+			k++;
+		}
 	}
+
+	 for (int i = 0; i < 6; i++) {
+	 	printf("nums[%d] = %d\n",i, nums[i]);
+		}
+	return 0;
 
 }
