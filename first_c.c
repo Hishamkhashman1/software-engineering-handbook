@@ -55,6 +55,14 @@ int main() {
 
 }
 
+// Simple function structure example
+
+int add(int a, int b)
+{
+	result = (a + b);
+	return result;
+}
+
 // int main()
 // {
 // 	char buffer[50];
