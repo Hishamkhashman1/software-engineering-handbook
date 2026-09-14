@@ -63,6 +63,7 @@ int main() {
 			k++;
 		}
 	}
+	// next learning milestone is to def functions and call them in C
 	 for (int i = 0; i < k; i++) {
 	 	printf("nums[%d] = %d\n",i, nums[i]);
 		}
