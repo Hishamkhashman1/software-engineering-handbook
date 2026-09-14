@@ -34,35 +34,39 @@
 // 		     comment */
 // 	}
 // }
-int main() {
-	 int nums[] = {1,1,1,2,4,2};
-	 // for loop basic structure for(intialization eg. i =0 ; condition i <6; update e.g i++) so what this does is like range(0,5) and its adding an i after each iteration.
-	 // for (int i = 0; i < 6; i++) {
-	 //  printf("nums[%d] = %d\n",i, nums[i]);
-	 // }
-	 //
-	 int x = 1;
-	 if (nums[0] == x)
-	{
-	  printf("first number is equal to %d\n", x);
-	}
-	 else 
-	{
-	  printf("first number is not equal to %d\n", x);
-	}
-	 printf("executed successfully!\n");
-	 return 0;
-
-}
+// int main() {
+// 	 int nums[] = {1,1,1,2,4,2};
+// 	 // for loop basic structure for(intialization eg. i =0 ; condition i <6; update e.g i++) so what this does is like range(0,5) and its adding an i after each iteration.
+// 	 // for (int i = 0; i < 6; i++) {
+// 	 //  printf("nums[%d] = %d\n",i, nums[i]);
+// 	 // }
+// 	 //
+// 	 int x = 1;
+// 	 if (nums[0] == x)
+// 	{
+// 	  printf("first number is equal to %d\n", x);
+// 	}
+// 	 else 
+// 	{
+// 	  printf("first number is not equal to %d\n", x);
+// 	}
+// 	 printf("executed successfully!\n");
+// 	 return 0;
+//
+// }
 
 // Simple function structure example
+int main(void) {
 
 int add(int a, int b)
 {
-	result = (a + b);
+	int result = (a + b);
 	return result;
 }
 
+int output = add(2,5);
+printf("Output: %d\n", output);
+}
 // int main()
 // {
 // 	char buffer[50];
