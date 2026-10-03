@@ -44,7 +44,7 @@ def solution(prices):
     for i in range (start_index, end_index):
         new_range.append(prices[i])
 
-    # print (max(new_range))
+    print (max(new_range))
 
     profit = max(new_range) - new_range[0]
 
