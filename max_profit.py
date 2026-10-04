@@ -15,6 +15,7 @@
 #
 # Input: 
 prices = [7,1,5,3,6,4]
+# prices = [2,1,2,1,0,1,2]
 # Output: 5
 # Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
 # Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
@@ -44,7 +45,7 @@ def solution(prices):
     for i in range (start_index, end_index):
         new_range.append(prices[i])
 
-    print (max(new_range))
+    print (new_range)
 
     profit = max(new_range) - new_range[0]
 
