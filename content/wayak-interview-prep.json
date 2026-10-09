@@ -1,0 +1,605 @@
+{
+  "id": "wayak-interview-prep",
+  "title": "Wayak Interview Prep",
+  "description": "Interview-specific practice for AI forward deployed engineering: client discovery, Next.js and FastAPI architecture, retrieval trade-offs, marketplace invariants, workflow delivery, and production AI safety.",
+  "order": 35,
+  "tags": ["wayak", "interview", "ai delivery", "nextjs", "rag", "client workflows"],
+  "lessons": [
+    {
+      "id": "wayak-interview-prep-story",
+      "title": "Interview Story and Answer Structure",
+      "summary": "Frame technical answers around the business problem, data path, architecture, trade-off, validation, and result.",
+      "explanation": "For this role, the strongest answers connect client operations to shipped software. A repeatable structure keeps answers concrete: start with the user or business problem, describe the data, walk through the architecture, name the implementation choice, explain the trade-off, show validation, and close with the business result.",
+      "key_points": [
+        "Use Problem -> data -> architecture -> implementation -> trade-off -> validation -> result.",
+        "Pick the project that matches the question instead of forcing one demo into every answer.",
+        "Lead with a concrete workflow before diving into framework or model details."
+      ],
+      "examples": [
+        "For a business workflow question, use Forecast Alpha or Kifor Match.",
+        "For retrieval, latency, or model questions, use the portfolio assistant.",
+        "For TypeScript, relational design, and marketplace invariants, use Cardflip."
+      ],
+      "interview_questions": [
+        "Walk me through a project where you diagnosed an operation and built the system.",
+        "How would you explain a technical trade-off to a business stakeholder?"
+      ],
+      "difficulty": 1,
+      "tags": ["storytelling", "stakeholders", "tradeoffs"]
+    },
+    {
+      "id": "wayak-interview-prep-ai-architecture",
+      "title": "Assistant Architecture and Retrieval Choices",
+      "summary": "Compare direct model calls, managed retrieval, custom RAG, live SQL/API tools, and bounded local retrieval.",
+      "explanation": "AI architecture should follow the task and constraints. Direct hosted-model calls are fast to build for a supplied document or transcript. Managed retrieval reduces infrastructure ownership when standard indexing is enough. Custom RAG gives control over chunking, metadata, permission filters, citations, and ranking. Live SQL or API tools are better for current exact values. Local retrieval can be enough for a bounded knowledge base.",
+      "key_points": [
+        "Choose architecture from task, context, quality target, latency, privacy, freshness, budget, and deadline.",
+        "Use retrieval for evidence over a corpus, not for exact live aggregates.",
+        "Measure false answers, fallbacks, p95 latency, and cost per successful task."
+      ],
+      "examples": [
+        "Portfolio assistant: bounded local hybrid retrieval with fallback.",
+        "AI personal assistant: hosted transcription and chat model over meeting transcripts.",
+        "Enterprise RAG: retrieval evidence plus generator, metadata filters, citations, and evaluation."
+      ],
+      "interview_questions": [
+        "When would you build RAG instead of calling an LLM directly?",
+        "How do you decide whether retrieval quality is good enough?"
+      ],
+      "difficulty": 2,
+      "tags": ["rag", "retrieval", "llm api", "latency", "evaluation"]
+    },
+    {
+      "id": "wayak-interview-prep-nextjs-marketplace",
+      "title": "Next.js Marketplace Invariants",
+      "summary": "Use Cardflip-style examples to explain authentication, authorization, runtime validation, database constraints, money representation, and pagination.",
+      "explanation": "In a marketplace route, the session identifies the user, but authorization checks whether that user may act on the resource. Runtime schemas such as Zod validate external input; TypeScript only checks developer code. Prisma types protect persistence calls, while database constraints protect invariants under concurrency. Money should be stored as integer minor units, and pagination should use deterministic ordering with a tie-breaker.",
+      "key_points": [
+        "Never trust sellerId or ownerId from the browser.",
+        "A duplicate precheck improves UX, but a unique database key protects the invariant.",
+        "Runtime validation, compile-time types, and database constraints solve different problems."
+      ],
+      "examples": [
+        "POST /api/listings: authenticate, parse input, fetch card, verify ownership, prevent duplicate listing, create ACTIVE listing.",
+        "GET /api/listings: apply filters, restrict to ACTIVE listings, fetch limit + 1, and use a stable cursor."
+      ],
+      "interview_questions": [
+        "What is the difference between authentication and authorization?",
+        "Why store prices in integer cents?"
+      ],
+      "difficulty": 2,
+      "tags": ["nextjs", "typescript", "zod", "prisma", "authorization", "pagination"]
+    },
+    {
+      "id": "wayak-interview-prep-client-delivery",
+      "title": "Client Workflows and Safe Delivery",
+      "summary": "Model operational states, tenant boundaries, ETL quality, anomaly review, forecasting validation, deployment readiness, and stakeholder outcomes.",
+      "explanation": "Forward deployed engineering is not just building screens. It means understanding data sources, business states, permitted actions, failure recovery, and the workflow where a human uses the output. AI can recommend or draft actions, but the application must enforce permissions, state transitions, and critical invariants. Delivery should start with a narrow useful slice and prove value with representative data.",
+      "key_points": [
+        "Model business states and permissions before adding AI recommendations.",
+        "Treat anomaly scores as evidence for review, not proof by themselves.",
+        "Deploy with configuration, migrations, health/readiness checks, observability, rollback, and a monitored pilot."
+      ],
+      "examples": [
+        "Kifor Match: offer status transitions update remaining request quantity and respect actor permissions.",
+        "Nexus Tours: anomaly flags prioritize investigation and require human confirmation.",
+        "Forecasting: chronological splits, training-only scaling, naive baselines, and walk-forward validation avoid misleading results."
+      ],
+      "interview_questions": [
+        "How would you keep client data separated in an AI workflow?",
+        "How would you safely deploy a prototype for a real client?"
+      ],
+      "difficulty": 3,
+      "tags": ["client delivery", "permissions", "etl", "anomaly detection", "forecasting", "deployment"]
+    }
+  ],
+  "questions": [
+    {
+      "id": "wayak-interview-prep-q01",
+      "type": "ordering",
+      "prompt": "An interviewer asks, 'Walk me through one of your technical projects.' Put the parts of a strong response in order.",
+      "answer": ["Problem", "Data", "Architecture", "Implementation", "Trade-off", "Validation", "Business result"],
+      "explanation": "A strong student response should begin with the problem, then explain the data, architecture, implementation, trade-off, validation, and business result.",
+      "difficulty": 1,
+      "tags": ["storytelling", "stakeholders", "interview structure"],
+      "concept_panel": {
+        "title": "Structured Interview Response",
+        "explanation": "A structured interview response starts with the operational problem, then explains the data path, architecture, implementation detail, trade-off, validation method, and business result.",
+        "key_takeaways": ["Start from the workflow", "Explain one concrete design choice", "Close with validation and outcome"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can communicate engineering work to technical and business stakeholders.",
+        "practical_example": "For Forecast Alpha, start with source authentication and KPI needs, then move to ingestion, persistence, model output, dashboard alerting, and measured value.",
+        "diagram": {
+          "type": "flow",
+          "title": "Answer Structure",
+          "nodes": [
+            {"label": "Problem"},
+            {"label": "Data"},
+            {"label": "Architecture"},
+            {"label": "Implementation"},
+            {"label": "Trade-off"},
+            {"label": "Validation"},
+            {"label": "Result"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q02",
+      "type": "scenario_choice",
+      "prompt": "Teacher: 'Your chat UI sends requests through a Next.js route before reaching a Python backend. Why design it that way?'",
+      "options": [
+        "Because the UI and model runtime can evolve independently behind a JSON request/response contract",
+        "It removes the need for timeout and error handling",
+        "It makes TypeScript validate the Python response at runtime automatically",
+        "It guarantees there is no extra network hop"
+      ],
+      "answer": "Because the UI and model runtime can evolve independently behind a JSON request/response contract",
+      "explanation": "A good student answer is: Next.js owns the interactive product surface and same-origin API route, while Python owns retrieval and model runtime. The trade-off is that you must handle timeouts, errors, and deployment coordination explicitly.",
+      "difficulty": 2,
+      "tags": ["nextjs", "fastapi", "architecture", "json contract"],
+      "concept_panel": {
+        "title": "Frontend Backend Boundary",
+        "explanation": "A Next.js proxy can handle app routing, same-origin browser calls, configuration, and response forwarding while FastAPI hosts Python-specific retrieval or model code.",
+        "key_takeaways": ["JSON contracts define the boundary", "Model dependencies can change separately", "Timeouts and failures must be explicit"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand deployment boundaries and their operational costs.",
+        "practical_example": "POST /api/chat forwards to ASSISTANT_BACKEND_URL, preserves status/content type, and returns 502 or 503 for backend failures or missing configuration.",
+        "diagram": {
+          "type": "flow",
+          "title": "Assistant Request Flow",
+          "nodes": [
+            {"label": "React chat"},
+            {"label": "Next.js route"},
+            {"label": "FastAPI /chat"},
+            {"label": "Retrieval/model runtime"},
+            {"label": "JSON response"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q03",
+      "type": "multiple_choice",
+      "prompt": "Teacher: 'Does TypeScript prove that an HTTP response has the right shape at runtime?'",
+      "options": [
+        "No. TypeScript checks code during development/build; runtime JSON still needs explicit validation when stronger guarantees are required.",
+        "Yes. TypeScript automatically rejects malformed JSON from any API.",
+        "Yes, but only when the response comes from a Next.js route.",
+        "No validation is needed if FastAPI uses Pydantic."
+      ],
+      "answer": "No. TypeScript checks code during development/build; runtime JSON still needs explicit validation when stronger guarantees are required.",
+      "explanation": "A good student answer is: TypeScript helps developers catch type mistakes before runtime, but HTTP responses are runtime data. Use schemas such as Zod, careful response checks, or backend contracts when untrusted JSON crosses a boundary.",
+      "difficulty": 1,
+      "tags": ["typescript", "runtime validation", "api contracts"],
+      "concept_panel": {
+        "title": "TypeScript Runtime Boundary",
+        "explanation": "TypeScript improves developer correctness, but HTTP responses are just runtime data. If the client needs strong guarantees, validate the JSON shape explicitly.",
+        "key_takeaways": ["Types are not runtime checks", "JSON boundaries are untrusted", "Use runtime schemas for external data"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can separate compile-time confidence from runtime safety.",
+        "practical_example": "A ChatResponse interface helps code completion, but a malformed backend response still needs parsing and validation before the UI trusts it.",
+        "diagram": {
+          "type": "compare",
+          "title": "Validation Layers",
+          "columns": [
+            {"title": "TypeScript", "items": ["Compile-time checks", "Developer feedback", "No runtime enforcement"]},
+            {"title": "Runtime schema", "items": ["Validates JSON", "Returns clear 4xx/5xx behavior", "Protects boundaries"]}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q04",
+      "type": "scenario",
+      "prompt": "Teacher: 'Your retriever test checks required and forbidden substrings. What would you improve next, and why?'",
+      "keywords": ["retrieval", "answer", "hold out", "paraphrase", "threshold", "validation"],
+      "explanation": "A good student answer should say: separate retrieval correctness from final answer correctness, hold out paraphrase families to avoid near-duplicate leakage, and tune thresholds on validation data before using a final untouched test set.",
+      "difficulty": 3,
+      "tags": ["retrieval", "evaluation", "thresholds", "rag"],
+      "concept_panel": {
+        "title": "Retriever Evaluation",
+        "explanation": "A substring test is useful, but mature evaluation distinguishes whether the right evidence was retrieved from whether the final answer was correct. Thresholds and weights should be tuned on validation data, not on the final test set.",
+        "key_takeaways": ["Separate retrieval and answer quality", "Hold out paraphrase families", "Tune thresholds before final testing"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand AI quality as a measured system property, not a demo impression.",
+        "practical_example": "A portfolio assistant can pass when required phrases appear and forbidden phrases do not, then later add evidence-level recall and out-of-domain abstention tests.",
+        "diagram": {
+          "type": "flow",
+          "title": "Evaluation Path",
+          "nodes": [
+            {"label": "Query set"},
+            {"label": "Retrieve evidence"},
+            {"label": "Check answer"},
+            {"label": "Tune threshold"},
+            {"label": "Final test"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q05",
+      "type": "ordering",
+      "prompt": "Teacher: 'Explain your BiLSTM seq2seq model from input tokens to output tokens.' Put the components in order.",
+      "answer": ["Embedding", "Bidirectional LSTM encoder", "State bridge", "Bahdanau attention", "LSTMCell decoder", "Vocabulary logits"],
+      "explanation": "A good student answer should say: token IDs become embeddings, the bidirectional LSTM encodes the source, bridge layers initialize the decoder state, attention looks back at encoder outputs, the decoder produces hidden states, and the output layer maps them to vocabulary logits.",
+      "difficulty": 2,
+      "tags": ["bilstm", "seq2seq", "attention", "generation"],
+      "concept_panel": {
+        "title": "Seq2Seq Architecture",
+        "explanation": "A compact seq2seq model uses embeddings, a bidirectional encoder, a bridge into decoder state, attention over source positions, recurrent decoding, and a vocabulary projection.",
+        "key_takeaways": ["Bidirectionality gives left and right context", "Attention revisits source tokens", "Logits choose output tokens"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can explain model internals from first principles.",
+        "practical_example": "For a portfolio answer generator, the model reads a question-like input and greedily emits answer tokens until EOS or an output limit.",
+        "diagram": {
+          "type": "flow",
+          "title": "Generation Model",
+          "nodes": [
+            {"label": "Token IDs"},
+            {"label": "Embeddings"},
+            {"label": "BiLSTM encoder"},
+            {"label": "Attention decoder"},
+            {"label": "Vocabulary logits"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q06",
+      "type": "matching",
+      "prompt": "Teacher: 'When you trained the generation model, what did these training terms mean?' Match each term to its role.",
+      "pairs": [
+        {"left": "Teacher forcing", "right": "Train next-token prediction using correct previous tokens"},
+        {"left": "Exposure bias", "right": "Inference errors can compound because the model consumes its own outputs"},
+        {"left": "Masked loss", "right": "Ignore PAD tokens during loss computation"},
+        {"left": "Gradient clipping", "right": "Limit unstable parameter updates"}
+      ],
+      "answer": {
+        "Teacher forcing": "Train next-token prediction using correct previous tokens",
+        "Exposure bias": "Inference errors can compound because the model consumes its own outputs",
+        "Masked loss": "Ignore PAD tokens during loss computation",
+        "Gradient clipping": "Limit unstable parameter updates"
+      },
+      "explanation": "A good student answer should show that training uses correct previous tokens, ignores padding in the loss, limits unstable gradients, and still has a train/inference gap where generated mistakes can compound.",
+      "difficulty": 2,
+      "tags": ["teacher forcing", "exposure bias", "training", "seq2seq"],
+      "concept_panel": {
+        "title": "Generation Training Mechanics",
+        "explanation": "Teacher forcing stabilizes training by feeding correct prior tokens. At inference, the model feeds back its own predictions, so mistakes can compound. Masked loss avoids learning from padding, and gradient clipping limits unstable updates.",
+        "key_takeaways": ["Training and inference differ", "Padding should not affect loss", "Loss is not enough to prove answer quality"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand both model training mechanics and production limitations.",
+        "practical_example": "A generated portfolio answer might have low validation loss but still repeat phrases or include wrong contact details, so the V5 pipeline verifies output before accepting it.",
+        "diagram": {
+          "type": "compare",
+          "title": "Training vs Inference",
+          "columns": [
+            {"title": "Training", "items": ["Correct previous tokens", "Masked loss", "Validation loss"]},
+            {"title": "Inference", "items": ["Own predictions", "Possible compounding errors", "Quality checks"]}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q07",
+      "type": "multiple_choice",
+      "prompt": "Teacher: 'In your marketplace listing route, what is the difference between authentication and authorization?'",
+      "options": [
+        "Authentication identifies the user; authorization checks whether that user may list the specific card.",
+        "Authentication checks the card owner; authorization parses JSON.",
+        "They are the same if a session exists.",
+        "Authorization means trusting sellerId from the browser."
+      ],
+      "answer": "Authentication identifies the user; authorization checks whether that user may list the specific card.",
+      "explanation": "A good student answer is: authentication tells us who the user is; authorization checks whether that specific user is allowed to list that specific card. Never trust ownerId or sellerId from the browser.",
+      "difficulty": 1,
+      "tags": ["authentication", "authorization", "nextjs", "marketplace"],
+      "concept_panel": {
+        "title": "Authn vs Authz",
+        "explanation": "Authentication answers who the user is. Authorization answers whether that user can perform this action on this resource.",
+        "key_takeaways": ["Session identity is not enough", "Check resource ownership", "Never trust browser-supplied owner IDs"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can protect business operations beyond login checks.",
+        "practical_example": "POST /api/listings reads the session, fetches the card, and only creates the listing if card.ownerId matches the session user.",
+        "diagram": {
+          "type": "flow",
+          "title": "Listing Authorization",
+          "nodes": [
+            {"label": "Read session"},
+            {"label": "Parse body"},
+            {"label": "Fetch card"},
+            {"label": "Check owner"},
+            {"label": "Create listing"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q08",
+      "type": "multi_select",
+      "prompt": "Teacher: 'Two users or tabs might try to create the same listing at the same time. Which controls protect the one-listing-per-card rule?'",
+      "options": [
+        "A unique database constraint on listing.cardId",
+        "A precheck that returns a friendly duplicate-listing error",
+        "Trusting that users will not double-click submit",
+        "Catching and mapping database constraint errors",
+        "Storing prices as floats to save conversion work"
+      ],
+      "answer": [
+        "A unique database constraint on listing.cardId",
+        "A precheck that returns a friendly duplicate-listing error",
+        "Catching and mapping database constraint errors"
+      ],
+      "explanation": "A good student answer should mention both application-level handling and database enforcement: precheck for a friendly message, keep a unique database constraint for race conditions, and map constraint errors into clear API responses.",
+      "difficulty": 2,
+      "tags": ["database constraints", "race conditions", "marketplace", "money"],
+      "concept_panel": {
+        "title": "Marketplace Invariants",
+        "explanation": "Business invariants need enforcement at the durable data layer. A route can check for duplicates before insert, but two concurrent requests can pass that check. The unique key is the final guard.",
+        "key_takeaways": ["Prechecks improve UX", "Constraints protect invariants", "Map constraint errors clearly"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you think beyond the happy path and understand concurrency.",
+        "practical_example": "Cardflip can check for an existing listing before create, but listing.cardId should still be unique in the database.",
+        "diagram": {
+          "type": "flow",
+          "title": "Duplicate Protection",
+          "nodes": [
+            {"label": "Request A"},
+            {"label": "Request B"},
+            {"label": "Both precheck"},
+            {"label": "Unique constraint"},
+            {"label": "One succeeds"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q09",
+      "type": "matching",
+      "prompt": "Teacher: 'A client says they want AI. When would you choose each architecture?' Match the choice to the best fit.",
+      "pairs": [
+        {"left": "Direct hosted model call", "right": "One supplied transcript, email, or document"},
+        {"left": "Custom RAG", "right": "Corpus needs metadata filters, citations, ranking control, or workflow integration"},
+        {"left": "Live SQL/API tool", "right": "Current exact values such as revenue, stock, or balances"},
+        {"left": "Self-hosted inference", "right": "Control or economics justify owning model operations"}
+      ],
+      "answer": {
+        "Direct hosted model call": "One supplied transcript, email, or document",
+        "Custom RAG": "Corpus needs metadata filters, citations, ranking control, or workflow integration",
+        "Live SQL/API tool": "Current exact values such as revenue, stock, or balances",
+        "Self-hosted inference": "Control or economics justify owning model operations"
+      },
+      "explanation": "A good student answer should avoid defaulting to RAG for everything. Choose direct model calls for small supplied context, custom RAG for controlled corpus search, live tools for exact current records, and self-hosting only when control or economics justify it.",
+      "difficulty": 2,
+      "tags": ["ai architecture", "rag", "tools", "sql", "self hosted inference"],
+      "concept_panel": {
+        "title": "AI Architecture Choice",
+        "explanation": "Start with the task, data context, quality target, latency, privacy, freshness, deadline, and budget. Add retrieval, tools, or orchestration only when a simpler baseline fails a measured requirement.",
+        "key_takeaways": ["Use direct context for small supplied inputs", "Use tools for exact live values", "Use custom RAG when control matters"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can choose a pragmatic architecture instead of defaulting to buzzwords.",
+        "practical_example": "An account-risk assistant might query current revenue through a constrained API and retrieve policy notes for explanation, instead of asking an LLM to guess both.",
+        "diagram": {
+          "type": "compare",
+          "title": "Architecture Fit",
+          "columns": [
+            {"title": "Simple", "items": ["Direct call", "Managed retrieval", "Rules or SQL"]},
+            {"title": "More control", "items": ["Custom RAG", "Tool orchestration", "Self-hosted inference"]}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q10",
+      "type": "multi_select",
+      "prompt": "Teacher: 'How would you estimate latency and cost for an AI feature before promising it to a client?' Which factors should you include?",
+      "options": [
+        "Queue time",
+        "Retrieval and reranking time",
+        "Model prefill and generation time",
+        "Input/output token costs and retries",
+        "Only the model name"
+      ],
+      "answer": ["Queue time", "Retrieval and reranking time", "Model prefill and generation time", "Input/output token costs and retries"],
+      "explanation": "A good student answer should estimate the whole request path: queueing, retrieval, reranking, model prefill, generation, tool/network overhead, token costs, storage/compute, and retries.",
+      "difficulty": 2,
+      "tags": ["latency", "cost", "ai operations", "p95"],
+      "concept_panel": {
+        "title": "Latency and Cost Worksheet",
+        "explanation": "AI cost and latency are end-to-end properties. Measure cold and warm runs, first-token time, full completion, p95 latency, token costs, retries, and supporting infrastructure.",
+        "key_takeaways": ["Measure the whole path", "Use p95 under representative concurrency", "Compare cost per successful task"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can reason about AI systems as production services.",
+        "practical_example": "A RAG answer may spend time in queueing, embedding, retrieval, reranking, model prefill, generation, and a CRM API call before the user sees the final result.",
+        "diagram": {
+          "type": "flow",
+          "title": "AI Request Latency",
+          "nodes": [
+            {"label": "Queue"},
+            {"label": "Query processing"},
+            {"label": "Retrieval"},
+            {"label": "Model prefill"},
+            {"label": "Generation"},
+            {"label": "Tool/network"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q11",
+      "type": "scenario_choice",
+      "prompt": "Teacher: 'If an AI assistant recommends shipping an approved donor offer, what must the application check before changing the record?'",
+      "options": [
+        "Actor permission, current state, quantity constraints, and transaction safety",
+        "Only that the model is confident",
+        "Only that the notification email can be sent",
+        "Only that the user prompt asks politely"
+      ],
+      "answer": "Actor permission, current state, quantity constraints, and transaction safety",
+      "explanation": "A good student answer is: AI can recommend an action, but the application must still check actor permission, current state, quantity rules, and transaction safety before changing durable data.",
+      "difficulty": 2,
+      "tags": ["workflow", "permissions", "state machines", "ai safety"],
+      "concept_panel": {
+        "title": "AI Workflow Guardrails",
+        "explanation": "AI can help draft or recommend actions, but durable business changes need application-enforced permissions, allowed state transitions, quantity constraints, and transaction handling.",
+        "key_takeaways": ["Agents do not grant permission", "State transitions need rules", "Separate durable changes from retryable effects"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can safely connect AI to real operations.",
+        "practical_example": "In Kifor Match, an offer moving from approved to shipped should respect the actor role, shipping data requirements, remaining request quantity, and notification side effects.",
+        "diagram": {
+          "type": "flow",
+          "title": "Guarded Action",
+          "nodes": [
+            {"label": "AI suggests action"},
+            {"label": "Check actor"},
+            {"label": "Check state"},
+            {"label": "Check invariant"},
+            {"label": "Commit transaction"},
+            {"label": "Notify"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q12",
+      "type": "scenario",
+      "prompt": "Teacher: 'A client wants AI to flag accounts at risk. What would you clarify first, and how would you validate a first version?'",
+      "keywords": ["at risk", "data", "who acts", "historical", "pilot", "precision", "false positives", "latency", "cost"],
+      "explanation": "A good student answer should define what 'at risk' means, who will act on the flag, what data exists, and what false positives or misses cost. Validate the first version against historical outcomes and user review in a monitored pilot.",
+      "difficulty": 3,
+      "tags": ["client discovery", "anomaly detection", "risk scoring", "validation", "pilot"],
+      "concept_panel": {
+        "title": "Account Risk Pilot",
+        "explanation": "A risk flag is a decision workflow, not just a model output. Define the label, inputs, actor, action, evidence, confidence, and failure cost before choosing the algorithm.",
+        "key_takeaways": ["Define the business label first", "Use historical outcomes and human review", "Measure useful flags, latency, and cost"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can turn an AI idea into a scoped client delivery plan.",
+        "practical_example": "Fetch current account and revenue data through constrained tools, retrieve notes or policy evidence, explain the flag with sources, and pilot against past churn or escalation outcomes.",
+        "diagram": {
+          "type": "flow",
+          "title": "Risk Flag Workflow",
+          "nodes": [
+            {"label": "Define risk"},
+            {"label": "Collect data"},
+            {"label": "Score/flag"},
+            {"label": "Explain evidence"},
+            {"label": "Human review"},
+            {"label": "Measure outcome"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q13",
+      "type": "multi_select",
+      "prompt": "Teacher: 'You built a stock forecasting model. What details make your explanation credible in an interview?'",
+      "options": [
+        "Use chronological splits instead of random leakage-prone splits",
+        "Fit scalers only on training data",
+        "Compare against a naive forecast baseline",
+        "Discuss recursive forecast error accumulation",
+        "Assume lower neural-network loss always means business value"
+      ],
+      "answer": [
+        "Use chronological splits instead of random leakage-prone splits",
+        "Fit scalers only on training data",
+        "Compare against a naive forecast baseline",
+        "Discuss recursive forecast error accumulation"
+      ],
+      "explanation": "A good student answer should show leakage awareness, time-aware validation, baseline comparison, and honesty about recursive forecast error and uncertainty.",
+      "difficulty": 2,
+      "tags": ["forecasting", "lstm", "validation", "time series"],
+      "concept_panel": {
+        "title": "Forecasting Validation",
+        "explanation": "Time-series models must respect time. Random splits leak future patterns, scalers should be fit on training data only, and a naive baseline proves whether model complexity adds value.",
+        "key_takeaways": ["Respect chronological order", "Avoid preprocessing leakage", "Compare to simple baselines"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you understand ML validation beyond model architecture.",
+        "practical_example": "A stacked LSTM with dropout and MAE loss should still be compared against last-value or moving-average baselines using walk-forward validation.",
+        "diagram": {
+          "type": "flow",
+          "title": "Forecast Validation",
+          "nodes": [
+            {"label": "Chronological split"},
+            {"label": "Train-only scaler"},
+            {"label": "Model forecast"},
+            {"label": "Naive baseline"},
+            {"label": "Walk-forward check"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "wayak-interview-prep-q14",
+      "type": "multi_select",
+      "prompt": "Teacher: 'Before deploying a client AI prototype, what should be on your safety checklist?'",
+      "options": [
+        "Configuration and secrets management",
+        "Reproducible image and migrations",
+        "Health/readiness checks and request deadlines",
+        "Logging, model/artifact versioning, rollback, and monitored pilot",
+        "Skipping observability until the prototype has many users"
+      ],
+      "answer": [
+        "Configuration and secrets management",
+        "Reproducible image and migrations",
+        "Health/readiness checks and request deadlines",
+        "Logging, model/artifact versioning, rollback, and monitored pilot"
+      ],
+      "explanation": "A good student answer should mention configuration, secrets, reproducible builds, migrations, health/readiness checks, request deadlines, logging, artifact versions, rollback, and a monitored pilot.",
+      "difficulty": 2,
+      "tags": ["deployment", "readiness", "observability", "rollback", "client delivery"],
+      "concept_panel": {
+        "title": "Safe Client Deployment",
+        "explanation": "Deploying safely means proving the system is configured, observable, recoverable, and limited enough for a pilot before it becomes a critical workflow dependency.",
+        "key_takeaways": ["Separate health from readiness", "Version code and model artifacts", "Plan rollback before launch"],
+        "interview_insight": "Interviewers usually ask this concept to evaluate whether you can move from demo to production responsibly.",
+        "practical_example": "For a FastAPI assistant, expose process health and model-ready checks, set outbound deadlines, log request IDs and stage timings, and keep a rollback path for model artifacts.",
+        "diagram": {
+          "type": "flow",
+          "title": "Deployment Safety",
+          "nodes": [
+            {"label": "Config/secrets"},
+            {"label": "Image/migrations"},
+            {"label": "Health/readiness"},
+            {"label": "Logs/versions"},
+            {"label": "Rollback"},
+            {"label": "Pilot"}
+          ]
+        }
+      }
+    }
+  ],
+  "coding_challenges": [
+    {
+      "id": "wayak-interview-prep-classify-ai-architecture",
+      "title": "Classify AI Architecture Choice",
+      "category": "AI Delivery",
+      "company_style": ["Wayak"],
+      "instructions": "Implement choose_architecture(task). Return 'direct_api' for a single supplied transcript/email/document, 'custom_rag' for corpus search with metadata filters or citations, 'live_tool' for exact current records, and 'self_hosted' when control or economics require owning inference. Default to 'baseline' for unclear requests.",
+      "starter_code": "def choose_architecture(task: str) -> str:\n    \"\"\"Return direct_api, custom_rag, live_tool, self_hosted, or baseline.\"\"\"\n    pass\n",
+      "function_signature": "def choose_architecture(task: str) -> str",
+      "visible_tests": [
+        {"name": "single transcript", "call": "choose_architecture('summarize one supplied meeting transcript')", "expected": "direct_api"},
+        {"name": "metadata citations", "call": "choose_architecture('answer over a policy corpus with permission filters and citations')", "expected": "custom_rag"}
+      ],
+      "hidden_tests": [
+        {"name": "current revenue", "call": "choose_architecture('fetch current revenue and account balances exactly')", "expected": "live_tool"},
+        {"name": "self hosted", "call": "choose_architecture('self host inference because data control and workload economics require it')", "expected": "self_hosted"},
+        {"name": "unclear", "call": "choose_architecture('make it smarter')", "expected": "baseline"}
+      ],
+      "timeout_seconds": 2,
+      "explanation": "The challenge reinforces the decision framework from the PDF: start simple, then add custom retrieval, live tools, or self-hosted inference only when task constraints require them.",
+      "difficulty": 2,
+      "tags": ["ai architecture", "rag", "tools", "client delivery"]
+    }
+  ],
+  "boss_battle": {
+    "id": "wayak-interview-prep-boss",
+    "title": "Wayak Interview Prep boss battle",
+    "question_ids": [
+      "wayak-interview-prep-q01",
+      "wayak-interview-prep-q02",
+      "wayak-interview-prep-q03",
+      "wayak-interview-prep-q04",
+      "wayak-interview-prep-q05",
+      "wayak-interview-prep-q06",
+      "wayak-interview-prep-q07",
+      "wayak-interview-prep-q08",
+      "wayak-interview-prep-q09",
+      "wayak-interview-prep-q10",
+      "wayak-interview-prep-q11",
+      "wayak-interview-prep-q12"
+    ],
+    "passing_threshold": 0.75,
+    "reward_xp": 100
+  }
+}
